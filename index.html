@@ -258,6 +258,34 @@
   .err-list li:last-child { border-bottom: none; }
   footer { text-align: center; color: var(--muted); font-size: .76rem; margin-top: 1.1rem; }
 
+
+  .level-picker {
+    margin: 0 0 .85rem;
+    padding: .75rem .85rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .level-picker .lp-label {
+    font-size: .78rem; color: var(--muted); margin-bottom: .45rem; font-weight: 600;
+  }
+  .level-seg {
+    display: flex; flex-wrap: wrap; gap: .35rem;
+  }
+  .level-seg button {
+    flex: 1 1 auto; min-width: 5.5rem;
+    padding: .5rem .7rem; border-radius: 999px;
+    background: #f4f2ec; color: var(--ink);
+    border: 1.5px solid #d0cbc0; font-size: .86rem;
+  }
+  .level-seg button:hover { background: #eae6dc; }
+  .level-seg button.active {
+    background: var(--brand); color: #fff; border-color: var(--brand);
+  }
+  .level-sub {
+    margin: .5rem 0 0; font-size: .74rem; color: var(--muted); line-height: 1.45;
+  }
+
   @media (max-width: 640px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
     .current-eq .eq .katex { font-size: 1.3em; }
@@ -285,6 +313,15 @@
       <span class="chip warn" id="chipLevel">難度</span>
       <span class="chip" id="chipNo">第 1 題</span>
       <span class="chip step" id="chipStep">步驟 1 / ?</span>
+    </div>
+    <div class="level-picker" id="levelPicker">
+      <div class="lp-label">難度選擇</div>
+      <div class="level-seg" role="group" aria-label="難度">
+        <button type="button" data-level="0" id="btnLv0">簡單</button>
+        <button type="button" data-level="1" id="btnLv1" class="active">DSE Level</button>
+        <button type="button" data-level="2" id="btnLv2">進階</button>
+      </div>
+      <p class="level-sub" id="levelSub">DSE Level＝卷一甲(1)常見抽公因／分母主項</p>
     </div>
     <div class="q-box" id="questionBox"></div>
     <div class="progress-bar" aria-hidden="true"><i id="progressFill"></i></div>
@@ -349,7 +386,14 @@
 (function () {
   "use strict";
 
-  const LEVELS = ["基礎", "中等", "進階"];
+
+  const LEVELS = ["簡單", "DSE Level", "進階"];
+  const LEVEL_SUBS = [
+    "簡單＝初中基礎移項",
+    "DSE Level＝卷一甲(1)常見抽公因／分母主項",
+    "進階＝較繁分數／多變數"
+  ];
+  let selectedLevel = 1; // default DSE Level
   const pick = (a) => a[Math.floor(Math.random() * a.length)];
   const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
   const shuffle = (arr) => {
@@ -370,6 +414,8 @@
     }
     return out;
   };
+  /** Nonzero small int excluding zero */
+  const nz = (a, b) => { let x; do { x = randInt(a, b); } while (x === 0); return x; };
 
   function katexReady() {
     return typeof katex !== "undefined";
@@ -430,9 +476,15 @@
     return accepted.some((a) => normLatex(a) === u);
   }
 
+  function dsePrompt(subject, formula) {
+    return `令 $${subject}$ 成為公式 $${formula}$ 的主項。`;
+  }
+
   // ---- Generators: LaTeX strings ----
+  // level 0 簡單 | 1 DSE Level | 2 進階
   const generators = [
-    // 1. Ax+B=C
+    // ========== 簡單 (0) ==========
+    // S1. Ax+B=C → x
     () => {
       const [x] = distinct(1);
       const A = randInt(2, 9), B = randInt(1, 12), C = randInt(1, 24);
@@ -442,7 +494,8 @@
       const finalAlt = Number.isInteger((C - B) / A) ? [`${x}=${(C - B) / A}`] : [];
       return {
         type: "一次式移項除係數", level: 0, errTag: "一次式／移項除係數",
-        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        fingerprint: `s1|${x}|${A}|${B}|${C}`,
+        prompt: dsePrompt(x, s0),
         steps: [
           {
             current: s0, correct: s1,
@@ -470,7 +523,7 @@
       };
     },
 
-    // 2. A(x+B)=C
+    // S2. k(x+m)=n → x
     () => {
       const [x] = distinct(1);
       const A = randInt(2, 8), B = randInt(1, 9), C = randInt(2, 30);
@@ -478,8 +531,9 @@
       const s1 = `${x} + ${B} = \\frac{${C}}{${A}}`;
       const s2 = `${x} = \\frac{${C}}{${A}} - ${B}`;
       return {
-        type: "去括號／分配律逆向", level: 0, errTag: "去括號／分配",
-        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        type: "單括號除係數", level: 0, errTag: "去括號／分配",
+        fingerprint: `s2|${x}|${A}|${B}|${C}`,
+        prompt: dsePrompt(x, s0),
         steps: [
           {
             current: s0, correct: s1,
@@ -507,7 +561,7 @@
       };
     },
 
-    // 3. (x+A)/B=C
+    // S3. (x+a)/b=c → x
     () => {
       const [x] = distinct(1);
       const A = randInt(1, 9), B = randInt(2, 9), C = randInt(1, 8);
@@ -516,8 +570,9 @@
       const s1 = `${x} + ${A} = ${BC}`;
       const s2 = `${x} = ${BC} - ${A}`;
       return {
-        type: "分式兩邊乘分母", level: 0, errTag: "分式清分母",
-        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        type: "簡單清分母", level: 0, errTag: "分式清分母",
+        fingerprint: `s3|${x}|${A}|${B}|${C}`,
+        prompt: dsePrompt(x, s0),
         steps: [
           {
             current: s0, correct: s1,
@@ -545,52 +600,15 @@
       };
     },
 
-    // 4. A/x=B
-    () => {
-      const [x] = distinct(1);
-      const A = randInt(2, 20), B = randInt(2, 9);
-      const s0 = `\\frac{${A}}{${x}} = ${B}`;
-      const s1 = `${A} = ${B}${x}`;
-      const s2 = `${x} = \\frac{${A}}{${B}}`;
-      const alt = Number.isInteger(A / B) ? [`${x}=${A / B}`] : [];
-      return {
-        type: "倒數關係", level: 1, errTag: "倒數／交叉相乘",
-        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
-        steps: [
-          {
-            current: s0, correct: s1,
-            distractors: [
-              `${A}${x} = ${B}`,
-              `${A} = \\frac{${B}}{${x}}`,
-              `\\frac{${x}}{${A}} = ${B}`,
-              `${A} - ${x} = ${B}`
-            ],
-            tip: `兩邊同時乘以 $${x}$，令未知數離開分母。`
-          },
-          {
-            current: s1, correct: s2,
-            distractors: [
-              `${x} = \\frac{${B}}{${A}}`,
-              `${x} = ${A} \\times ${B}`,
-              `${x} = ${A} - ${B}`,
-              `${x} = ${B}^{${A}}`
-            ],
-            tip: `兩邊同時除以 $${B}$。`
-          }
-        ],
-        finalAnswer: s2,
-        accepted: [s2, `${x}=${A}/${B}`, ...alt]
-      };
-    },
-
-    // 5. v=u+at
+    // S4. v=u+at → t
     () => {
       const s0 = `v = u + at`;
       const s1 = `v - u = at`;
       const s2 = `t = \\frac{v - u}{a}`;
       return {
-        type: "物理公式（勻加速）", level: 1, errTag: "公式移項（線性）",
-        prompt: `已知 $${s0}$。<br/>試以 $t$ 為主項，將下列公式改寫。`,
+        type: "線性公式（勻加速）", level: 0, errTag: "公式移項（線性）",
+        fingerprint: `s4|v=u+at|t`,
+        prompt: dsePrompt("t", s0),
         steps: [
           {
             current: s0, correct: s1,
@@ -613,60 +631,123 @@
       };
     },
 
-    // 6. s=((u+v)t)/2
+    // S5. C=(5/9)(F-32) → F  (or reverse)
     () => {
-      const s0 = `s = \\frac{(u + v)t}{2}`;
-      const s1 = `2s = (u + v)t`;
-      const s2 = `\\frac{2s}{t} = u + v`;
-      const s3 = `u = \\frac{2s}{t} - v`;
+      const makeF = Math.random() < 0.5;
+      if (makeF) {
+        const s0 = `C = \\frac{5}{9}(F - 32)`;
+        const s1 = `\\frac{9}{5}C = F - 32`;
+        const s2 = `F = \\frac{9}{5}C + 32`;
+        return {
+          type: "溫度換算", level: 0, errTag: "一次公式移項",
+          fingerprint: `s5|C->F`,
+          prompt: dsePrompt("F", s0),
+          steps: [
+            {
+              current: s0, correct: s1,
+              distractors: [
+                `\\frac{5}{9}C = F - 32`,
+                `9C = 5(F - 32)`,
+                `\\frac{9C}{5} = F + 32`,
+                `C \\times \\frac{5}{9} = F - 32`
+              ],
+              tip: `兩邊同時乘以 $\\dfrac{9}{5}$。`
+            },
+            {
+              current: s1, correct: s2,
+              distractors: [
+                `F = \\frac{9}{5}C - 32`,
+                `F = \\frac{5}{9}C + 32`,
+                `F = \\frac{9C}{5} - 32`,
+                `F = 9C + 32`
+              ],
+              tip: `兩邊同時加 $32$。`
+            }
+          ],
+          finalAnswer: s2,
+          accepted: [s2, `F=(9/5)C+32`, `F=\\frac{9}{5}C+32`, `F=\\frac{9C}{5}+32`]
+        };
+      }
+      const s0 = `F = \\frac{9}{5}C + 32`;
+      const s1 = `F - 32 = \\frac{9}{5}C`;
+      const s2 = `C = \\frac{5}{9}(F - 32)`;
       return {
-        type: "物理公式（平均速率）", level: 1, errTag: "公式移項（含括號）",
-        prompt: `已知 $${s0}$。<br/>試以 $u$ 為主項，將下列公式改寫。`,
+        type: "溫度換算", level: 0, errTag: "一次公式移項",
+        fingerprint: `s5|F->C`,
+        prompt: dsePrompt("C", s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `\\frac{s}{2} = (u + v)t`,
-              `2s = \\frac{u + v}{t}`,
-              `s = \\frac{(u + v)\\times 2}{t}`,
-              `\\frac{2}{s} = (u + v)t`
+              `F + 32 = \\frac{9}{5}C`,
+              `F - 32 = \\frac{5}{9}C`,
+              `\\frac{F}{32} = \\frac{9}{5}C`,
+              `\\frac{9}{5}F - 32 = C`
             ],
-            tip: `兩邊同時乘 $2$，清走分母。`
+            tip: `兩邊同時減 $32$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `2s \\times t = u + v`,
-              `2s = u + v + t`,
-              `\\frac{2s}{u + v} = t`,
-              `2s - t = u + v`
+              `C = \\frac{9}{5}(F - 32)`,
+              `C = \\frac{5}{9}F - 32`,
+              `C = (F - 32) \\times \\frac{9}{5}`,
+              `C = 5(F - 32) \\times 9`
             ],
-            tip: `兩邊同時除以 $t$。`
-          },
-          {
-            current: s2, correct: s3,
-            distractors: [
-              `u = \\frac{2s}{t} + v`,
-              `u = 2s \\times t - v`,
-              `u = \\frac{t}{2s} - v`,
-              `u = 2s - t - v`
-            ],
-            tip: `兩邊同時減 $v$。`
+            tip: `兩邊同時乘以 $\\dfrac{5}{9}$。`
           }
         ],
-        finalAnswer: s3,
-        accepted: [s3, `u=2s/t-v`, `u=\\frac{2s}{t}-v`, `u=\\frac{2s-vt}{t}`]
+        finalAnswer: s2,
+        accepted: [s2, `C=(5/9)(F-32)`, `C=\\frac{5(F-32)}{9}`, `C=\\frac{5}{9}(F-32)`]
       };
     },
 
-    // 7. A=πr²
+    // S6. a/b = c/d → make one letter
+    () => {
+      const [a, b, c, d] = distinct(4);
+      const s0 = `\\frac{${a}}{${b}} = \\frac{${c}}{${d}}`;
+      const s1 = `${a}${d} = ${b}${c}`;
+      const s2 = `${b} = \\frac{${a}${d}}{${c}}`;
+      return {
+        type: "比例式改寫", level: 0, errTag: "比例式／交叉相乘",
+        fingerprint: `s6|${a}|${b}|${c}|${d}`,
+        prompt: dsePrompt(b, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}${c} = ${b}${d}`,
+              `\\frac{${a}}{${d}} = \\frac{${c}}{${b}}`,
+              `${a} + ${d} = ${b} + ${c}`,
+              `${a}${b} = ${c}${d}`
+            ],
+            tip: `交叉相乘：$${a}\\cdot ${d} = ${b}\\cdot ${c}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${b} = \\frac{${a}${c}}{${d}}`,
+              `${b} = \\frac{${c}}{${a}${d}}`,
+              `${b} = ${a}${d}${c}`,
+              `${b} = \\frac{${b}${c}}{${a}}`
+            ],
+            tip: `兩邊同時除以 $${c}$，得出 $${b}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${b}=${a}${d}/${c}`, `${b}=\\frac{${a}${d}}{${c}}`]
+      };
+    },
+
+    // S7. A=πr² → r
     () => {
       const s0 = `A = \\pi r^{2}`;
       const s1 = `\\frac{A}{\\pi} = r^{2}`;
       const s2 = `r = \\sqrt{\\frac{A}{\\pi}}`;
       return {
-        type: "開方求主項", level: 1, errTag: "開方／平方",
-        prompt: `已知圓面積 $${s0}$。<br/>試以 $r$ 為主項，將下列公式改寫。（取正值）`,
+        type: "開方求主項", level: 0, errTag: "開方／平方",
+        fingerprint: `s7|A=pi r^2`,
+        prompt: dsePrompt("r", s0) + `（取正值）`,
         steps: [
           {
             current: s0, correct: s1,
@@ -694,119 +775,693 @@
       };
     },
 
-    // 8. 1/f=1/u+1/v
+    // S8. ax+b=c → make a (letter as coefficient)
     () => {
-      const s0 = `\\frac{1}{f} = \\frac{1}{u} + \\frac{1}{v}`;
-      const s1 = `\\frac{1}{f} = \\frac{v + u}{uv}`;
-      const s2 = `f = \\frac{uv}{u + v}`;
+      const [a, x] = distinct(2);
+      const B = randInt(1, 9), C = randInt(2, 20);
+      const s0 = `${a}${x} + ${B} = ${C}`;
+      const s1 = `${a}${x} = ${C} - ${B}`;
+      const s2 = `${a} = \\frac{${C} - ${B}}{${x}}`;
       return {
-        type: "光學公式（透鏡）", level: 2, errTag: "倒數公式／通分",
-        prompt: `已知 $${s0}$。<br/>試以 $f$ 為主項，將下列公式改寫。`,
+        type: "以字母係數為主項", level: 0, errTag: "一次式／移項除係數",
+        fingerprint: `s8|${a}|${x}|${B}|${C}`,
+        prompt: dsePrompt(a, s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `\\frac{1}{f} = \\frac{u + v}{u + v}`,
-              `\\frac{1}{f} = uv`,
-              `\\frac{1}{f} = \\frac{1}{u + v}`,
-              `\\frac{1}{f} = \\frac{uv}{u + v}`
+              `${a}${x} = ${C} + ${B}`,
+              `${a} = ${C} - ${B}`,
+              `${a}${x} + ${C} = ${B}`,
+              `${x} = ${C} - ${B}`
             ],
-            tip: `右邊通分：$\\dfrac{1}{u}+\\dfrac{1}{v}=\\dfrac{v+u}{uv}$。`
+            tip: `兩邊同時減 $${B}$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `f = \\frac{u + v}{uv}`,
-              `f = u + v`,
-              `f = \\frac{1}{u + v}`,
-              `f = \\frac{u}{v} + \\frac{v}{u}`
+              `${a} = (${C} - ${B})${x}`,
+              `${a} = \\frac{${x}}{${C} - ${B}}`,
+              `${a} = ${C} - ${B} - ${x}`,
+              `${a} = \\frac{${C}}{${x}} - ${B}`
             ],
-            tip: `兩邊取倒數：若 $\\dfrac{1}{f}=\\dfrac{P}{Q}$，則 $f=\\dfrac{Q}{P}$。`
+            tip: `兩邊同時除以 $${x}$。`
           }
         ],
         finalAnswer: s2,
-        accepted: [s2, `f=uv/(u+v)`, `f=\\frac{uv}{u+v}`]
+        accepted: [s2, `${a}=(${C}-${B})/${x}`, `${a}=\\frac{${C}-${B}}{${x}}`]
       };
     },
 
-    // 9. F=(9/5)C+32
+    // ========== DSE Level (1) ==========
+    // D1. Sample Paper style: a(b+k)=a+b → make b
     () => {
-      const s0 = `F = \\frac{9}{5}C + 32`;
-      const s1 = `F - 32 = \\frac{9}{5}C`;
-      const s2 = `C = \\frac{5}{9}(F - 32)`;
+      const [a, b] = distinct(2);
+      const k = randInt(2, 9);
+      const s0 = `${a}(${b} + ${k}) = ${a} + ${b}`;
+      const s1 = `${a}${b} + ${a * k} = ${a} + ${b}`;
+      const s2 = `${a}${b} - ${b} = ${a} - ${a * k}`;
+      const s3 = `${b}(${a} - 1) = ${a - a * k}`;
+      // a - a*k = a(1-k)
+      const rhs = a * (1 - k);
+      const s3b = `${b}(${a} - 1) = ${a}(1 - ${k})`;
+      const s4 = `${b} = \\frac{${a}(1 - ${k})}{${a} - 1}`;
+      // Often simplifies: b = a(1-k)/(a-1)
       return {
-        type: "溫度換算公式", level: 0, errTag: "一次公式移項",
-        prompt: `已知華氏與攝氏換算 $${s0}$。<br/>試以 $C$ 為主項，將下列公式改寫。`,
+        type: "兩邊有主項／展開抽公因", level: 1, errTag: "兩邊主項／抽公因式",
+        fingerprint: `d1|${a}|${b}|${k}`,
+        prompt: dsePrompt(b, s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `F + 32 = \\frac{9}{5}C`,
-              `F - 32 = \\frac{5}{9}C`,
-              `\\frac{F}{32} = \\frac{9}{5}C`,
-              `\\frac{9}{5}F - 32 = C`
+              `${a}${b} + ${k} = ${a} + ${b}`,
+              `${a}${b} + ${k} = ${a}${b}`,
+              `${b} + ${k} = ${a} + ${b}`,
+              `${a}${b} + ${a}${k} = ${a}${b}`
             ],
-            tip: `兩邊同時減 $32$。`
+            tip: `左邊展開：$${a}(${b}+${k})=${a}${b}+${a * k}$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `C = \\frac{9}{5}(F - 32)`,
-              `C = \\frac{5}{9}F - 32`,
-              `C = (F - 32) \\times \\frac{9}{5}`,
-              `C = 5(F - 32) \\times 9`
+              `${a}${b} + ${b} = ${a} + ${a * k}`,
+              `${a}${b} - ${b} = ${a} + ${a * k}`,
+              `${a}${b} = ${a} + ${b} - ${a * k}`,
+              `${a}${b} - ${a} = ${b} - ${a * k}`
             ],
-            tip: `兩邊同時乘以 $\\dfrac{5}{9}$（即乘以 $\\dfrac{9}{5}$ 嘅倒數）。`
+            tip: `將含 $${b}$ 嘅項移到左邊，其餘移到右邊。`
+          },
+          {
+            current: s2, correct: s3b,
+            distractors: [
+              `${b}(${a} + 1) = ${a}(1 - ${k})`,
+              `${b}(${a} - 1) = ${a}(1 + ${k})`,
+              `${b}${a} - ${b} = ${a} - ${k}`,
+              `${b} = ${a} - ${a * k}`
+            ],
+            tip: `左邊抽 $${b}$ 為公因式；右邊可寫成 $${a}(1-${k})$。`
+          },
+          {
+            current: s3b, correct: s4,
+            distractors: [
+              `${b} = \\frac{${a} - 1}{${a}(1 - ${k})}`,
+              `${b} = ${a}(1 - ${k})(${a} - 1)`,
+              `${b} = \\frac{${a}(1 + ${k})}{${a} - 1}`,
+              `${b} = \\frac{1 - ${k}}{${a} - 1}`
+            ],
+            tip: `兩邊同時除以 $(${a}-1)$。`
           }
         ],
-        finalAnswer: s2,
-        accepted: [s2, `C=(5/9)(F-32)`, `C=\\frac{5(F-32)}{9}`, `C=\\frac{5}{9}(F-32)`]
+        finalAnswer: s4,
+        accepted: [
+          s4,
+          `${b}=\\frac{${a}(1-${k})}{${a}-1}`,
+          `${b}=\\frac{${rhs}}{${a}-1}`,
+          `${b}=\\frac{${a}-${a * k}}{${a}-1}`
+        ]
       };
     },
 
-    // 10. y-k=m(x-h)
+    // D2. Both sides brackets: p(x+q)=r(s x - t) → x
     () => {
-      const s0 = `y - k = m(x - h)`;
-      const s1 = `\\frac{y - k}{m} = x - h`;
-      const s2 = `x = \\frac{y - k}{m} + h`;
+      const [p, x, q, r] = distinct(4);
+      const s = randInt(2, 5);
+      const t = randInt(1, 8);
+      const s0 = `${p}(${x} + ${q}) = ${r}(${s}${x} - ${t})`;
+      const s1 = `${p}${x} + ${p}${q} = ${r}${s}${x} - ${r}${t}`;
+      const s2 = `${p}${x} - ${r}${s}${x} = -${r}${t} - ${p}${q}`;
+      // Better: move x terms left, constants right
+      const s2alt = `${p}${x} - ${s}${r}${x} = -${r}${t} - ${p}${q}`;
+      const s3 = `${x}(${p} - ${s}${r}) = -${r}${t} - ${p}${q}`;
+      const s4 = `${x} = \\frac{-${r}${t} - ${p}${q}}{${p} - ${s}${r}}`;
+      const s4b = `${x} = \\frac{${r}${t} + ${p}${q}}{${s}${r} - ${p}}`;
       return {
-        type: "點斜式改寫", level: 1, errTag: "線性方程改寫",
-        prompt: `已知直線方程 $${s0}$。<br/>試以 $x$ 為主項，將下列方程改寫。`,
+        type: "兩邊括號／抽公因", level: 1, errTag: "兩邊主項／抽公因式",
+        fingerprint: `d2|${p}|${x}|${q}|${r}|${s}|${t}`,
+        prompt: dsePrompt(x, s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `(y - k) \\times m = x - h`,
-              `y - k - m = x - h`,
-              `\\frac{y - k}{m} = x + h`,
-              `m(y - k) = x - h`
+              `${p}${x} + ${q} = ${r}${s}${x} - ${t}`,
+              `${p}${x} + ${p}${q} = ${r}${s}${x} - ${t}`,
+              `${x} + ${q} = ${s}${x} - ${t}`,
+              `${p}${x} + ${q} = ${s}${r}${x} - ${r}${t}`
             ],
-            tip: `兩邊同時除以斜率 $m$。`
+            tip: `兩邊展開分配律。`
+          },
+          {
+            current: s1, correct: s2alt,
+            distractors: [
+              `${p}${x} + ${s}${r}${x} = -${r}${t} - ${p}${q}`,
+              `${p}${x} - ${s}${r}${x} = -${r}${t} + ${p}${q}`,
+              `${p}${x} = ${s}${r}${x} - ${r}${t} - ${p}${q}`,
+              `${p}${x} - ${s}${r}${x} = ${r}${t} + ${p}${q}`
+            ],
+            tip: `將含 $${x}$ 嘅項移到左邊，其餘移到右邊（注意變號）。`
+          },
+          {
+            current: s2alt, correct: s3,
+            distractors: [
+              `${x}(${p} + ${s}${r}) = -${r}${t} - ${p}${q}`,
+              `${x}(${p} - ${s}${r}) = ${r}${t} + ${p}${q}`,
+              `${x}${p} - ${s}${r} = -${r}${t} - ${p}${q}`,
+              `${x} = -${r}${t} - ${p}${q}`
+            ],
+            tip: `左邊抽 $${x}$ 為公因式。`
+          },
+          {
+            current: s3, correct: s4b,
+            distractors: [
+              `${x} = \\frac{${p} - ${s}${r}}{-${r}${t} - ${p}${q}}`,
+              `${x} = (-${r}${t} - ${p}${q})(${p} - ${s}${r})`,
+              `${x} = \\frac{-${r}${t} - ${p}${q}}{${s}${r} - ${p}}`,
+              `${x} = \\frac{${r}${t} + ${p}${q}}{${p} - ${s}${r}}`
+            ],
+            tip: `兩邊除以 $(${p}-${s}${r})$；亦可兩邊乘 $-1$ 令分母較整齊。`
+          }
+        ],
+        finalAnswer: s4b,
+        accepted: [
+          s4b, s4,
+          `${x}=\\frac{${r}${t}+${p}${q}}{${s}${r}-${p}}`,
+          `${x}=\\frac{-${r}${t}-${p}${q}}{${p}-${s}${r}}`,
+          `${x}=\\frac{${p}${q}+${r}${t}}{${s}${r}-${p}}`
+        ]
+      };
+    },
+
+    // D3. Fraction, subject in denominator: (m+n)/(1-x)=k n → x
+    () => {
+      const [m, n, x] = distinct(3);
+      const k = randInt(2, 6);
+      const s0 = `\\frac{${m} + ${n}}{1 - ${x}} = ${k}${n}`;
+      const s1 = `${m} + ${n} = ${k}${n}(1 - ${x})`;
+      const s2 = `${m} + ${n} = ${k}${n} - ${k}${n}${x}`;
+      const s3 = `${k}${n}${x} = ${k}${n} - ${m} - ${n}`;
+      const s4 = `${x} = \\frac{${k}${n} - ${m} - ${n}}{${k}${n}}`;
+      return {
+        type: "分母含主項", level: 1, errTag: "分母主項／清分母",
+        fingerprint: `d3|${m}|${n}|${x}|${k}`,
+        prompt: dsePrompt(x, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${m} + ${n} = \\frac{${k}${n}}{1 - ${x}}`,
+              `(${m} + ${n})(1 - ${x}) = ${k}${n}`,
+              `${m} + ${n} = ${k}${n} - ${x}`,
+              `\\frac{${m} + ${n}}{${k}${n}} = 1 - ${x}`
+            ],
+            tip: `兩邊同時乘以 $(1-${x})$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `x = \\frac{y - k}{m} - h`,
-              `x = \\frac{m}{y - k} + h`,
-              `x = \\frac{y - k + h}{m}`,
-              `x = (y - k)m + h`
+              `${m} + ${n} = ${k}${n}(1 + ${x})`,
+              `${m} + ${n} = ${k}${n} - ${x}`,
+              `${m} + ${n} = ${k} - ${k}${n}${x}`,
+              `${m} + ${n} = ${k}${n} - ${k}${x}`
             ],
-            tip: `兩邊同時加 $h$。`
+            tip: `右邊展開：$${k}${n}(1-${x})=${k}${n}-${k}${n}${x}$。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${k}${n}${x} = ${k}${n} + ${m} + ${n}`,
+              `${k}${n}${x} = ${m} + ${n} - ${k}${n}`,
+              `-${k}${n}${x} = ${k}${n} - ${m} - ${n}`,
+              `${x} = ${k}${n} - ${m} - ${n}`
+            ],
+            tip: `將含 $${x}$ 嘅項移到左邊（變號），其餘移到右邊。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${x} = \\frac{${k}${n}}{${k}${n} - ${m} - ${n}}`,
+              `${x} = (${k}${n} - ${m} - ${n})${k}${n}`,
+              `${x} = \\frac{${k}${n} - ${m} + ${n}}{${k}${n}}`,
+              `${x} = ${k}${n} - ${m} - ${n}`
+            ],
+            tip: `兩邊同時除以 $${k}${n}$。`
           }
         ],
-        finalAnswer: s2,
-        accepted: [s2, `x=(y-k)/m+h`, `x=h+\\frac{y-k}{m}`, `x=\\frac{y-k+mh}{m}`]
+        finalAnswer: s4,
+        accepted: [
+          s4,
+          `${x}=\\frac{${k}${n}-${m}-${n}}{${k}${n}}`,
+          `${x}=\\frac{${k}${n}-${m}-${n}}{${k}${n}}`,
+          `${x}=1-\\frac{${m}+${n}}{${k}${n}}`
+        ]
       };
     },
 
-    // 11. P=I²R
+    // D4. q = (ap+b)/(1-p) or y=(ax+b)/(cx+d) → make inner letter
+    () => {
+      const [q, p] = distinct(2);
+      const a = randInt(2, 7);
+      const b = randInt(1, 9);
+      const s0 = `${q} = \\frac{${a}${p} + ${b}}{1 - ${p}}`;
+      const s1 = `${q}(1 - ${p}) = ${a}${p} + ${b}`;
+      const s2 = `${q} - ${q}${p} = ${a}${p} + ${b}`;
+      const s3 = `${q} - ${b} = ${a}${p} + ${q}${p}`;
+      const s4 = `${q} - ${b} = ${p}(${a} + ${q})`;
+      const s5 = `${p} = \\frac{${q} - ${b}}{${a} + ${q}}`;
+      return {
+        type: "分式公式抽公因", level: 1, errTag: "分式主項／抽公因式",
+        fingerprint: `d4|${q}|${p}|${a}|${b}`,
+        prompt: dsePrompt(p, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${q} = (${a}${p} + ${b})(1 - ${p})`,
+              `${q}(1 + ${p}) = ${a}${p} + ${b}`,
+              `\\frac{${q}}{1 - ${p}} = ${a}${p} + ${b}`,
+              `${q} - ${p} = ${a}${p} + ${b}`
+            ],
+            tip: `兩邊同時乘以 $(1-${p})$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${q} - ${p} = ${a}${p} + ${b}`,
+              `${q} + ${q}${p} = ${a}${p} + ${b}`,
+              `${q}(1 - ${p}) = ${a} + ${b}${p}`,
+              `${q} - ${q}${p} = ${a} + ${b}${p}`
+            ],
+            tip: `左邊展開：$${q}(1-${p})=${q}-${q}${p}$。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${q} + ${b} = ${a}${p} + ${q}${p}`,
+              `${q} - ${b} = ${a}${p} - ${q}${p}`,
+              `${q} - ${b} = ${a}${p} - ${q}`,
+              `${q}${p} = ${a}${p} + ${b}`
+            ],
+            tip: `將含 $${p}$ 嘅項移到右邊，常數／$${q}$ 留左邊。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${q} - ${b} = ${p}(${a} - ${q})`,
+              `${q} - ${b} = ${p}${a} + ${q}`,
+              `${q} - ${b} = ${p} + ${a} + ${q}`,
+              `${p}(${q} - ${b}) = ${a} + ${q}`
+            ],
+            tip: `右邊抽 $${p}$ 為公因式。`
+          },
+          {
+            current: s4, correct: s5,
+            distractors: [
+              `${p} = \\frac{${a} + ${q}}{${q} - ${b}}`,
+              `${p} = (${q} - ${b})(${a} + ${q})`,
+              `${p} = \\frac{${q} + ${b}}{${a} + ${q}}`,
+              `${p} = \\frac{${q} - ${b}}{${a} - ${q}}`
+            ],
+            tip: `兩邊同時除以 $(${a}+${q})$。`
+          }
+        ],
+        finalAnswer: s5,
+        accepted: [
+          s5,
+          `${p}=\\frac{${q}-${b}}{${a}+${q}}`,
+          `${p}=\\frac{${q}-${b}}{${q}+${a}}`
+        ]
+      };
+    },
+
+    // D5. Expand both sides 3(x+2)=4(y-5) style → make x (y is letter)
+    () => {
+      const [x, y] = distinct(2);
+      const A = randInt(2, 6), B = randInt(1, 8);
+      const C = randInt(2, 6), D = randInt(1, 8);
+      const s0 = `${A}(${x} + ${B}) = ${C}(${y} - ${D})`;
+      const s1 = `${A}${x} + ${A * B} = ${C}${y} - ${C * D}`;
+      const s2 = `${A}${x} = ${C}${y} - ${C * D} - ${A * B}`;
+      const s3 = `${x} = \\frac{${C}${y} - ${C * D} - ${A * B}}{${A}}`;
+      return {
+        type: "兩邊展開移項", level: 1, errTag: "兩邊展開／移項",
+        fingerprint: `d5|${A}|${x}|${B}|${C}|${y}|${D}`,
+        prompt: dsePrompt(x, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${A}${x} + ${B} = ${C}${y} - ${D}`,
+              `${x} + ${B} = ${y} - ${D}`,
+              `${A}${x} + ${A * B} = ${C}${y} - ${D}`,
+              `${A}${x} + ${B} = ${C}${y} - ${C * D}`
+            ],
+            tip: `兩邊展開分配律。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${A}${x} = ${C}${y} - ${C * D} + ${A * B}`,
+              `${A}${x} = ${C}${y} + ${C * D} - ${A * B}`,
+              `${A}${x} + ${C}${y} = ${C * D} + ${A * B}`,
+              `${x} = ${C}${y} - ${C * D} - ${A * B}`
+            ],
+            tip: `兩邊同時減 $${A * B}$，令含 $${x}$ 嘅項單獨一邊。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${x} = ${C}${y} - ${C * D} - ${A * B} - ${A}`,
+              `${x} = \\frac{${A}}{${C}${y} - ${C * D} - ${A * B}}`,
+              `${x} = (${C}${y} - ${C * D} - ${A * B})${A}`,
+              `${x} = \\frac{${C}${y} - ${C * D} + ${A * B}}{${A}}`
+            ],
+            tip: `兩邊同時除以 $${A}$。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [
+          s3,
+          `${x}=\\frac{${C}${y}-${C * D}-${A * B}}{${A}}`,
+          `${x}=\\frac{${C}${y}-(${C * D}+${A * B})}{${A}}`
+        ]
+      };
+    },
+
+    // D6. Product collect+factorise: a x + b x = c → x  (letters)
+    () => {
+      const [a, b, x, c] = distinct(4);
+      const s0 = `${a}${x} + ${b}${x} = ${c}`;
+      const s1 = `${x}(${a} + ${b}) = ${c}`;
+      const s2 = `${x} = \\frac{${c}}{${a} + ${b}}`;
+      return {
+        type: "抽公因式除係數", level: 1, errTag: "抽公因式",
+        fingerprint: `d6|${a}|${b}|${x}|${c}`,
+        prompt: dsePrompt(x, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${x}(${a}${b}) = ${c}`,
+              `${a} + ${b}${x} = ${c}`,
+              `${x}${a} + ${b} = ${c}`,
+              `${x} = ${a} + ${b} + ${c}`
+            ],
+            tip: `左邊抽 $${x}$ 為公因式。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x} = ${c}(${a} + ${b})`,
+              `${x} = \\frac{${a} + ${b}}{${c}}`,
+              `${x} = ${c} - ${a} - ${b}`,
+              `${x} = \\frac{${c}}{${a}} + ${b}`
+            ],
+            tip: `兩邊同時除以 $(${a}+${b})$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${x}=${c}/(${a}+${b})`, `${x}=\\frac{${c}}{${a}+${b}}`]
+      };
+    },
+
+    // D7. a(x+b)=c(2x-d) → x
+    () => {
+      const [a, x, b, c] = distinct(4);
+      const d = randInt(1, 7);
+      const two = 2;
+      const s0 = `${a}(${x} + ${b}) = ${c}(${two}${x} - ${d})`;
+      const s1 = `${a}${x} + ${a}${b} = ${two}${c}${x} - ${c}${d}`;
+      const s2 = `${a}${x} - ${two}${c}${x} = -${c}${d} - ${a}${b}`;
+      const s3 = `${x}(${a} - ${two}${c}) = -${c}${d} - ${a}${b}`;
+      const s4 = `${x} = \\frac{${c}${d} + ${a}${b}}{${two}${c} - ${a}}`;
+      return {
+        type: "括號方程抽公因", level: 1, errTag: "兩邊主項／抽公因式",
+        fingerprint: `d7|${a}|${x}|${b}|${c}|${d}`,
+        prompt: dsePrompt(x, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}${x} + ${b} = ${two}${c}${x} - ${d}`,
+              `${a}${x} + ${a}${b} = ${two}${c}${x} - ${d}`,
+              `${x} + ${b} = ${two}${x} - ${d}`,
+              `${a}${x} + ${b} = ${c}${two}${x} - ${c}${d}`
+            ],
+            tip: `兩邊展開。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}${x} + ${two}${c}${x} = -${c}${d} - ${a}${b}`,
+              `${a}${x} - ${two}${c}${x} = -${c}${d} + ${a}${b}`,
+              `${a}${x} - ${two}${c}${x} = ${c}${d} + ${a}${b}`,
+              `${a}${x} = ${two}${c}${x} - ${c}${d} - ${a}${b}`
+            ],
+            tip: `含 $${x}$ 項移左，其餘移右（變號）。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${x}(${a} + ${two}${c}) = -${c}${d} - ${a}${b}`,
+              `${x}(${a} - ${two}${c}) = ${c}${d} + ${a}${b}`,
+              `${x} = -${c}${d} - ${a}${b}`,
+              `${a} - ${two}${c}${x} = -${c}${d} - ${a}${b}`
+            ],
+            tip: `左邊抽 $${x}$。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${x} = \\frac{${a} - ${two}${c}}{${c}${d} + ${a}${b}}`,
+              `${x} = \\frac{-${c}${d} - ${a}${b}}{${two}${c} - ${a}}`,
+              `${x} = \\frac{${c}${d} + ${a}${b}}{${a} - ${two}${c}}`,
+              `${x} = (${c}${d} + ${a}${b})(${two}${c} - ${a})`
+            ],
+            tip: `兩邊除以係數；乘 $-1$ 可令分母為 $${two}${c}-${a}$。`
+          }
+        ],
+        finalAnswer: s4,
+        accepted: [
+          s4,
+          `${x}=\\frac{${c}${d}+${a}${b}}{${two}${c}-${a}}`,
+          `${x}=\\frac{-${c}${d}-${a}${b}}{${a}-${two}${c}}`,
+          `${x}=\\frac{${a}${b}+${c}${d}}{2${c}-${a}}`
+        ]
+      };
+    },
+
+    // ========== 進階 (2) ==========
+    // A1. Lens: 1/u+1/v=1/f → f or u
+    () => {
+      const makeF = Math.random() < 0.55;
+      if (makeF) {
+        const s0 = `\\frac{1}{u} + \\frac{1}{v} = \\frac{1}{f}`;
+        const s1 = `\\frac{v + u}{uv} = \\frac{1}{f}`;
+        const s2 = `f = \\frac{uv}{u + v}`;
+        return {
+          type: "透鏡公式", level: 2, errTag: "倒數公式／通分",
+          fingerprint: `a1|lens|f`,
+          prompt: dsePrompt("f", s0),
+          steps: [
+            {
+              current: s0, correct: s1,
+              distractors: [
+                `\\frac{1}{u + v} = \\frac{1}{f}`,
+                `\\frac{u + v}{u + v} = \\frac{1}{f}`,
+                `uv = \\frac{1}{f}`,
+                `\\frac{uv}{u + v} = \\frac{1}{f}`
+              ],
+              tip: `左邊通分：$\\dfrac{1}{u}+\\dfrac{1}{v}=\\dfrac{v+u}{uv}$。`
+            },
+            {
+              current: s1, correct: s2,
+              distractors: [
+                `f = \\frac{u + v}{uv}`,
+                `f = u + v`,
+                `f = \\frac{1}{u + v}`,
+                `f = \\frac{u}{v} + \\frac{v}{u}`
+              ],
+              tip: `兩邊取倒數。`
+            }
+          ],
+          finalAnswer: s2,
+          accepted: [s2, `f=uv/(u+v)`, `f=\\frac{uv}{u+v}`, `f=\\frac{vu}{v+u}`]
+        };
+      }
+      const s0 = `\\frac{1}{u} + \\frac{1}{v} = \\frac{1}{f}`;
+      const s1 = `\\frac{1}{u} = \\frac{1}{f} - \\frac{1}{v}`;
+      const s2 = `\\frac{1}{u} = \\frac{v - f}{fv}`;
+      const s3 = `u = \\frac{fv}{v - f}`;
+      return {
+        type: "透鏡公式求物距", level: 2, errTag: "倒數公式／通分",
+        fingerprint: `a1|lens|u`,
+        prompt: dsePrompt("u", s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{1}{u} = \\frac{1}{f} + \\frac{1}{v}`,
+              `\\frac{1}{u} = f - v`,
+              `u = \\frac{1}{f} - \\frac{1}{v}`,
+              `\\frac{1}{u} = \\frac{1}{f - v}`
+            ],
+            tip: `兩邊減 $\\dfrac{1}{v}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `\\frac{1}{u} = \\frac{f - v}{fv}`,
+              `\\frac{1}{u} = \\frac{v + f}{fv}`,
+              `\\frac{1}{u} = \\frac{1}{fv}`,
+              `\\frac{1}{u} = v - f`
+            ],
+            tip: `右邊通分。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `u = \\frac{v - f}{fv}`,
+              `u = fv(v - f)`,
+              `u = \\frac{fv}{f - v}`,
+              `u = \\frac{f}{v} - f`
+            ],
+            tip: `兩邊取倒數。亦可接受 $u=\\dfrac{fv}{f-v}$ 嘅負號等價形（視移項次序）。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, `u=fv/(v-f)`, `u=\\frac{fv}{v-f}`, `u=\\frac{vf}{v-f}`]
+      };
+    },
+
+    // A2. 1/x = 1/y + k → y
+    () => {
+      const [x, y] = distinct(2);
+      const k = randInt(2, 7);
+      const s0 = `\\frac{1}{${x}} = \\frac{1}{${y}} + ${k}`;
+      const s1 = `\\frac{1}{${x}} = \\frac{1 + ${k}${y}}{${y}}`;
+      const s2 = `${y} = ${x}(1 + ${k}${y})`;
+      // Better path:
+      // 1/x - k = 1/y
+      const s1b = `\\frac{1}{${x}} - ${k} = \\frac{1}{${y}}`;
+      const s2b = `\\frac{1 - ${k}${x}}{${x}} = \\frac{1}{${y}}`;
+      const s3 = `${y} = \\frac{${x}}{1 - ${k}${x}}`;
+      return {
+        type: "倒數加常數", level: 2, errTag: "倒數公式／通分",
+        fingerprint: `a2|${x}|${y}|${k}`,
+        prompt: dsePrompt(y, s0),
+        steps: [
+          {
+            current: s0, correct: s1b,
+            distractors: [
+              `\\frac{1}{${x}} + ${k} = \\frac{1}{${y}}`,
+              `\\frac{1}{${x} - ${k}} = \\frac{1}{${y}}`,
+              `${x} = \\frac{1}{${y}} + ${k}`,
+              `\\frac{1}{${x}} - \\frac{1}{${y}} = ${k}`
+            ],
+            tip: `兩邊減 $${k}$，令 $\\dfrac{1}{${y}}$ 單獨一邊。`
+          },
+          {
+            current: s1b, correct: s2b,
+            distractors: [
+              `\\frac{1 - ${k}}{${x}} = \\frac{1}{${y}}`,
+              `\\frac{1 + ${k}${x}}{${x}} = \\frac{1}{${y}}`,
+              `${x} - ${k} = \\frac{1}{${y}}`,
+              `\\frac{1}{${x} - ${k}} = \\frac{1}{${y}}`
+            ],
+            tip: `左邊通分：$\\dfrac{1}{${x}}-${k}=\\dfrac{1-${k}${x}}{${x}}$。`
+          },
+          {
+            current: s2b, correct: s3,
+            distractors: [
+              `${y} = \\frac{1 - ${k}${x}}{${x}}`,
+              `${y} = ${x}(1 - ${k}${x})`,
+              `${y} = \\frac{${x}}{1 + ${k}${x}}`,
+              `${y} = \\frac{1}{${x}} - ${k}`
+            ],
+            tip: `兩邊取倒數。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [
+          s3,
+          `${y}=\\frac{${x}}{1-${k}${x}}`,
+          `${y}=\\frac{${x}}{1-${k}${x}}`
+        ]
+      };
+    },
+
+    // A3. p(x-1)-q(x+1)=r → x
+    () => {
+      const [p, x, q, r] = distinct(4);
+      const s0 = `${p}(${x} - 1) - ${q}(${x} + 1) = ${r}`;
+      const s1 = `${p}${x} - ${p} - ${q}${x} - ${q} = ${r}`;
+      const s2 = `${p}${x} - ${q}${x} = ${r} + ${p} + ${q}`;
+      const s3 = `${x}(${p} - ${q}) = ${r} + ${p} + ${q}`;
+      const s4 = `${x} = \\frac{${r} + ${p} + ${q}}{${p} - ${q}}`;
+      return {
+        type: "雙括號合併", level: 2, errTag: "展開合併／抽公因",
+        fingerprint: `a3|${p}|${x}|${q}|${r}`,
+        prompt: dsePrompt(x, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${p}${x} - ${p} - ${q}${x} + ${q} = ${r}`,
+              `${p}${x} - 1 - ${q}${x} - 1 = ${r}`,
+              `${p}${x} - ${p} - ${q}${x} - 1 = ${r}`,
+              `${x} - 1 - ${x} - 1 = ${r}`
+            ],
+            tip: `兩邊展開；注意 $-${q}(${x}+1)=-${q}${x}-${q}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${p}${x} - ${q}${x} = ${r} - ${p} - ${q}`,
+              `${p}${x} - ${q}${x} = ${r} + ${p} - ${q}`,
+              `${p}${x} + ${q}${x} = ${r} + ${p} + ${q}`,
+              `${p} - ${q} = ${r} + ${p}${x} + ${q}${x}`
+            ],
+            tip: `含 $${x}$ 項留左，常數移右（$-${p}$、$-${q}$ 移右變加）。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${x}(${p} + ${q}) = ${r} + ${p} + ${q}`,
+              `${x}(${p} - ${q}) = ${r} - ${p} - ${q}`,
+              `${p} - ${q}${x} = ${r} + ${p} + ${q}`,
+              `${x} = ${r} + ${p} + ${q}`
+            ],
+            tip: `抽 $${x}$ 為公因式。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${x} = \\frac{${p} - ${q}}{${r} + ${p} + ${q}}`,
+              `${x} = (${r} + ${p} + ${q})(${p} - ${q})`,
+              `${x} = \\frac{${r} + ${p} + ${q}}{${q} - ${p}}`,
+              `${x} = \\frac{${r} - ${p} - ${q}}{${p} - ${q}}`
+            ],
+            tip: `兩邊除以 $(${p}-${q})$。`
+          }
+        ],
+        finalAnswer: s4,
+        accepted: [
+          s4,
+          `${x}=\\frac{${r}+${p}+${q}}{${p}-${q}}`,
+          `${x}=\\frac{${p}+${q}+${r}}{${p}-${q}}`
+        ]
+      };
+    },
+
+    // A4. P=I²R → I (positive)
     () => {
       const s0 = `P = I^{2}R`;
       const s1 = `\\frac{P}{R} = I^{2}`;
       const s2 = `I = \\sqrt{\\frac{P}{R}}`;
       return {
-        type: "開方（電功率）", level: 1, errTag: "開方／平方",
-        prompt: `已知 $${s0}$。<br/>試以 $I$ 為主項，將下列公式改寫。（取正值）`,
+        type: "電功率開方", level: 2, errTag: "開方／平方",
+        fingerprint: `a4|P=I^2 R`,
+        prompt: dsePrompt("I", s0) + `（取正值）`,
         steps: [
           {
             current: s0, correct: s1,
@@ -816,7 +1471,7 @@
               `\\frac{P}{I^{2}} = R`,
               `\\frac{R}{P} = I^{2}`
             ],
-            tip: `兩邊同時除以 $R$。`
+            tip: `兩邊除以 $R$。`
           },
           {
             current: s1, correct: s2,
@@ -826,7 +1481,7 @@
               `I = \\frac{P}{\\sqrt{R}}`,
               `I = \\sqrt{PR}`
             ],
-            tip: `兩邊開方（取正）。注意：$\\sqrt{\\dfrac{P}{R}} \\neq \\dfrac{\\sqrt{P}}{R}$。`
+            tip: `兩邊開方（取正）。`
           }
         ],
         finalAnswer: s2,
@@ -834,41 +1489,136 @@
       };
     },
 
-    // 12. a/b=c/d
+    // A5. y = (ax+b)/(cx-d) → x  with careful signs (accept both forms)
     () => {
-      const s0 = `\\frac{a}{b} = \\frac{c}{d}`;
-      const s1 = `ad = bc`;
-      const s2 = `b = \\frac{ad}{c}`;
+      const [y, x] = distinct(2);
+      const a = randInt(2, 6), b = randInt(1, 8);
+      const c = randInt(2, 6), d = randInt(1, 8);
+      const s0 = `${y} = \\frac{${a}${x} + ${b}}{${c}${x} - ${d}}`;
+      const s1 = `${y}(${c}${x} - ${d}) = ${a}${x} + ${b}`;
+      const s2 = `${c}${y}${x} - ${d}${y} = ${a}${x} + ${b}`;
+      const s3 = `${c}${y}${x} - ${a}${x} = ${b} + ${d}${y}`;
+      const s4 = `${x}(${c}${y} - ${a}) = ${b} + ${d}${y}`;
+      const s5 = `${x} = \\frac{${b} + ${d}${y}}{${c}${y} - ${a}}`;
       return {
-        type: "比例式改寫", level: 0, errTag: "比例式／交叉相乘",
-        prompt: `已知 $${s0}$。<br/>試以 $b$ 為主項，將下列方程改寫。`,
+        type: "繁分式主項", level: 2, errTag: "分式主項／抽公因式",
+        fingerprint: `a5|${y}|${x}|${a}|${b}|${c}|${d}`,
+        prompt: dsePrompt(x, s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `ac = bd`,
-              `\\frac{a}{d} = \\frac{c}{b}`,
-              `a + d = b + c`,
-              `ab = cd`
+              `${y} = (${a}${x} + ${b})(${c}${x} - ${d})`,
+              `${y}(${c}${x} + ${d}) = ${a}${x} + ${b}`,
+              `\\frac{${y}}{${c}${x} - ${d}} = ${a}${x} + ${b}`,
+              `${y}(${a}${x} + ${b}) = ${c}${x} - ${d}`
             ],
-            tip: `交叉相乘：$a\\cdot d = b\\cdot c$。`
+            tip: `兩邊乘分母 $(${c}${x}-${d})$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `b = \\frac{ac}{d}`,
-              `b = \\frac{c}{ad}`,
-              `b = adc`,
-              `b = \\frac{bc}{a}`
+              `${c}${y}${x} + ${d}${y} = ${a}${x} + ${b}`,
+              `${y}${c}${x} - ${d} = ${a}${x} + ${b}`,
+              `${c}${x} - ${d}${y} = ${a}${x} + ${b}`,
+              `${c}${y}${x} - ${d}${y} = ${a} + ${b}${x}`
             ],
-            tip: `兩邊同時除以 $c$，得出 $b$。`
+            tip: `左邊展開。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${c}${y}${x} - ${a}${x} = ${b} - ${d}${y}`,
+              `${c}${y}${x} + ${a}${x} = ${b} + ${d}${y}`,
+              `${c}${y}${x} - ${a}${x} = -${b} - ${d}${y}`,
+              `${d}${y} + ${b} = ${a}${x} - ${c}${y}${x}`
+            ],
+            tip: `含 $${x}$ 項移左，其餘移右。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${x}(${c}${y} + ${a}) = ${b} + ${d}${y}`,
+              `${x}(${c}${y} - ${a}) = ${b} - ${d}${y}`,
+              `${c}${y} - ${a}${x} = ${b} + ${d}${y}`,
+              `${x} = ${b} + ${d}${y}`
+            ],
+            tip: `抽 $${x}$。`
+          },
+          {
+            current: s4, correct: s5,
+            distractors: [
+              `${x} = \\frac{${c}${y} - ${a}}{${b} + ${d}${y}}`,
+              `${x} = \\frac{${b} + ${d}${y}}{${a} - ${c}${y}}`,
+              `${x} = \\frac{${b} - ${d}${y}}{${c}${y} - ${a}}`,
+              `${x} = (${b} + ${d}${y})(${c}${y} - ${a})`
+            ],
+            tip: `兩邊除以 $(${c}${y}-${a})$。等價形 $\\dfrac{-${b}-${d}${y}}{${a}-${c}${y}}$ 亦正確。`
           }
         ],
-        finalAnswer: s2,
-        accepted: [s2, `b=ad/c`, `b=\\frac{ad}{c}`, `b=\\frac{a d}{c}`]
+        finalAnswer: s5,
+        accepted: [
+          s5,
+          `${x}=\\frac{${b}+${d}${y}}{${c}${y}-${a}}`,
+          `${x}=\\frac{-${b}-${d}${y}}{${a}-${c}${y}}`,
+          `${x}=\\frac{${d}${y}+${b}}{${c}${y}-${a}}`
+        ]
+      };
+    },
+
+    // A6. Nested: (1/x - 1/y)/(1/x + 1/y) = k → make y  OR simpler hard: m/x + n/y = p → y
+    () => {
+      const [m, x, n, y, p] = distinct(5);
+      const s0 = `\\frac{${m}}{${x}} + \\frac{${n}}{${y}} = ${p}`;
+      const s1 = `\\frac{${n}}{${y}} = ${p} - \\frac{${m}}{${x}}`;
+      const s2 = `\\frac{${n}}{${y}} = \\frac{${p}${x} - ${m}}{${x}}`;
+      const s3 = `${y} = \\frac{${n}${x}}{${p}${x} - ${m}}`;
+      return {
+        type: "雙倒數移項", level: 2, errTag: "倒數公式／通分",
+        fingerprint: `a6|${m}|${x}|${n}|${y}|${p}`,
+        prompt: dsePrompt(y, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{${n}}{${y}} = ${p} + \\frac{${m}}{${x}}`,
+              `\\frac{${n}}{${y}} = \\frac{${m}}{${x}} - ${p}`,
+              `${n}${y} = ${p} - \\frac{${m}}{${x}}`,
+              `\\frac{${m}}{${x}} = ${p} - \\frac{${n}}{${y}}`
+            ],
+            tip: `兩邊減 $\\dfrac{${m}}{${x}}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `\\frac{${n}}{${y}} = \\frac{${p} - ${m}}{${x}}`,
+              `\\frac{${n}}{${y}} = \\frac{${p}${x} + ${m}}{${x}}`,
+              `\\frac{${n}}{${y}} = ${p}${x} - ${m}`,
+              `\\frac{${n}}{${y}} = \\frac{${p}}{${x}} - ${m}`
+            ],
+            tip: `右邊通分。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${y} = \\frac{${p}${x} - ${m}}{${n}${x}}`,
+              `${y} = \\frac{${n}${x}}{${p}${x} + ${m}}`,
+              `${y} = ${n}${x}(${p}${x} - ${m})`,
+              `${y} = \\frac{${n}}{${p}${x} - ${m}}`
+            ],
+            tip: `若 $\\dfrac{${n}}{${y}}=\\dfrac{P}{Q}$，則 $${y}=\\dfrac{${n}Q}{P}$（交叉相乘）。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [
+          s3,
+          `${y}=\\frac{${n}${x}}{${p}${x}-${m}}`,
+          `${y}=\\frac{${n}${x}}{${p}${x}-${m}}`
+        ]
       };
     }
   ];
+
 
   // ---- state ----
   let total = 0, perfect = 0, stepAttempts = 0, stepHits = 0, qIndex = 0;
@@ -877,7 +1627,76 @@
   const errMap = Object.create(null);
   const el = (id) => document.getElementById(id);
 
-  function makeQuestion() { return pick(generators)(); }
+  // Anti-repeat: per-level recent generator indices + fingerprints
+  const RECENT_WINDOW = 10;
+  const recentByLevel = { 0: [], 1: [], 2: [] }; // {gi, fp}[]
+  let lastGenIndexByLevel = { 0: -1, 1: -1, 2: -1 };
+  // One-time classify (each generator always returns the same level)
+  const gensByLevel = { 0: [], 1: [], 2: [] };
+  generators.forEach((g, i) => {
+    const sample = g();
+    const lv = typeof sample.level === "number" ? sample.level : 1;
+    gensByLevel[lv].push(i);
+  });
+
+  function makeQuestion() {
+    const lv = selectedLevel;
+    const pool = gensByLevel[lv].slice();
+    if (!pool.length) {
+      // fallback: any generator
+      return pick(generators)();
+    }
+    const recent = recentByLevel[lv];
+    const recentFps = new Set(recent.map((r) => r.fp));
+    const recentGis = new Set(recent.map((r) => r.gi));
+    const lastGi = lastGenIndexByLevel[lv];
+    const order = shuffle(pool);
+
+    function build(gi) {
+      const q = generators[gi]();
+      const fp = q.fingerprint || (q.type + "|" + (q.finalAnswer || ""));
+      return { q, gi, fp };
+    }
+
+    let hit = null;
+    // 1) Prefer unused generator indices (not in recent window), not back-to-back
+    for (const gi of order) {
+      if (gi === lastGi && order.length > 1) continue;
+      if (recentGis.has(gi)) continue;
+      hit = build(gi);
+      if (!recentFps.has(hit.fp)) break;
+      hit = null;
+    }
+    // 2) Allow reused gens but avoid fingerprint collision & back-to-back
+    if (!hit) {
+      for (const gi of order) {
+        if (gi === lastGi && order.length > 1) continue;
+        const cand = build(gi);
+        if (recentFps.has(cand.fp) && recentFps.size < RECENT_WINDOW && order.length > 1) continue;
+        hit = cand;
+        break;
+      }
+    }
+    // 3) Exhaust: take anything in pool
+    if (!hit) hit = build(order[0]);
+
+    recent.push({ gi: hit.gi, fp: hit.fp });
+    while (recent.length > RECENT_WINDOW) recent.shift();
+    lastGenIndexByLevel[lv] = hit.gi;
+    hit.q._genIndex = hit.gi;
+    return hit.q;
+  }
+
+  function setSelectedLevel(lv, restart) {
+    selectedLevel = lv;
+    [0, 1, 2].forEach((i) => {
+      const b = el("btnLv" + i);
+      if (b) b.classList.toggle("active", i === lv);
+    });
+    const sub = el("levelSub");
+    if (sub) sub.textContent = LEVEL_SUBS[lv];
+    if (restart) showQuestion();
+  }
 
   function updateStats() {
     el("statTotal").textContent = String(total);
@@ -1220,7 +2039,7 @@
     qIndex += 1;
 
     el("chipType").textContent = current.type;
-    el("chipLevel").textContent = "難度：" + LEVELS[current.level];
+    el("chipLevel").textContent = LEVELS[current.level];
     el("chipNo").textContent = "第 " + qIndex + " 題";
     el("questionBox").innerHTML = renderPrompt(current.prompt);
     el("stepHistory").innerHTML = "";
@@ -1300,6 +2119,15 @@
     }
     buildToolbar();
     updateStats();
+    [0, 1, 2].forEach((i) => {
+      const b = el("btnLv" + i);
+      if (!b) return;
+      b.addEventListener("click", () => {
+        if (selectedLevel === i) return;
+        setSelectedLevel(i, true);
+      });
+    });
+    setSelectedLevel(1, false);
     showQuestion();
   }
   if (document.readyState === "loading") {
