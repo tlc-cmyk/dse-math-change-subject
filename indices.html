@@ -293,6 +293,31 @@
   }
 
 
+
+  .source-picker {
+    margin: 0 0 .85rem;
+    padding: .65rem .85rem;
+    background: #f8faf8;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .source-picker .lp-label {
+    font-size: .78rem; color: var(--muted); margin-bottom: .4rem; font-weight: 600;
+  }
+  .toast {
+    position: fixed; left: 50%; bottom: 1.25rem; transform: translateX(-50%);
+    background: #1e293b; color: #fff; padding: .55rem 1rem; border-radius: 999px;
+    font-size: .82rem; z-index: 9999; opacity: 0; pointer-events: none;
+    transition: opacity .25s ease; box-shadow: 0 6px 20px rgba(0,0,0,.2);
+  }
+  .toast.show { opacity: 1; }
+  .loading-banner {
+    margin: 0 0 .75rem; padding: .55rem .75rem; border-radius: 10px;
+    background: #eef6ff; color: #1e4a7a; border: 1px solid #c5daf5;
+    font-size: .85rem; display: none;
+  }
+  .loading-banner.show { display: block; }
+
   .top-nav {
     display: flex; gap: .45rem; flex-wrap: wrap;
     margin: .55rem 0 0;
@@ -351,6 +376,16 @@
       </div>
       <p class="level-sub" id="levelSub">DSE Level＝卷一甲(1)常見指數定律／正指數化簡</p>
     </div>
+
+    <div class="source-picker" id="sourcePicker">
+      <div class="lp-label">出題模式</div>
+      <div class="level-seg" role="group" aria-label="出題模式">
+        <button type="button" data-source="bank" id="btnSrcBank" class="active">題庫（AI 預製）</button>
+        <button type="button" data-source="gen" id="btnSrcGen">程式模板</button>
+      </div>
+      <p class="level-sub" id="sourceSub">預設用預製題庫；題庫用盡或載入失敗時自動改用程式模板。</p>
+    </div>
+    <div class="loading-banner" id="bankLoading">載入題庫中…</div>
     <div class="q-box" id="questionBox"></div>
     <div class="progress-bar" aria-hidden="true"><i id="progressFill"></i></div>
     <ul class="step-history" id="stepHistory"></ul>
@@ -407,7 +442,7 @@
     <summary>錯題類型統計（方便複習）</summary>
     <ul class="err-list" id="errList"><li style="color:#5c6570">暫時未有錯題記錄</li></ul>
   </details>
-  <footer>數式以 KaTeX 排版。化簡後請以正指數表示。題目為模擬生成，僅供溫習操練。</footer>
+  <footer>數式以 KaTeX 排版。化簡後請以正指數表示。題目含 AI 預製題庫與程式模板；無需 API Key，可離線／GitHub Pages 使用。</footer>
 </main>
 
 <script>
@@ -422,6 +457,117 @@
     "進階＝較繁分數／多變數"
   ];
   let selectedLevel = 1; // default DSE Level
+
+  // ---- AI-pregenerated bank (offline JSON; no live API) ----
+  const BANK_URL = "bank/indices.json";
+  let questionSource = "bank"; // bank | gen
+  let bankItems = [];
+  let bankByLevel = { 0: [], 1: [], 2: [] };
+  let bankLoadState = "loading"; // loading | ready | fail
+  const usedBankIdsByLevel = { 0: new Set(), 1: new Set(), 2: new Set() };
+  const recentBankIdsByLevel = { 0: [], 1: [], 2: [] };
+  const BANK_RECENT_WINDOW = 12;
+
+  function showToast(msg) {
+    const t = el("appToast");
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => t.classList.remove("show"), 2600);
+  }
+
+  function setBankLoading(on) {
+    const b = el("bankLoading");
+    if (b) b.classList.toggle("show", !!on);
+    ["btnSkip", "btnNext", "btnHint", "btnReveal"].forEach((id) => {
+      const n = el(id);
+      if (n) n.disabled = !!on;
+    });
+  }
+
+  function bankItemToQuestion(it) {
+    return {
+      id: it.id,
+      type: it.type,
+      level: it.level,
+      errTag: it.errTag,
+      ref: it.ref || "",
+      refs: it.refs || undefined,
+      prompt: it.prompt,
+      steps: it.steps.map((s) => ({
+        current: s.current,
+        correct: s.correct,
+        distractors: (s.distractors || []).slice(),
+        tip: s.tip || "",
+      })),
+      finalAnswer: it.finalAnswer,
+      accepted: (it.accepted && it.accepted.length) ? it.accepted.slice() : [it.finalAnswer],
+      fingerprint: "bank|" + it.id,
+      _fromBank: true,
+    };
+  }
+
+  function pickFromBank(lv) {
+    const pool = bankByLevel[lv] || [];
+    if (!pool.length) return null;
+    const used = usedBankIdsByLevel[lv];
+    const recent = recentBankIdsByLevel[lv];
+    const recentSet = new Set(recent);
+    let candidates = pool.filter((it) => !used.has(it.id));
+    if (!candidates.length) {
+      used.clear();
+      candidates = pool.slice();
+    }
+    // Prefer not in recent fingerprint/id window
+    let prefer = candidates.filter((it) => !recentSet.has(it.id));
+    if (!prefer.length) prefer = candidates;
+    const hit = prefer[Math.floor(Math.random() * prefer.length)];
+    used.add(hit.id);
+    recent.push(hit.id);
+    while (recent.length > BANK_RECENT_WINDOW) recent.shift();
+    return bankItemToQuestion(hit);
+  }
+
+  async function loadBank() {
+    bankLoadState = "loading";
+    setBankLoading(true);
+    try {
+      const res = await fetch(BANK_URL, { cache: "no-cache" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!Array.isArray(data) || !data.length) throw new Error("empty bank");
+      bankItems = data;
+      bankByLevel = { 0: [], 1: [], 2: [] };
+      for (const it of bankItems) {
+        const lv = typeof it.level === "number" ? it.level : 1;
+        if (bankByLevel[lv]) bankByLevel[lv].push(it);
+      }
+      bankLoadState = "ready";
+    } catch (e) {
+      bankLoadState = "fail";
+      bankItems = [];
+      bankByLevel = { 0: [], 1: [], 2: [] };
+      console.warn("Bank load failed, using generators", e);
+    } finally {
+      setBankLoading(false);
+    }
+  }
+
+  function setQuestionSource(src, restart) {
+    questionSource = src === "gen" ? "gen" : "bank";
+    const bBank = el("btnSrcBank");
+    const bGen = el("btnSrcGen");
+    if (bBank) bBank.classList.toggle("active", questionSource === "bank");
+    if (bGen) bGen.classList.toggle("active", questionSource === "gen");
+    const sub = el("sourceSub");
+    if (sub) {
+      sub.textContent = questionSource === "bank"
+        ? "預設用預製題庫；題庫用盡或載入失敗時自動改用程式模板。"
+        : "使用程式即時模板出題（係數隨機）。";
+    }
+    if (restart) showQuestion();
+  }
   const pick = (a) => a[Math.floor(Math.random() * a.length)];
   const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
   const shuffle = (arr) => {
@@ -1376,9 +1522,20 @@
 
   function makeQuestion() {
     const lv = selectedLevel;
+
+    // Bank mode: prefer unused bank ids for this level
+    if (questionSource === "bank" && bankLoadState === "ready") {
+      const bq = pickFromBank(lv);
+      if (bq) return bq;
+      // pool exhausted unexpectedly — fall through
+      showToast("本題庫本難度已用盡，改用程式模板");
+    } else if (questionSource === "bank" && bankLoadState !== "ready") {
+      // silent / small toast fallback
+      if (bankLoadState === "fail") showToast("題庫載入失敗，改用程式模板");
+    }
+
     const pool = gensByLevel[lv].slice();
     if (!pool.length) {
-      // fallback: any generator
       return pick(generators)();
     }
     const recent = recentByLevel[lv];
@@ -1394,7 +1551,6 @@
     }
 
     let hit = null;
-    // 1) Prefer unused generator indices (not in recent window), not back-to-back
     for (const gi of order) {
       if (gi === lastGi && order.length > 1) continue;
       if (recentGis.has(gi)) continue;
@@ -1402,7 +1558,6 @@
       if (!recentFps.has(hit.fp)) break;
       hit = null;
     }
-    // 2) Allow reused gens but avoid fingerprint collision & back-to-back
     if (!hit) {
       for (const gi of order) {
         if (gi === lastGi && order.length > 1) continue;
@@ -1412,13 +1567,13 @@
         break;
       }
     }
-    // 3) Exhaust: take anything in pool
     if (!hit) hit = build(order[0]);
 
     recent.push({ gi: hit.gi, fp: hit.fp });
     while (recent.length > RECENT_WINDOW) recent.shift();
     lastGenIndexByLevel[lv] = hit.gi;
     hit.q._genIndex = hit.gi;
+    hit.q._fromBank = false;
     return hit.q;
   }
 
@@ -1879,8 +2034,29 @@
         setSelectedLevel(i, true);
       });
     });
+    const bBank = el("btnSrcBank");
+    const bGen = el("btnSrcGen");
+    if (bBank) bBank.addEventListener("click", () => {
+      if (questionSource === "bank") return;
+      setQuestionSource("bank", true);
+    });
+    if (bGen) bGen.addEventListener("click", () => {
+      if (questionSource === "gen") return;
+      setQuestionSource("gen", true);
+    });
     setSelectedLevel(1, false);
-    showQuestion();
+    setQuestionSource("bank", false);
+    // Load bank then first question
+    (async () => {
+      setBankLoading(true);
+      el("questionBox").textContent = "載入題庫中…";
+      await loadBank();
+      setBankLoading(false);
+      if (bankLoadState === "fail" && questionSource === "bank") {
+        showToast("題庫載入失敗，改用程式模板");
+      }
+      showQuestion();
+    })();
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", boot);
@@ -1889,5 +2065,7 @@
   }
 })();
 </script>
+
+<div class="toast" id="appToast" role="status" aria-live="polite"></div>
 </body>
 </html>

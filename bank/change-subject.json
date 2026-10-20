@@ -1,0 +1,3267 @@
+[
+  {
+    "id": "cs-s-001",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $x$ 成為公式 $3x + 5 = 17$ 的主項。",
+    "steps": [
+      {
+        "current": "3x + 5 = 17",
+        "correct": "3x = 12",
+        "distractors": [
+          "3x = 22",
+          "3x = 17",
+          "x + 5 = 17",
+          "3x - 5 = 17"
+        ],
+        "tip": "兩邊減 $5$，將常數移到右邊。"
+      },
+      {
+        "current": "3x = 12",
+        "correct": "x = \\frac{12}{3}",
+        "distractors": [
+          "x = 3(12)",
+          "x = \\frac{3}{12}",
+          "x = 12 - 3",
+          "x = 3 + 12"
+        ],
+        "tip": "兩邊同時除以係數 $3$。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{12}{3}",
+    "accepted": [
+      "x = \\frac{12}{3}",
+      "x=\\frac{12}{3}",
+      "x=(17-5)/3"
+    ]
+  },
+  {
+    "id": "cs-s-002",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $y$ 成為公式 $4y + -3 = 9$ 的主項。",
+    "steps": [
+      {
+        "current": "4y + -3 = 9",
+        "correct": "4y = 12",
+        "distractors": [
+          "4y = 6",
+          "4y = 9",
+          "y + -3 = 9",
+          "4y - -3 = 9"
+        ],
+        "tip": "兩邊減 $-3$，將常數移到右邊。"
+      },
+      {
+        "current": "4y = 12",
+        "correct": "y = \\frac{12}{4}",
+        "distractors": [
+          "y = 4(12)",
+          "y = \\frac{4}{12}",
+          "y = 12 - 4",
+          "y = 4 + 12"
+        ],
+        "tip": "兩邊同時除以係數 $4$。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{12}{4}",
+    "accepted": [
+      "y = \\frac{12}{4}",
+      "y=\\frac{12}{4}",
+      "y=(9--3)/4"
+    ]
+  },
+  {
+    "id": "cs-s-003",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $k$ 成為公式 $5k + 7 = 22$ 的主項。",
+    "steps": [
+      {
+        "current": "5k + 7 = 22",
+        "correct": "5k = 15",
+        "distractors": [
+          "5k = 29",
+          "5k = 22",
+          "k + 7 = 22",
+          "5k - 7 = 22"
+        ],
+        "tip": "兩邊減 $7$，將常數移到右邊。"
+      },
+      {
+        "current": "5k = 15",
+        "correct": "k = \\frac{15}{5}",
+        "distractors": [
+          "k = 5(15)",
+          "k = \\frac{5}{15}",
+          "k = 15 - 5",
+          "k = 5 + 15"
+        ],
+        "tip": "兩邊同時除以係數 $5$。"
+      }
+    ],
+    "finalAnswer": "k = \\frac{15}{5}",
+    "accepted": [
+      "k = \\frac{15}{5}",
+      "k=\\frac{15}{5}",
+      "k=(22-7)/5"
+    ]
+  },
+  {
+    "id": "cs-s-004",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $m$ 成為公式 $2m + -8 = 6$ 的主項。",
+    "steps": [
+      {
+        "current": "2m + -8 = 6",
+        "correct": "2m = 14",
+        "distractors": [
+          "2m = -2",
+          "2m = 6",
+          "m + -8 = 6",
+          "2m - -8 = 6"
+        ],
+        "tip": "兩邊減 $-8$，將常數移到右邊。"
+      },
+      {
+        "current": "2m = 14",
+        "correct": "m = \\frac{14}{2}",
+        "distractors": [
+          "m = 2(14)",
+          "m = \\frac{2}{14}",
+          "m = 14 - 2",
+          "m = 2 + 14"
+        ],
+        "tip": "兩邊同時除以係數 $2$。"
+      }
+    ],
+    "finalAnswer": "m = \\frac{14}{2}",
+    "accepted": [
+      "m = \\frac{14}{2}",
+      "m=\\frac{14}{2}",
+      "m=(6--8)/2"
+    ]
+  },
+  {
+    "id": "cs-s-005",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $n$ 成為公式 $6n + 4 = 28$ 的主項。",
+    "steps": [
+      {
+        "current": "6n + 4 = 28",
+        "correct": "6n = 24",
+        "distractors": [
+          "6n = 32",
+          "6n = 28",
+          "n + 4 = 28",
+          "6n - 4 = 28"
+        ],
+        "tip": "兩邊減 $4$，將常數移到右邊。"
+      },
+      {
+        "current": "6n = 24",
+        "correct": "n = \\frac{24}{6}",
+        "distractors": [
+          "n = 6(24)",
+          "n = \\frac{6}{24}",
+          "n = 24 - 6",
+          "n = 6 + 24"
+        ],
+        "tip": "兩邊同時除以係數 $6$。"
+      }
+    ],
+    "finalAnswer": "n = \\frac{24}{6}",
+    "accepted": [
+      "n = \\frac{24}{6}",
+      "n=\\frac{24}{6}",
+      "n=(28-4)/6"
+    ]
+  },
+  {
+    "id": "cs-s-006",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $p$ 成為公式 $7p + -2 = 19$ 的主項。",
+    "steps": [
+      {
+        "current": "7p + -2 = 19",
+        "correct": "7p = 21",
+        "distractors": [
+          "7p = 17",
+          "7p = 19",
+          "p + -2 = 19",
+          "7p - -2 = 19"
+        ],
+        "tip": "兩邊減 $-2$，將常數移到右邊。"
+      },
+      {
+        "current": "7p = 21",
+        "correct": "p = \\frac{21}{7}",
+        "distractors": [
+          "p = 7(21)",
+          "p = \\frac{7}{21}",
+          "p = 21 - 7",
+          "p = 7 + 21"
+        ],
+        "tip": "兩邊同時除以係數 $7$。"
+      }
+    ],
+    "finalAnswer": "p = \\frac{21}{7}",
+    "accepted": [
+      "p = \\frac{21}{7}",
+      "p=\\frac{21}{7}",
+      "p=(19--2)/7"
+    ]
+  },
+  {
+    "id": "cs-s-007",
+    "level": 0,
+    "type": "一次式移項除係數",
+    "errTag": "一次式／移項除係數",
+    "prompt": "令 $t$ 成為公式 $8t + 11 = 35$ 的主項。",
+    "steps": [
+      {
+        "current": "8t + 11 = 35",
+        "correct": "8t = 24",
+        "distractors": [
+          "8t = 46",
+          "8t = 35",
+          "t + 11 = 35",
+          "8t - 11 = 35"
+        ],
+        "tip": "兩邊減 $11$，將常數移到右邊。"
+      },
+      {
+        "current": "8t = 24",
+        "correct": "t = \\frac{24}{8}",
+        "distractors": [
+          "t = 8(24)",
+          "t = \\frac{8}{24}",
+          "t = 24 - 8",
+          "t = 8 + 24"
+        ],
+        "tip": "兩邊同時除以係數 $8$。"
+      }
+    ],
+    "finalAnswer": "t = \\frac{24}{8}",
+    "accepted": [
+      "t = \\frac{24}{8}",
+      "t=\\frac{24}{8}",
+      "t=(35-11)/8"
+    ]
+  },
+  {
+    "id": "cs-s-008",
+    "level": 0,
+    "type": "單括號除係數",
+    "errTag": "去括號／分配",
+    "prompt": "令 $x$ 成為公式 $4(x + 3) = 28$ 的主項。",
+    "steps": [
+      {
+        "current": "4(x + 3) = 28",
+        "correct": "x + 3 = \\frac{28}{4}",
+        "distractors": [
+          "x + 3 = 28",
+          "4x + 3 = 28",
+          "x + 43 = 28",
+          "4x + 43 = 28"
+        ],
+        "tip": "兩邊同時除以 $4$。"
+      },
+      {
+        "current": "x + 3 = \\frac{28}{4}",
+        "correct": "x = \\frac{28}{4} - 3",
+        "distractors": [
+          "x = \\frac{28}{4} + 3",
+          "x = 428 - 3",
+          "x = \\frac{28 - 3}{4}",
+          "x = 28 - 43"
+        ],
+        "tip": "兩邊減 $3$。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{28}{4} - 3",
+    "accepted": [
+      "x = \\frac{28}{4} - 3",
+      "x=\\frac{28}{4}-3",
+      "x=(28-12)/4"
+    ]
+  },
+  {
+    "id": "cs-s-009",
+    "level": 0,
+    "type": "單括號除係數",
+    "errTag": "去括號／分配",
+    "prompt": "令 $y$ 成為公式 $5(y + -2) = 20$ 的主項。",
+    "steps": [
+      {
+        "current": "5(y + -2) = 20",
+        "correct": "y + -2 = \\frac{20}{5}",
+        "distractors": [
+          "y + -2 = 20",
+          "5y + -2 = 20",
+          "y + 5-2 = 20",
+          "5y + 5-2 = 20"
+        ],
+        "tip": "兩邊同時除以 $5$。"
+      },
+      {
+        "current": "y + -2 = \\frac{20}{5}",
+        "correct": "y = \\frac{20}{5} - -2",
+        "distractors": [
+          "y = \\frac{20}{5} + -2",
+          "y = 520 - -2",
+          "y = \\frac{20 - -2}{5}",
+          "y = 20 - 5-2"
+        ],
+        "tip": "兩邊減 $-2$。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{20}{5} - -2",
+    "accepted": [
+      "y = \\frac{20}{5} - -2",
+      "y=\\frac{20}{5}--2",
+      "y=(20--10)/5"
+    ]
+  },
+  {
+    "id": "cs-s-010",
+    "level": 0,
+    "type": "單括號除係數",
+    "errTag": "去括號／分配",
+    "prompt": "令 $r$ 成為公式 $3(r + 6) = 27$ 的主項。",
+    "steps": [
+      {
+        "current": "3(r + 6) = 27",
+        "correct": "r + 6 = \\frac{27}{3}",
+        "distractors": [
+          "r + 6 = 27",
+          "3r + 6 = 27",
+          "r + 36 = 27",
+          "3r + 36 = 27"
+        ],
+        "tip": "兩邊同時除以 $3$。"
+      },
+      {
+        "current": "r + 6 = \\frac{27}{3}",
+        "correct": "r = \\frac{27}{3} - 6",
+        "distractors": [
+          "r = \\frac{27}{3} + 6",
+          "r = 327 - 6",
+          "r = \\frac{27 - 6}{3}",
+          "r = 27 - 36"
+        ],
+        "tip": "兩邊減 $6$。"
+      }
+    ],
+    "finalAnswer": "r = \\frac{27}{3} - 6",
+    "accepted": [
+      "r = \\frac{27}{3} - 6",
+      "r=\\frac{27}{3}-6",
+      "r=(27-18)/3"
+    ]
+  },
+  {
+    "id": "cs-s-011",
+    "level": 0,
+    "type": "單括號除係數",
+    "errTag": "去括號／分配",
+    "prompt": "令 $s$ 成為公式 $6(s + 1) = 42$ 的主項。",
+    "steps": [
+      {
+        "current": "6(s + 1) = 42",
+        "correct": "s + 1 = \\frac{42}{6}",
+        "distractors": [
+          "s + 1 = 42",
+          "6s + 1 = 42",
+          "s + 61 = 42",
+          "6s + 61 = 42"
+        ],
+        "tip": "兩邊同時除以 $6$。"
+      },
+      {
+        "current": "s + 1 = \\frac{42}{6}",
+        "correct": "s = \\frac{42}{6} - 1",
+        "distractors": [
+          "s = \\frac{42}{6} + 1",
+          "s = 642 - 1",
+          "s = \\frac{42 - 1}{6}",
+          "s = 42 - 61"
+        ],
+        "tip": "兩邊減 $1$。"
+      }
+    ],
+    "finalAnswer": "s = \\frac{42}{6} - 1",
+    "accepted": [
+      "s = \\frac{42}{6} - 1",
+      "s=\\frac{42}{6}-1",
+      "s=(42-6)/6"
+    ]
+  },
+  {
+    "id": "cs-s-012",
+    "level": 0,
+    "type": "單括號除係數",
+    "errTag": "去括號／分配",
+    "prompt": "令 $w$ 成為公式 $2(w + -5) = 14$ 的主項。",
+    "steps": [
+      {
+        "current": "2(w + -5) = 14",
+        "correct": "w + -5 = \\frac{14}{2}",
+        "distractors": [
+          "w + -5 = 14",
+          "2w + -5 = 14",
+          "w + 2-5 = 14",
+          "2w + 2-5 = 14"
+        ],
+        "tip": "兩邊同時除以 $2$。"
+      },
+      {
+        "current": "w + -5 = \\frac{14}{2}",
+        "correct": "w = \\frac{14}{2} - -5",
+        "distractors": [
+          "w = \\frac{14}{2} + -5",
+          "w = 214 - -5",
+          "w = \\frac{14 - -5}{2}",
+          "w = 14 - 2-5"
+        ],
+        "tip": "兩邊減 $-5$。"
+      }
+    ],
+    "finalAnswer": "w = \\frac{14}{2} - -5",
+    "accepted": [
+      "w = \\frac{14}{2} - -5",
+      "w=\\frac{14}{2}--5",
+      "w=(14--10)/2"
+    ]
+  },
+  {
+    "id": "cs-s-013",
+    "level": 0,
+    "type": "簡單清分母",
+    "errTag": "分式清分母",
+    "prompt": "令 $x$ 成為公式 $\\frac{x}{3} + 4 = 7$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{x}{3} + 4 = 7",
+        "correct": "\\frac{x}{3} = 3",
+        "distractors": [
+          "\\frac{x}{3} = 11",
+          "\\frac{x}{3} = 7",
+          "x + 4 = 7",
+          "x = 7 - 4"
+        ],
+        "tip": "兩邊減 $4$。"
+      },
+      {
+        "current": "\\frac{x}{3} = 3",
+        "correct": "x = 9",
+        "distractors": [
+          "x = \\frac{3}{3}",
+          "x = 3",
+          "x = 3 + 3",
+          "x = 3(11)"
+        ],
+        "tip": "兩邊乘 $3$ 清分母。"
+      }
+    ],
+    "finalAnswer": "x = 9",
+    "accepted": [
+      "x = 9",
+      "x=9"
+    ]
+  },
+  {
+    "id": "cs-s-014",
+    "level": 0,
+    "type": "簡單清分母",
+    "errTag": "分式清分母",
+    "prompt": "令 $y$ 成為公式 $\\frac{y}{5} + 2 = 6$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{y}{5} + 2 = 6",
+        "correct": "\\frac{y}{5} = 4",
+        "distractors": [
+          "\\frac{y}{5} = 8",
+          "\\frac{y}{5} = 6",
+          "y + 2 = 6",
+          "y = 6 - 2"
+        ],
+        "tip": "兩邊減 $2$。"
+      },
+      {
+        "current": "\\frac{y}{5} = 4",
+        "correct": "y = 20",
+        "distractors": [
+          "y = \\frac{4}{5}",
+          "y = 4",
+          "y = 5 + 4",
+          "y = 5(8)"
+        ],
+        "tip": "兩邊乘 $5$ 清分母。"
+      }
+    ],
+    "finalAnswer": "y = 20",
+    "accepted": [
+      "y = 20",
+      "y=20"
+    ]
+  },
+  {
+    "id": "cs-s-015",
+    "level": 0,
+    "type": "簡單清分母",
+    "errTag": "分式清分母",
+    "prompt": "令 $k$ 成為公式 $\\frac{k}{4} + -1 = 5$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{k}{4} + -1 = 5",
+        "correct": "\\frac{k}{4} = 6",
+        "distractors": [
+          "\\frac{k}{4} = 4",
+          "\\frac{k}{4} = 5",
+          "k + -1 = 5",
+          "k = 5 - -1"
+        ],
+        "tip": "兩邊減 $-1$。"
+      },
+      {
+        "current": "\\frac{k}{4} = 6",
+        "correct": "k = 24",
+        "distractors": [
+          "k = \\frac{6}{4}",
+          "k = 6",
+          "k = 4 + 6",
+          "k = 4(4)"
+        ],
+        "tip": "兩邊乘 $4$ 清分母。"
+      }
+    ],
+    "finalAnswer": "k = 24",
+    "accepted": [
+      "k = 24",
+      "k=24"
+    ]
+  },
+  {
+    "id": "cs-s-016",
+    "level": 0,
+    "type": "簡單清分母",
+    "errTag": "分式清分母",
+    "prompt": "令 $m$ 成為公式 $\\frac{m}{2} + 3 = 8$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{m}{2} + 3 = 8",
+        "correct": "\\frac{m}{2} = 5",
+        "distractors": [
+          "\\frac{m}{2} = 11",
+          "\\frac{m}{2} = 8",
+          "m + 3 = 8",
+          "m = 8 - 3"
+        ],
+        "tip": "兩邊減 $3$。"
+      },
+      {
+        "current": "\\frac{m}{2} = 5",
+        "correct": "m = 10",
+        "distractors": [
+          "m = \\frac{5}{2}",
+          "m = 5",
+          "m = 2 + 5",
+          "m = 2(11)"
+        ],
+        "tip": "兩邊乘 $2$ 清分母。"
+      }
+    ],
+    "finalAnswer": "m = 10",
+    "accepted": [
+      "m = 10",
+      "m=10"
+    ]
+  },
+  {
+    "id": "cs-s-017",
+    "level": 0,
+    "type": "線性公式（勻加速）",
+    "errTag": "公式移項（線性）",
+    "prompt": "令 $t$ 成為公式 $v = u + at$ 的主項。",
+    "steps": [
+      {
+        "current": "v = u + at",
+        "correct": "v - u = at",
+        "distractors": [
+          "v + u = at",
+          "v = at - u",
+          "v - at = u",
+          "u - v = at"
+        ],
+        "tip": "兩邊減 $u$。"
+      },
+      {
+        "current": "v - u = at",
+        "correct": "t = \\frac{v - u}{a}",
+        "distractors": [
+          "t = a(v - u)",
+          "t = \\frac{a}{v - u}",
+          "t = \\frac{v + u}{a}",
+          "t = v - u - a"
+        ],
+        "tip": "兩邊除以 $a$。"
+      }
+    ],
+    "finalAnswer": "t = \\frac{v - u}{a}",
+    "accepted": [
+      "t = \\frac{v - u}{a}",
+      "t=(v-u)/a",
+      "t=\\frac{v-u}{a}"
+    ]
+  },
+  {
+    "id": "cs-s-018",
+    "level": 0,
+    "type": "溫度換算",
+    "errTag": "一次公式移項",
+    "prompt": "令 $C$ 成為公式 $F = \\frac{9}{5}C + 32$ 的主項。",
+    "steps": [
+      {
+        "current": "F = \\frac{9}{5}C + 32",
+        "correct": "F - 32 = \\frac{9}{5}C",
+        "distractors": [
+          "F + 32 = \\frac{9}{5}C",
+          "F = \\frac{9}{5}C - 32",
+          "\\frac{9}{5}F = C + 32",
+          "F - 32 = \\frac{5}{9}C"
+        ],
+        "tip": "兩邊減 $32$。"
+      },
+      {
+        "current": "F - 32 = \\frac{9}{5}C",
+        "correct": "C = \\frac{5}{9}(F - 32)",
+        "distractors": [
+          "C = \\frac{9}{5}(F - 32)",
+          "C = \\frac{5}{9}F - 32",
+          "C = \\frac{9}{5}F + 32",
+          "C = 5(F - 32)/9"
+        ],
+        "tip": "兩邊乘 $\\frac{5}{9}$。"
+      }
+    ],
+    "finalAnswer": "C = \\frac{5}{9}(F - 32)",
+    "accepted": [
+      "C = \\frac{5}{9}(F - 32)",
+      "C=\\frac{5}{9}(F-32)",
+      "C=\\frac{5(F-32)}{9}"
+    ]
+  },
+  {
+    "id": "cs-s-019",
+    "level": 0,
+    "type": "比例式改寫",
+    "errTag": "比例式／交叉相乘",
+    "prompt": "令 $b$ 成為公式 $\\frac{2}{b} = \\frac{5}{10}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{2}{b} = \\frac{5}{10}",
+        "correct": "210 = 5b",
+        "distractors": [
+          "25 = b10",
+          "2b = 510",
+          "2 + 10 = 5 + b",
+          "2/5 = b/10"
+        ],
+        "tip": "交叉相乘。"
+      },
+      {
+        "current": "210 = 5b",
+        "correct": "b = \\frac{210}{5}",
+        "distractors": [
+          "b = \\frac{5}{210}",
+          "b = 2105",
+          "b = \\frac{510}{2}",
+          "b = 210 - 5"
+        ],
+        "tip": "兩邊除以 $5$。"
+      }
+    ],
+    "finalAnswer": "b = \\frac{210}{5}",
+    "accepted": [
+      "b = \\frac{210}{5}",
+      "b=\\frac{210}{5}"
+    ]
+  },
+  {
+    "id": "cs-s-020",
+    "level": 0,
+    "type": "比例式改寫",
+    "errTag": "比例式／交叉相乘",
+    "prompt": "令 $q$ 成為公式 $\\frac{3}{q} = \\frac{4}{12}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{3}{q} = \\frac{4}{12}",
+        "correct": "312 = 4q",
+        "distractors": [
+          "34 = q12",
+          "3q = 412",
+          "3 + 12 = 4 + q",
+          "3/4 = q/12"
+        ],
+        "tip": "交叉相乘。"
+      },
+      {
+        "current": "312 = 4q",
+        "correct": "q = \\frac{312}{4}",
+        "distractors": [
+          "q = \\frac{4}{312}",
+          "q = 3124",
+          "q = \\frac{412}{3}",
+          "q = 312 - 4"
+        ],
+        "tip": "兩邊除以 $4$。"
+      }
+    ],
+    "finalAnswer": "q = \\frac{312}{4}",
+    "accepted": [
+      "q = \\frac{312}{4}",
+      "q=\\frac{312}{4}"
+    ]
+  },
+  {
+    "id": "cs-s-021",
+    "level": 0,
+    "type": "比例式改寫",
+    "errTag": "比例式／交叉相乘",
+    "prompt": "令 $h$ 成為公式 $\\frac{5}{h} = \\frac{6}{15}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{5}{h} = \\frac{6}{15}",
+        "correct": "515 = 6h",
+        "distractors": [
+          "56 = h15",
+          "5h = 615",
+          "5 + 15 = 6 + h",
+          "5/6 = h/15"
+        ],
+        "tip": "交叉相乘。"
+      },
+      {
+        "current": "515 = 6h",
+        "correct": "h = \\frac{515}{6}",
+        "distractors": [
+          "h = \\frac{6}{515}",
+          "h = 5156",
+          "h = \\frac{615}{5}",
+          "h = 515 - 6"
+        ],
+        "tip": "兩邊除以 $6$。"
+      }
+    ],
+    "finalAnswer": "h = \\frac{515}{6}",
+    "accepted": [
+      "h = \\frac{515}{6}",
+      "h=\\frac{515}{6}"
+    ]
+  },
+  {
+    "id": "cs-s-022",
+    "level": 0,
+    "type": "開方求主項",
+    "errTag": "開方／平方",
+    "prompt": "令 $r$ 成為公式 $A = \\pi r^{2}$ 的主項。",
+    "steps": [
+      {
+        "current": "A = \\pi r^{2}",
+        "correct": "r^{2} = \\frac{A}{\\pi}",
+        "distractors": [
+          "r^{2} = A\\pi",
+          "r = \\frac{A}{\\pi}",
+          "r^{2} = A - \\pi",
+          "\\pi r = A"
+        ],
+        "tip": "兩邊除以 $\\pi$。"
+      },
+      {
+        "current": "r^{2} = \\frac{A}{\\pi}",
+        "correct": "r = \\sqrt{\\frac{A}{\\pi}}",
+        "distractors": [
+          "r = \\frac{A}{\\pi}",
+          "r = \\left(\\frac{A}{\\pi}\\right)^{2}",
+          "r = \\sqrt{A\\pi}",
+          "r = \\frac{\\sqrt{A}}{\\pi}"
+        ],
+        "tip": "兩邊開平方（取正根）。"
+      }
+    ],
+    "finalAnswer": "r = \\sqrt{\\frac{A}{\\pi}}",
+    "accepted": [
+      "r = \\sqrt{\\frac{A}{\\pi}}",
+      "r=\\sqrt{A/\\pi}",
+      "r=\\sqrt{\\frac{A}{\\pi}}"
+    ]
+  },
+  {
+    "id": "cs-dse-2016-a01",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2016 卷一 Q2（題型）",
+    "prompt": "令 $b$ 成為公式 $3(b + 2) = 3 + b$ 的主項。",
+    "steps": [
+      {
+        "current": "3(b + 2) = 3 + b",
+        "correct": "3b + 6 = 3 + b",
+        "distractors": [
+          "3b + 2 = 3 + b",
+          "b + 2 = 3 + b",
+          "3b + 2 = 3b",
+          "3b + 32 = 3b"
+        ],
+        "tip": "左邊展開：$3(b+2)=3b+6$。"
+      },
+      {
+        "current": "3b + 6 = 3 + b",
+        "correct": "3b - b = 3 - 6",
+        "distractors": [
+          "3b + b = 3 + 6",
+          "3b - b = 3 + 6",
+          "3b = 3 + b - 6",
+          "3b - 3 = b - 6"
+        ],
+        "tip": "含 $b$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "3b - b = 3 - 6",
+        "correct": "b(3 - 1) = 3(1 - 2)",
+        "distractors": [
+          "b(3 + 1) = 3(1 - 2)",
+          "b(3 - 1) = 3(1 + 2)",
+          "b3 - b = 3 - 2",
+          "b = 3 - 6"
+        ],
+        "tip": "左邊抽 $b$；右邊寫 $3(1-2)$。"
+      },
+      {
+        "current": "b(3 - 1) = 3(1 - 2)",
+        "correct": "b = \\frac{3(1 - 2)}{3 - 1}",
+        "distractors": [
+          "b = \\frac{3 - 1}{3(1 - 2)}",
+          "b = 3(1 - 2)(3 - 1)",
+          "b = \\frac{3(1 + 2)}{3 - 1}",
+          "b = \\frac{1 - 2}{3 - 1}"
+        ],
+        "tip": "兩邊除以 $(3-1)$。"
+      }
+    ],
+    "finalAnswer": "b = \\frac{3(1 - 2)}{3 - 1}",
+    "accepted": [
+      "b = \\frac{3(1 - 2)}{3 - 1}",
+      "b=\\frac{3(1-2)}{3-1}",
+      "b=\\frac{-3}{3-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2019-a02",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2019 卷一 Q1（題型）",
+    "prompt": "令 $m$ 成為公式 $4(m + 3) = 4 + m$ 的主項。",
+    "steps": [
+      {
+        "current": "4(m + 3) = 4 + m",
+        "correct": "4m + 12 = 4 + m",
+        "distractors": [
+          "4m + 3 = 4 + m",
+          "m + 3 = 4 + m",
+          "4m + 3 = 4m",
+          "4m + 43 = 4m"
+        ],
+        "tip": "左邊展開：$4(m+3)=4m+12$。"
+      },
+      {
+        "current": "4m + 12 = 4 + m",
+        "correct": "4m - m = 4 - 12",
+        "distractors": [
+          "4m + m = 4 + 12",
+          "4m - m = 4 + 12",
+          "4m = 4 + m - 12",
+          "4m - 4 = m - 12"
+        ],
+        "tip": "含 $m$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "4m - m = 4 - 12",
+        "correct": "m(4 - 1) = 4(1 - 3)",
+        "distractors": [
+          "m(4 + 1) = 4(1 - 3)",
+          "m(4 - 1) = 4(1 + 3)",
+          "m4 - m = 4 - 3",
+          "m = 4 - 12"
+        ],
+        "tip": "左邊抽 $m$；右邊寫 $4(1-3)$。"
+      },
+      {
+        "current": "m(4 - 1) = 4(1 - 3)",
+        "correct": "m = \\frac{4(1 - 3)}{4 - 1}",
+        "distractors": [
+          "m = \\frac{4 - 1}{4(1 - 3)}",
+          "m = 4(1 - 3)(4 - 1)",
+          "m = \\frac{4(1 + 3)}{4 - 1}",
+          "m = \\frac{1 - 3}{4 - 1}"
+        ],
+        "tip": "兩邊除以 $(4-1)$。"
+      }
+    ],
+    "finalAnswer": "m = \\frac{4(1 - 3)}{4 - 1}",
+    "accepted": [
+      "m = \\frac{4(1 - 3)}{4 - 1}",
+      "m=\\frac{4(1-3)}{4-1}",
+      "m=\\frac{-8}{4-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-sp-a03",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 樣本試卷 卷一 Q2（題型）",
+    "prompt": "令 $n$ 成為公式 $5(n + 2) = 5 + n$ 的主項。",
+    "steps": [
+      {
+        "current": "5(n + 2) = 5 + n",
+        "correct": "5n + 10 = 5 + n",
+        "distractors": [
+          "5n + 2 = 5 + n",
+          "n + 2 = 5 + n",
+          "5n + 2 = 5n",
+          "5n + 52 = 5n"
+        ],
+        "tip": "左邊展開：$5(n+2)=5n+10$。"
+      },
+      {
+        "current": "5n + 10 = 5 + n",
+        "correct": "5n - n = 5 - 10",
+        "distractors": [
+          "5n + n = 5 + 10",
+          "5n - n = 5 + 10",
+          "5n = 5 + n - 10",
+          "5n - 5 = n - 10"
+        ],
+        "tip": "含 $n$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "5n - n = 5 - 10",
+        "correct": "n(5 - 1) = 5(1 - 2)",
+        "distractors": [
+          "n(5 + 1) = 5(1 - 2)",
+          "n(5 - 1) = 5(1 + 2)",
+          "n5 - n = 5 - 2",
+          "n = 5 - 10"
+        ],
+        "tip": "左邊抽 $n$；右邊寫 $5(1-2)$。"
+      },
+      {
+        "current": "n(5 - 1) = 5(1 - 2)",
+        "correct": "n = \\frac{5(1 - 2)}{5 - 1}",
+        "distractors": [
+          "n = \\frac{5 - 1}{5(1 - 2)}",
+          "n = 5(1 - 2)(5 - 1)",
+          "n = \\frac{5(1 + 2)}{5 - 1}",
+          "n = \\frac{1 - 2}{5 - 1}"
+        ],
+        "tip": "兩邊除以 $(5-1)$。"
+      }
+    ],
+    "finalAnswer": "n = \\frac{5(1 - 2)}{5 - 1}",
+    "accepted": [
+      "n = \\frac{5(1 - 2)}{5 - 1}",
+      "n=\\frac{5(1-2)}{5-1}",
+      "n=\\frac{-5}{5-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2018-a04",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2018 卷一 Q1（題型）",
+    "prompt": "令 $p$ 成為公式 $2(p + 4) = 2 + p$ 的主項。",
+    "steps": [
+      {
+        "current": "2(p + 4) = 2 + p",
+        "correct": "2p + 8 = 2 + p",
+        "distractors": [
+          "2p + 4 = 2 + p",
+          "p + 4 = 2 + p",
+          "2p + 4 = 2p",
+          "2p + 24 = 2p"
+        ],
+        "tip": "左邊展開：$2(p+4)=2p+8$。"
+      },
+      {
+        "current": "2p + 8 = 2 + p",
+        "correct": "2p - p = 2 - 8",
+        "distractors": [
+          "2p + p = 2 + 8",
+          "2p - p = 2 + 8",
+          "2p = 2 + p - 8",
+          "2p - 2 = p - 8"
+        ],
+        "tip": "含 $p$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "2p - p = 2 - 8",
+        "correct": "p(2 - 1) = 2(1 - 4)",
+        "distractors": [
+          "p(2 + 1) = 2(1 - 4)",
+          "p(2 - 1) = 2(1 + 4)",
+          "p2 - p = 2 - 4",
+          "p = 2 - 8"
+        ],
+        "tip": "左邊抽 $p$；右邊寫 $2(1-4)$。"
+      },
+      {
+        "current": "p(2 - 1) = 2(1 - 4)",
+        "correct": "p = \\frac{2(1 - 4)}{2 - 1}",
+        "distractors": [
+          "p = \\frac{2 - 1}{2(1 - 4)}",
+          "p = 2(1 - 4)(2 - 1)",
+          "p = \\frac{2(1 + 4)}{2 - 1}",
+          "p = \\frac{1 - 4}{2 - 1}"
+        ],
+        "tip": "兩邊除以 $(2-1)$。"
+      }
+    ],
+    "finalAnswer": "p = \\frac{2(1 - 4)}{2 - 1}",
+    "accepted": [
+      "p = \\frac{2(1 - 4)}{2 - 1}",
+      "p=\\frac{2(1-4)}{2-1}",
+      "p=\\frac{-6}{2-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2014-a05",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2014 卷一 Q2（題型）",
+    "prompt": "令 $q$ 成為公式 $6(q + 3) = 6 + q$ 的主項。",
+    "steps": [
+      {
+        "current": "6(q + 3) = 6 + q",
+        "correct": "6q + 18 = 6 + q",
+        "distractors": [
+          "6q + 3 = 6 + q",
+          "q + 3 = 6 + q",
+          "6q + 3 = 6q",
+          "6q + 63 = 6q"
+        ],
+        "tip": "左邊展開：$6(q+3)=6q+18$。"
+      },
+      {
+        "current": "6q + 18 = 6 + q",
+        "correct": "6q - q = 6 - 18",
+        "distractors": [
+          "6q + q = 6 + 18",
+          "6q - q = 6 + 18",
+          "6q = 6 + q - 18",
+          "6q - 6 = q - 18"
+        ],
+        "tip": "含 $q$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "6q - q = 6 - 18",
+        "correct": "q(6 - 1) = 6(1 - 3)",
+        "distractors": [
+          "q(6 + 1) = 6(1 - 3)",
+          "q(6 - 1) = 6(1 + 3)",
+          "q6 - q = 6 - 3",
+          "q = 6 - 18"
+        ],
+        "tip": "左邊抽 $q$；右邊寫 $6(1-3)$。"
+      },
+      {
+        "current": "q(6 - 1) = 6(1 - 3)",
+        "correct": "q = \\frac{6(1 - 3)}{6 - 1}",
+        "distractors": [
+          "q = \\frac{6 - 1}{6(1 - 3)}",
+          "q = 6(1 - 3)(6 - 1)",
+          "q = \\frac{6(1 + 3)}{6 - 1}",
+          "q = \\frac{1 - 3}{6 - 1}"
+        ],
+        "tip": "兩邊除以 $(6-1)$。"
+      }
+    ],
+    "finalAnswer": "q = \\frac{6(1 - 3)}{6 - 1}",
+    "accepted": [
+      "q = \\frac{6(1 - 3)}{6 - 1}",
+      "q=\\frac{6(1-3)}{6-1}",
+      "q=\\frac{-12}{6-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2017-a06",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2017 卷一 Q1（題型）",
+    "prompt": "令 $s$ 成為公式 $3(s + 5) = 3 + s$ 的主項。",
+    "steps": [
+      {
+        "current": "3(s + 5) = 3 + s",
+        "correct": "3s + 15 = 3 + s",
+        "distractors": [
+          "3s + 5 = 3 + s",
+          "s + 5 = 3 + s",
+          "3s + 5 = 3s",
+          "3s + 35 = 3s"
+        ],
+        "tip": "左邊展開：$3(s+5)=3s+15$。"
+      },
+      {
+        "current": "3s + 15 = 3 + s",
+        "correct": "3s - s = 3 - 15",
+        "distractors": [
+          "3s + s = 3 + 15",
+          "3s - s = 3 + 15",
+          "3s = 3 + s - 15",
+          "3s - 3 = s - 15"
+        ],
+        "tip": "含 $s$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "3s - s = 3 - 15",
+        "correct": "s(3 - 1) = 3(1 - 5)",
+        "distractors": [
+          "s(3 + 1) = 3(1 - 5)",
+          "s(3 - 1) = 3(1 + 5)",
+          "s3 - s = 3 - 5",
+          "s = 3 - 15"
+        ],
+        "tip": "左邊抽 $s$；右邊寫 $3(1-5)$。"
+      },
+      {
+        "current": "s(3 - 1) = 3(1 - 5)",
+        "correct": "s = \\frac{3(1 - 5)}{3 - 1}",
+        "distractors": [
+          "s = \\frac{3 - 1}{3(1 - 5)}",
+          "s = 3(1 - 5)(3 - 1)",
+          "s = \\frac{3(1 + 5)}{3 - 1}",
+          "s = \\frac{1 - 5}{3 - 1}"
+        ],
+        "tip": "兩邊除以 $(3-1)$。"
+      }
+    ],
+    "finalAnswer": "s = \\frac{3(1 - 5)}{3 - 1}",
+    "accepted": [
+      "s = \\frac{3(1 - 5)}{3 - 1}",
+      "s=\\frac{3(1-5)}{3-1}",
+      "s=\\frac{-12}{3-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2015-a07",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2015 卷一 Q2（題型）",
+    "prompt": "令 $t$ 成為公式 $4(t + 2) = 4 + t$ 的主項。",
+    "steps": [
+      {
+        "current": "4(t + 2) = 4 + t",
+        "correct": "4t + 8 = 4 + t",
+        "distractors": [
+          "4t + 2 = 4 + t",
+          "t + 2 = 4 + t",
+          "4t + 2 = 4t",
+          "4t + 42 = 4t"
+        ],
+        "tip": "左邊展開：$4(t+2)=4t+8$。"
+      },
+      {
+        "current": "4t + 8 = 4 + t",
+        "correct": "4t - t = 4 - 8",
+        "distractors": [
+          "4t + t = 4 + 8",
+          "4t - t = 4 + 8",
+          "4t = 4 + t - 8",
+          "4t - 4 = t - 8"
+        ],
+        "tip": "含 $t$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "4t - t = 4 - 8",
+        "correct": "t(4 - 1) = 4(1 - 2)",
+        "distractors": [
+          "t(4 + 1) = 4(1 - 2)",
+          "t(4 - 1) = 4(1 + 2)",
+          "t4 - t = 4 - 2",
+          "t = 4 - 8"
+        ],
+        "tip": "左邊抽 $t$；右邊寫 $4(1-2)$。"
+      },
+      {
+        "current": "t(4 - 1) = 4(1 - 2)",
+        "correct": "t = \\frac{4(1 - 2)}{4 - 1}",
+        "distractors": [
+          "t = \\frac{4 - 1}{4(1 - 2)}",
+          "t = 4(1 - 2)(4 - 1)",
+          "t = \\frac{4(1 + 2)}{4 - 1}",
+          "t = \\frac{1 - 2}{4 - 1}"
+        ],
+        "tip": "兩邊除以 $(4-1)$。"
+      }
+    ],
+    "finalAnswer": "t = \\frac{4(1 - 2)}{4 - 1}",
+    "accepted": [
+      "t = \\frac{4(1 - 2)}{4 - 1}",
+      "t=\\frac{4(1-2)}{4-1}",
+      "t=\\frac{-4}{4-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2013-a08",
+    "level": 1,
+    "type": "兩邊有主項／展開抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2013 卷一 Q1（題型）",
+    "prompt": "令 $h$ 成為公式 $5(h + 4) = 5 + h$ 的主項。",
+    "steps": [
+      {
+        "current": "5(h + 4) = 5 + h",
+        "correct": "5h + 20 = 5 + h",
+        "distractors": [
+          "5h + 4 = 5 + h",
+          "h + 4 = 5 + h",
+          "5h + 4 = 5h",
+          "5h + 54 = 5h"
+        ],
+        "tip": "左邊展開：$5(h+4)=5h+20$。"
+      },
+      {
+        "current": "5h + 20 = 5 + h",
+        "correct": "5h - h = 5 - 20",
+        "distractors": [
+          "5h + h = 5 + 20",
+          "5h - h = 5 + 20",
+          "5h = 5 + h - 20",
+          "5h - 5 = h - 20"
+        ],
+        "tip": "含 $h$ 嘅項移左，其餘移右。"
+      },
+      {
+        "current": "5h - h = 5 - 20",
+        "correct": "h(5 - 1) = 5(1 - 4)",
+        "distractors": [
+          "h(5 + 1) = 5(1 - 4)",
+          "h(5 - 1) = 5(1 + 4)",
+          "h5 - h = 5 - 4",
+          "h = 5 - 20"
+        ],
+        "tip": "左邊抽 $h$；右邊寫 $5(1-4)$。"
+      },
+      {
+        "current": "h(5 - 1) = 5(1 - 4)",
+        "correct": "h = \\frac{5(1 - 4)}{5 - 1}",
+        "distractors": [
+          "h = \\frac{5 - 1}{5(1 - 4)}",
+          "h = 5(1 - 4)(5 - 1)",
+          "h = \\frac{5(1 + 4)}{5 - 1}",
+          "h = \\frac{1 - 4}{5 - 1}"
+        ],
+        "tip": "兩邊除以 $(5-1)$。"
+      }
+    ],
+    "finalAnswer": "h = \\frac{5(1 - 4)}{5 - 1}",
+    "accepted": [
+      "h = \\frac{5(1 - 4)}{5 - 1}",
+      "h=\\frac{5(1-4)}{5-1}",
+      "h=\\frac{-15}{5-1}"
+    ]
+  },
+  {
+    "id": "cs-dse-2019-a09",
+    "level": 1,
+    "type": "兩邊括號／抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2019 卷一 Q2（題型）",
+    "prompt": "令 $x$ 成為公式 $p(x + 2) = r(3x - 4)$ 的主項。",
+    "steps": [
+      {
+        "current": "p(x + 2) = r(3x - 4)",
+        "correct": "px + p2 = r3x - r4",
+        "distractors": [
+          "px + 2 = r3x - 4",
+          "px + p2 = r3x - 4",
+          "x + 2 = 3x - 4",
+          "px + 2 = 3rx - r4"
+        ],
+        "tip": "兩邊展開分配律。"
+      },
+      {
+        "current": "px + p2 = r3x - r4",
+        "correct": "px - 3rx = -r4 - p2",
+        "distractors": [
+          "px + 3rx = -r4 - p2",
+          "px - 3rx = -r4 + p2",
+          "px = 3rx - r4 - p2",
+          "px - 3rx = r4 + p2"
+        ],
+        "tip": "含 $x$ 項移左，常數移右。"
+      },
+      {
+        "current": "px - 3rx = -r4 - p2",
+        "correct": "x(p - 3r) = -r4 - p2",
+        "distractors": [
+          "x(p + 3r) = -r4 - p2",
+          "x(p - 3r) = r4 + p2",
+          "xp - 3r = -r4 - p2",
+          "x = -r4 - p2"
+        ],
+        "tip": "左邊抽 $x$ 為公因式。"
+      },
+      {
+        "current": "x(p - 3r) = -r4 - p2",
+        "correct": "x = \\frac{r4 + p2}{3r - p}",
+        "distractors": [
+          "x = \\frac{p - 3r}{r4 + p2}",
+          "x = \\frac{-r4 - p2}{3r - p}",
+          "x = \\frac{r4 - p2}{3r - p}",
+          "x = (r4+p2)(3r-p)"
+        ],
+        "tip": "兩邊除以括號係數，並整理正負號。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{r4 + p2}{3r - p}",
+    "accepted": [
+      "x = \\frac{r4 + p2}{3r - p}",
+      "x=\\frac{r4+p2}{3r-p}"
+    ]
+  },
+  {
+    "id": "cs-dse-2012-a10",
+    "level": 1,
+    "type": "兩邊括號／抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2012 卷一 Q1（題型）",
+    "prompt": "令 $y$ 成為公式 $a(y + 3) = b(2y - 5)$ 的主項。",
+    "steps": [
+      {
+        "current": "a(y + 3) = b(2y - 5)",
+        "correct": "ay + a3 = b2y - b5",
+        "distractors": [
+          "ay + 3 = b2y - 5",
+          "ay + a3 = b2y - 5",
+          "y + 3 = 2y - 5",
+          "ay + 3 = 2by - b5"
+        ],
+        "tip": "兩邊展開分配律。"
+      },
+      {
+        "current": "ay + a3 = b2y - b5",
+        "correct": "ay - 2by = -b5 - a3",
+        "distractors": [
+          "ay + 2by = -b5 - a3",
+          "ay - 2by = -b5 + a3",
+          "ay = 2by - b5 - a3",
+          "ay - 2by = b5 + a3"
+        ],
+        "tip": "含 $y$ 項移左，常數移右。"
+      },
+      {
+        "current": "ay - 2by = -b5 - a3",
+        "correct": "y(a - 2b) = -b5 - a3",
+        "distractors": [
+          "y(a + 2b) = -b5 - a3",
+          "y(a - 2b) = b5 + a3",
+          "ya - 2b = -b5 - a3",
+          "y = -b5 - a3"
+        ],
+        "tip": "左邊抽 $y$ 為公因式。"
+      },
+      {
+        "current": "y(a - 2b) = -b5 - a3",
+        "correct": "y = \\frac{b5 + a3}{2b - a}",
+        "distractors": [
+          "y = \\frac{a - 2b}{b5 + a3}",
+          "y = \\frac{-b5 - a3}{2b - a}",
+          "y = \\frac{b5 - a3}{2b - a}",
+          "y = (b5+a3)(2b-a)"
+        ],
+        "tip": "兩邊除以括號係數，並整理正負號。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{b5 + a3}{2b - a}",
+    "accepted": [
+      "y = \\frac{b5 + a3}{2b - a}",
+      "y=\\frac{b5+a3}{2b-a}"
+    ]
+  },
+  {
+    "id": "cs-dse-pp-a11",
+    "level": 1,
+    "type": "兩邊括號／抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 練習卷 卷一 Q2（題型）",
+    "prompt": "令 $k$ 成為公式 $m(k + 1) = n(4k - 3)$ 的主項。",
+    "steps": [
+      {
+        "current": "m(k + 1) = n(4k - 3)",
+        "correct": "mk + m1 = n4k - n3",
+        "distractors": [
+          "mk + 1 = n4k - 3",
+          "mk + m1 = n4k - 3",
+          "k + 1 = 4k - 3",
+          "mk + 1 = 4nk - n3"
+        ],
+        "tip": "兩邊展開分配律。"
+      },
+      {
+        "current": "mk + m1 = n4k - n3",
+        "correct": "mk - 4nk = -n3 - m1",
+        "distractors": [
+          "mk + 4nk = -n3 - m1",
+          "mk - 4nk = -n3 + m1",
+          "mk = 4nk - n3 - m1",
+          "mk - 4nk = n3 + m1"
+        ],
+        "tip": "含 $k$ 項移左，常數移右。"
+      },
+      {
+        "current": "mk - 4nk = -n3 - m1",
+        "correct": "k(m - 4n) = -n3 - m1",
+        "distractors": [
+          "k(m + 4n) = -n3 - m1",
+          "k(m - 4n) = n3 + m1",
+          "km - 4n = -n3 - m1",
+          "k = -n3 - m1"
+        ],
+        "tip": "左邊抽 $k$ 為公因式。"
+      },
+      {
+        "current": "k(m - 4n) = -n3 - m1",
+        "correct": "k = \\frac{n3 + m1}{4n - m}",
+        "distractors": [
+          "k = \\frac{m - 4n}{n3 + m1}",
+          "k = \\frac{-n3 - m1}{4n - m}",
+          "k = \\frac{n3 - m1}{4n - m}",
+          "k = (n3+m1)(4n-m)"
+        ],
+        "tip": "兩邊除以括號係數，並整理正負號。"
+      }
+    ],
+    "finalAnswer": "k = \\frac{n3 + m1}{4n - m}",
+    "accepted": [
+      "k = \\frac{n3 + m1}{4n - m}",
+      "k=\\frac{n3+m1}{4n-m}"
+    ]
+  },
+  {
+    "id": "cs-dse-2016-a12",
+    "level": 1,
+    "type": "兩邊括號／抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2016 卷一 Q1（題型）",
+    "prompt": "令 $t$ 成為公式 $c(t + 4) = d(2t - 7)$ 的主項。",
+    "steps": [
+      {
+        "current": "c(t + 4) = d(2t - 7)",
+        "correct": "ct + c4 = d2t - d7",
+        "distractors": [
+          "ct + 4 = d2t - 7",
+          "ct + c4 = d2t - 7",
+          "t + 4 = 2t - 7",
+          "ct + 4 = 2dt - d7"
+        ],
+        "tip": "兩邊展開分配律。"
+      },
+      {
+        "current": "ct + c4 = d2t - d7",
+        "correct": "ct - 2dt = -d7 - c4",
+        "distractors": [
+          "ct + 2dt = -d7 - c4",
+          "ct - 2dt = -d7 + c4",
+          "ct = 2dt - d7 - c4",
+          "ct - 2dt = d7 + c4"
+        ],
+        "tip": "含 $t$ 項移左，常數移右。"
+      },
+      {
+        "current": "ct - 2dt = -d7 - c4",
+        "correct": "t(c - 2d) = -d7 - c4",
+        "distractors": [
+          "t(c + 2d) = -d7 - c4",
+          "t(c - 2d) = d7 + c4",
+          "tc - 2d = -d7 - c4",
+          "t = -d7 - c4"
+        ],
+        "tip": "左邊抽 $t$ 為公因式。"
+      },
+      {
+        "current": "t(c - 2d) = -d7 - c4",
+        "correct": "t = \\frac{d7 + c4}{2d - c}",
+        "distractors": [
+          "t = \\frac{c - 2d}{d7 + c4}",
+          "t = \\frac{-d7 - c4}{2d - c}",
+          "t = \\frac{d7 - c4}{2d - c}",
+          "t = (d7+c4)(2d-c)"
+        ],
+        "tip": "兩邊除以括號係數，並整理正負號。"
+      }
+    ],
+    "finalAnswer": "t = \\frac{d7 + c4}{2d - c}",
+    "accepted": [
+      "t = \\frac{d7 + c4}{2d - c}",
+      "t=\\frac{d7+c4}{2d-c}"
+    ]
+  },
+  {
+    "id": "cs-dse-2018-a13",
+    "level": 1,
+    "type": "兩邊括號／抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2018 卷一 Q2（題型）",
+    "prompt": "令 $s$ 成為公式 $h(s + 2) = g(5s - 1)$ 的主項。",
+    "steps": [
+      {
+        "current": "h(s + 2) = g(5s - 1)",
+        "correct": "hs + h2 = g5s - g1",
+        "distractors": [
+          "hs + 2 = g5s - 1",
+          "hs + h2 = g5s - 1",
+          "s + 2 = 5s - 1",
+          "hs + 2 = 5gs - g1"
+        ],
+        "tip": "兩邊展開分配律。"
+      },
+      {
+        "current": "hs + h2 = g5s - g1",
+        "correct": "hs - 5gs = -g1 - h2",
+        "distractors": [
+          "hs + 5gs = -g1 - h2",
+          "hs - 5gs = -g1 + h2",
+          "hs = 5gs - g1 - h2",
+          "hs - 5gs = g1 + h2"
+        ],
+        "tip": "含 $s$ 項移左，常數移右。"
+      },
+      {
+        "current": "hs - 5gs = -g1 - h2",
+        "correct": "s(h - 5g) = -g1 - h2",
+        "distractors": [
+          "s(h + 5g) = -g1 - h2",
+          "s(h - 5g) = g1 + h2",
+          "sh - 5g = -g1 - h2",
+          "s = -g1 - h2"
+        ],
+        "tip": "左邊抽 $s$ 為公因式。"
+      },
+      {
+        "current": "s(h - 5g) = -g1 - h2",
+        "correct": "s = \\frac{g1 + h2}{5g - h}",
+        "distractors": [
+          "s = \\frac{h - 5g}{g1 + h2}",
+          "s = \\frac{-g1 - h2}{5g - h}",
+          "s = \\frac{g1 - h2}{5g - h}",
+          "s = (g1+h2)(5g-h)"
+        ],
+        "tip": "兩邊除以括號係數，並整理正負號。"
+      }
+    ],
+    "finalAnswer": "s = \\frac{g1 + h2}{5g - h}",
+    "accepted": [
+      "s = \\frac{g1 + h2}{5g - h}",
+      "s=\\frac{g1+h2}{5g-h}"
+    ]
+  },
+  {
+    "id": "cs-dse-2023-a14",
+    "level": 1,
+    "type": "兩邊括號／抽公因",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2023 卷一 Q1（題型）",
+    "prompt": "令 $v$ 成為公式 $u(v + 5) = w(3v - 2)$ 的主項。",
+    "steps": [
+      {
+        "current": "u(v + 5) = w(3v - 2)",
+        "correct": "uv + u5 = w3v - w2",
+        "distractors": [
+          "uv + 5 = w3v - 2",
+          "uv + u5 = w3v - 2",
+          "v + 5 = 3v - 2",
+          "uv + 5 = 3wv - w2"
+        ],
+        "tip": "兩邊展開分配律。"
+      },
+      {
+        "current": "uv + u5 = w3v - w2",
+        "correct": "uv - 3wv = -w2 - u5",
+        "distractors": [
+          "uv + 3wv = -w2 - u5",
+          "uv - 3wv = -w2 + u5",
+          "uv = 3wv - w2 - u5",
+          "uv - 3wv = w2 + u5"
+        ],
+        "tip": "含 $v$ 項移左，常數移右。"
+      },
+      {
+        "current": "uv - 3wv = -w2 - u5",
+        "correct": "v(u - 3w) = -w2 - u5",
+        "distractors": [
+          "v(u + 3w) = -w2 - u5",
+          "v(u - 3w) = w2 + u5",
+          "vu - 3w = -w2 - u5",
+          "v = -w2 - u5"
+        ],
+        "tip": "左邊抽 $v$ 為公因式。"
+      },
+      {
+        "current": "v(u - 3w) = -w2 - u5",
+        "correct": "v = \\frac{w2 + u5}{3w - u}",
+        "distractors": [
+          "v = \\frac{u - 3w}{w2 + u5}",
+          "v = \\frac{-w2 - u5}{3w - u}",
+          "v = \\frac{w2 - u5}{3w - u}",
+          "v = (w2+u5)(3w-u)"
+        ],
+        "tip": "兩邊除以括號係數，並整理正負號。"
+      }
+    ],
+    "finalAnswer": "v = \\frac{w2 + u5}{3w - u}",
+    "accepted": [
+      "v = \\frac{w2 + u5}{3w - u}",
+      "v=\\frac{w2+u5}{3w-u}"
+    ]
+  },
+  {
+    "id": "cs-dse-2015-a15",
+    "level": 1,
+    "type": "分母含主項",
+    "errTag": "分母主項／清分母",
+    "ref": "參考自 2015 卷一 Q2（題型）",
+    "prompt": "令 $x$ 成為公式 $\\frac{12}{x + 3} = 4$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{12}{x + 3} = 4",
+        "correct": "12 = 4(x + 3)",
+        "distractors": [
+          "12 = 4 + x + 3",
+          "12(x + 3) = 4",
+          "12 = 4x + 3",
+          "\\frac{12}{4} = x + 3"
+        ],
+        "tip": "兩邊乘分母清分母。"
+      },
+      {
+        "current": "12 = 4(x + 3)",
+        "correct": "12 = 4x + 12",
+        "distractors": [
+          "12 = 4x + 3",
+          "12 = 4x - 12",
+          "12 = (4 + x) + 3",
+          "124 = x + 3"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "12 = 4x + 12",
+        "correct": "4x = 12 - 12",
+        "distractors": [
+          "4x = 12 + 12",
+          "4x = 12 - 12",
+          "x = 12 - 12",
+          "4x + 12 = 12"
+        ],
+        "tip": "常數移到左邊（或移項求 $kx$）。"
+      },
+      {
+        "current": "4x = 12 - 12",
+        "correct": "x = \\frac{12 - 12}{4}",
+        "distractors": [
+          "x = 4(12 - 12)",
+          "x = \\frac{4}{12 - 12}",
+          "x = 12 - 3",
+          "x = \\frac{12}{4} - 3"
+        ],
+        "tip": "兩邊除以 $4$。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{12 - 12}{4}",
+    "accepted": [
+      "x = \\frac{12 - 12}{4}",
+      "x=\\frac{12-12}{4}",
+      "x=0",
+      "x=0"
+    ]
+  },
+  {
+    "id": "cs-dse-2017-a16",
+    "level": 1,
+    "type": "分母含主項",
+    "errTag": "分母主項／清分母",
+    "ref": "參考自 2017 卷一 Q2（題型）",
+    "prompt": "令 $y$ 成為公式 $\\frac{20}{y + 5} = 5$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{20}{y + 5} = 5",
+        "correct": "20 = 5(y + 5)",
+        "distractors": [
+          "20 = 5 + y + 5",
+          "20(y + 5) = 5",
+          "20 = 5y + 5",
+          "\\frac{20}{5} = y + 5"
+        ],
+        "tip": "兩邊乘分母清分母。"
+      },
+      {
+        "current": "20 = 5(y + 5)",
+        "correct": "20 = 5y + 25",
+        "distractors": [
+          "20 = 5y + 5",
+          "20 = 5y - 25",
+          "20 = (5 + y) + 5",
+          "205 = y + 5"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "20 = 5y + 25",
+        "correct": "5y = 20 - 25",
+        "distractors": [
+          "5y = 20 + 25",
+          "5y = 25 - 20",
+          "y = 20 - 25",
+          "5y + 20 = 25"
+        ],
+        "tip": "常數移到左邊（或移項求 $kx$）。"
+      },
+      {
+        "current": "5y = 20 - 25",
+        "correct": "y = \\frac{20 - 25}{5}",
+        "distractors": [
+          "y = 5(20 - 25)",
+          "y = \\frac{5}{20 - 25}",
+          "y = 20 - 5",
+          "y = \\frac{20}{5} - 5"
+        ],
+        "tip": "兩邊除以 $5$。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{20 - 25}{5}",
+    "accepted": [
+      "y = \\frac{20 - 25}{5}",
+      "y=\\frac{20-25}{5}",
+      "y=-1",
+      "y=-1"
+    ]
+  },
+  {
+    "id": "cs-dse-2013-a17",
+    "level": 1,
+    "type": "分母含主項",
+    "errTag": "分母主項／清分母",
+    "ref": "參考自 2013 卷一 Q2（題型）",
+    "prompt": "令 $k$ 成為公式 $\\frac{18}{k + 2} = 3$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{18}{k + 2} = 3",
+        "correct": "18 = 3(k + 2)",
+        "distractors": [
+          "18 = 3 + k + 2",
+          "18(k + 2) = 3",
+          "18 = 3k + 2",
+          "\\frac{18}{3} = k + 2"
+        ],
+        "tip": "兩邊乘分母清分母。"
+      },
+      {
+        "current": "18 = 3(k + 2)",
+        "correct": "18 = 3k + 6",
+        "distractors": [
+          "18 = 3k + 2",
+          "18 = 3k - 6",
+          "18 = (3 + k) + 2",
+          "183 = k + 2"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "18 = 3k + 6",
+        "correct": "3k = 18 - 6",
+        "distractors": [
+          "3k = 18 + 6",
+          "3k = 6 - 18",
+          "k = 18 - 6",
+          "3k + 18 = 6"
+        ],
+        "tip": "常數移到左邊（或移項求 $kx$）。"
+      },
+      {
+        "current": "3k = 18 - 6",
+        "correct": "k = \\frac{18 - 6}{3}",
+        "distractors": [
+          "k = 3(18 - 6)",
+          "k = \\frac{3}{18 - 6}",
+          "k = 18 - 2",
+          "k = \\frac{18}{3} - 2"
+        ],
+        "tip": "兩邊除以 $3$。"
+      }
+    ],
+    "finalAnswer": "k = \\frac{18 - 6}{3}",
+    "accepted": [
+      "k = \\frac{18 - 6}{3}",
+      "k=\\frac{18-6}{3}",
+      "k=4",
+      "k=4"
+    ]
+  },
+  {
+    "id": "cs-dse-2023-a18",
+    "level": 1,
+    "type": "分母含主項",
+    "errTag": "分母主項／清分母",
+    "ref": "參考自 2023 卷一 Q2（題型）",
+    "prompt": "令 $m$ 成為公式 $\\frac{15}{m + 4} = 5$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{15}{m + 4} = 5",
+        "correct": "15 = 5(m + 4)",
+        "distractors": [
+          "15 = 5 + m + 4",
+          "15(m + 4) = 5",
+          "15 = 5m + 4",
+          "\\frac{15}{5} = m + 4"
+        ],
+        "tip": "兩邊乘分母清分母。"
+      },
+      {
+        "current": "15 = 5(m + 4)",
+        "correct": "15 = 5m + 20",
+        "distractors": [
+          "15 = 5m + 4",
+          "15 = 5m - 20",
+          "15 = (5 + m) + 4",
+          "155 = m + 4"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "15 = 5m + 20",
+        "correct": "5m = 15 - 20",
+        "distractors": [
+          "5m = 15 + 20",
+          "5m = 20 - 15",
+          "m = 15 - 20",
+          "5m + 15 = 20"
+        ],
+        "tip": "常數移到左邊（或移項求 $kx$）。"
+      },
+      {
+        "current": "5m = 15 - 20",
+        "correct": "m = \\frac{15 - 20}{5}",
+        "distractors": [
+          "m = 5(15 - 20)",
+          "m = \\frac{5}{15 - 20}",
+          "m = 15 - 4",
+          "m = \\frac{15}{5} - 4"
+        ],
+        "tip": "兩邊除以 $5$。"
+      }
+    ],
+    "finalAnswer": "m = \\frac{15 - 20}{5}",
+    "accepted": [
+      "m = \\frac{15 - 20}{5}",
+      "m=\\frac{15-20}{5}",
+      "m=-1",
+      "m=-1"
+    ]
+  },
+  {
+    "id": "cs-dse-2014-a19",
+    "level": 1,
+    "type": "分母含主項",
+    "errTag": "分母主項／清分母",
+    "ref": "參考自 2014 卷一 Q2（題型）",
+    "prompt": "令 $n$ 成為公式 $\\frac{24}{n + 1} = 6$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{24}{n + 1} = 6",
+        "correct": "24 = 6(n + 1)",
+        "distractors": [
+          "24 = 6 + n + 1",
+          "24(n + 1) = 6",
+          "24 = 6n + 1",
+          "\\frac{24}{6} = n + 1"
+        ],
+        "tip": "兩邊乘分母清分母。"
+      },
+      {
+        "current": "24 = 6(n + 1)",
+        "correct": "24 = 6n + 6",
+        "distractors": [
+          "24 = 6n + 1",
+          "24 = 6n - 6",
+          "24 = (6 + n) + 1",
+          "246 = n + 1"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "24 = 6n + 6",
+        "correct": "6n = 24 - 6",
+        "distractors": [
+          "6n = 24 + 6",
+          "6n = 6 - 24",
+          "n = 24 - 6",
+          "6n + 24 = 6"
+        ],
+        "tip": "常數移到左邊（或移項求 $kx$）。"
+      },
+      {
+        "current": "6n = 24 - 6",
+        "correct": "n = \\frac{24 - 6}{6}",
+        "distractors": [
+          "n = 6(24 - 6)",
+          "n = \\frac{6}{24 - 6}",
+          "n = 24 - 1",
+          "n = \\frac{24}{6} - 1"
+        ],
+        "tip": "兩邊除以 $6$。"
+      }
+    ],
+    "finalAnswer": "n = \\frac{24 - 6}{6}",
+    "accepted": [
+      "n = \\frac{24 - 6}{6}",
+      "n=\\frac{24-6}{6}",
+      "n=3",
+      "n=3"
+    ]
+  },
+  {
+    "id": "cs-dse-2018-a20",
+    "level": 1,
+    "type": "分母含主項",
+    "errTag": "分母主項／清分母",
+    "ref": "參考自 2018 卷一 Q2（題型）",
+    "prompt": "令 $p$ 成為公式 $\\frac{10}{p + 6} = 2$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{10}{p + 6} = 2",
+        "correct": "10 = 2(p + 6)",
+        "distractors": [
+          "10 = 2 + p + 6",
+          "10(p + 6) = 2",
+          "10 = 2p + 6",
+          "\\frac{10}{2} = p + 6"
+        ],
+        "tip": "兩邊乘分母清分母。"
+      },
+      {
+        "current": "10 = 2(p + 6)",
+        "correct": "10 = 2p + 12",
+        "distractors": [
+          "10 = 2p + 6",
+          "10 = 2p - 12",
+          "10 = (2 + p) + 6",
+          "102 = p + 6"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "10 = 2p + 12",
+        "correct": "2p = 10 - 12",
+        "distractors": [
+          "2p = 10 + 12",
+          "2p = 12 - 10",
+          "p = 10 - 12",
+          "2p + 10 = 12"
+        ],
+        "tip": "常數移到左邊（或移項求 $kx$）。"
+      },
+      {
+        "current": "2p = 10 - 12",
+        "correct": "p = \\frac{10 - 12}{2}",
+        "distractors": [
+          "p = 2(10 - 12)",
+          "p = \\frac{2}{10 - 12}",
+          "p = 10 - 6",
+          "p = \\frac{10}{2} - 6"
+        ],
+        "tip": "兩邊除以 $2$。"
+      }
+    ],
+    "finalAnswer": "p = \\frac{10 - 12}{2}",
+    "accepted": [
+      "p = \\frac{10 - 12}{2}",
+      "p=\\frac{10-12}{2}",
+      "p=-1",
+      "p=-1"
+    ]
+  },
+  {
+    "id": "cs-dse-2016-a21",
+    "level": 1,
+    "type": "倒數差移項",
+    "errTag": "倒數公式／通分",
+    "ref": "參考自 2016 卷一 Q1（題型）",
+    "prompt": "令 $v$ 成為公式 $\\frac{1}{f} = \\frac{1}{u} + \\frac{1}{v}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{f} = \\frac{1}{u} + \\frac{1}{v}",
+        "correct": "\\frac{1}{f} - \\frac{1}{u} = \\frac{1}{v}",
+        "distractors": [
+          "\\frac{1}{f} + \\frac{1}{u} = \\frac{1}{v}",
+          "\\frac{1}{f} = \\frac{1}{uv}",
+          "f = u + v",
+          "\\frac{1}{v} = \\frac{1}{fu}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{u}$。"
+      },
+      {
+        "current": "\\frac{1}{f} - \\frac{1}{u} = \\frac{1}{v}",
+        "correct": "\\frac{u - f}{fu} = \\frac{1}{v}",
+        "distractors": [
+          "\\frac{f - u}{fu} = \\frac{1}{v}",
+          "\\frac{u + f}{fu} = \\frac{1}{v}",
+          "u - f = \\frac{1}{v}",
+          "\\frac{1}{f - u} = \\frac{1}{v}"
+        ],
+        "tip": "左邊通分。"
+      },
+      {
+        "current": "\\frac{u - f}{fu} = \\frac{1}{v}",
+        "correct": "v = \\frac{fu}{u - f}",
+        "distractors": [
+          "v = \\frac{u - f}{fu}",
+          "v = fu(u - f)",
+          "v = \\frac{fu}{f - u}",
+          "v = f + u"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "v = \\frac{fu}{u - f}",
+    "accepted": [
+      "v = \\frac{fu}{u - f}",
+      "v=\\frac{fu}{u-f}"
+    ]
+  },
+  {
+    "id": "cs-dse-2019-a22",
+    "level": 1,
+    "type": "倒數差移項",
+    "errTag": "倒數公式／通分",
+    "ref": "參考自 2019 卷一 Q1（題型）",
+    "prompt": "令 $r$ 成為公式 $\\frac{1}{p} = \\frac{1}{q} + \\frac{1}{r}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{p} = \\frac{1}{q} + \\frac{1}{r}",
+        "correct": "\\frac{1}{p} - \\frac{1}{q} = \\frac{1}{r}",
+        "distractors": [
+          "\\frac{1}{p} + \\frac{1}{q} = \\frac{1}{r}",
+          "\\frac{1}{p} = \\frac{1}{qr}",
+          "p = q + r",
+          "\\frac{1}{r} = \\frac{1}{pq}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{q}$。"
+      },
+      {
+        "current": "\\frac{1}{p} - \\frac{1}{q} = \\frac{1}{r}",
+        "correct": "\\frac{q - p}{pq} = \\frac{1}{r}",
+        "distractors": [
+          "\\frac{p - q}{pq} = \\frac{1}{r}",
+          "\\frac{q + p}{pq} = \\frac{1}{r}",
+          "q - p = \\frac{1}{r}",
+          "\\frac{1}{p - q} = \\frac{1}{r}"
+        ],
+        "tip": "左邊通分。"
+      },
+      {
+        "current": "\\frac{q - p}{pq} = \\frac{1}{r}",
+        "correct": "r = \\frac{pq}{q - p}",
+        "distractors": [
+          "r = \\frac{q - p}{pq}",
+          "r = pq(q - p)",
+          "r = \\frac{pq}{p - q}",
+          "r = p + q"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "r = \\frac{pq}{q - p}",
+    "accepted": [
+      "r = \\frac{pq}{q - p}",
+      "r=\\frac{pq}{q-p}"
+    ]
+  },
+  {
+    "id": "cs-dse-sp-a23",
+    "level": 1,
+    "type": "倒數差移項",
+    "errTag": "倒數公式／通分",
+    "ref": "參考自 樣本試卷 卷一 Q1（題型）",
+    "prompt": "令 $c$ 成為公式 $\\frac{1}{a} = \\frac{1}{b} + \\frac{1}{c}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{a} = \\frac{1}{b} + \\frac{1}{c}",
+        "correct": "\\frac{1}{a} - \\frac{1}{b} = \\frac{1}{c}",
+        "distractors": [
+          "\\frac{1}{a} + \\frac{1}{b} = \\frac{1}{c}",
+          "\\frac{1}{a} = \\frac{1}{bc}",
+          "a = b + c",
+          "\\frac{1}{c} = \\frac{1}{ab}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{b}$。"
+      },
+      {
+        "current": "\\frac{1}{a} - \\frac{1}{b} = \\frac{1}{c}",
+        "correct": "\\frac{b - a}{ab} = \\frac{1}{c}",
+        "distractors": [
+          "\\frac{a - b}{ab} = \\frac{1}{c}",
+          "\\frac{b + a}{ab} = \\frac{1}{c}",
+          "b - a = \\frac{1}{c}",
+          "\\frac{1}{a - b} = \\frac{1}{c}"
+        ],
+        "tip": "左邊通分。"
+      },
+      {
+        "current": "\\frac{b - a}{ab} = \\frac{1}{c}",
+        "correct": "c = \\frac{ab}{b - a}",
+        "distractors": [
+          "c = \\frac{b - a}{ab}",
+          "c = ab(b - a)",
+          "c = \\frac{ab}{a - b}",
+          "c = a + b"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "c = \\frac{ab}{b - a}",
+    "accepted": [
+      "c = \\frac{ab}{b - a}",
+      "c=\\frac{ab}{b-a}"
+    ]
+  },
+  {
+    "id": "cs-dse-2012-a24",
+    "level": 1,
+    "type": "兩邊展開移項",
+    "errTag": "兩邊展開／移項",
+    "ref": "參考自 2012 卷一 Q2（題型）",
+    "prompt": "令 $y$ 成為公式 $3x + 4 = 5y + 2$ 的主項。",
+    "steps": [
+      {
+        "current": "3x + 4 = 5y + 2",
+        "correct": "3x + 4 - 2 = 5y",
+        "distractors": [
+          "3x + 4 + 2 = 5y",
+          "3x - 4 = 5y + 2",
+          "3x + 4 = 5y - 2",
+          "3x = 5y + 2 - 4"
+        ],
+        "tip": "兩邊減 $2$。"
+      },
+      {
+        "current": "3x + 4 - 2 = 5y",
+        "correct": "5y = 3x + 2",
+        "distractors": [
+          "5y = 3x - 2",
+          "5y = 3x + 4 + 2",
+          "y = 3x + 2",
+          "5y = 2 - 3x"
+        ],
+        "tip": "左右對調，方便寫主項在左。"
+      },
+      {
+        "current": "5y = 3x + 2",
+        "correct": "y = \\frac{3x + 2}{5}",
+        "distractors": [
+          "y = 5(3x + 2)",
+          "y = \\frac{5}{3x + 2}",
+          "y = 3x + 2 - 5",
+          "y = \\frac{3x}{5} + 2"
+        ],
+        "tip": "兩邊除以 $5$。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{3x + 2}{5}",
+    "accepted": [
+      "y = \\frac{3x + 2}{5}",
+      "y=\\frac{3x+2}{5}"
+    ]
+  },
+  {
+    "id": "cs-dse-2015-a25",
+    "level": 1,
+    "type": "兩邊展開移項",
+    "errTag": "兩邊展開／移項",
+    "ref": "參考自 2015 卷一 Q2（題型）",
+    "prompt": "令 $b$ 成為公式 $2a + 7 = 4b + 3$ 的主項。",
+    "steps": [
+      {
+        "current": "2a + 7 = 4b + 3",
+        "correct": "2a + 7 - 3 = 4b",
+        "distractors": [
+          "2a + 7 + 3 = 4b",
+          "2a - 7 = 4b + 3",
+          "2a + 7 = 4b - 3",
+          "2a = 4b + 3 - 7"
+        ],
+        "tip": "兩邊減 $3$。"
+      },
+      {
+        "current": "2a + 7 - 3 = 4b",
+        "correct": "4b = 2a + 4",
+        "distractors": [
+          "4b = 2a - 4",
+          "4b = 2a + 7 + 3",
+          "b = 2a + 4",
+          "4b = 4 - 2a"
+        ],
+        "tip": "左右對調，方便寫主項在左。"
+      },
+      {
+        "current": "4b = 2a + 4",
+        "correct": "b = \\frac{2a + 4}{4}",
+        "distractors": [
+          "b = 4(2a + 4)",
+          "b = \\frac{4}{2a + 4}",
+          "b = 2a + 4 - 4",
+          "b = \\frac{2a}{4} + 4"
+        ],
+        "tip": "兩邊除以 $4$。"
+      }
+    ],
+    "finalAnswer": "b = \\frac{2a + 4}{4}",
+    "accepted": [
+      "b = \\frac{2a + 4}{4}",
+      "b=\\frac{2a+4}{4}"
+    ]
+  },
+  {
+    "id": "cs-dse-2017-a26",
+    "level": 1,
+    "type": "兩邊展開移項",
+    "errTag": "兩邊展開／移項",
+    "ref": "參考自 2017 卷一 Q2（題型）",
+    "prompt": "令 $n$ 成為公式 $5m + 1 = 3n + 6$ 的主項。",
+    "steps": [
+      {
+        "current": "5m + 1 = 3n + 6",
+        "correct": "5m + 1 - 6 = 3n",
+        "distractors": [
+          "5m + 1 + 6 = 3n",
+          "5m - 1 = 3n + 6",
+          "5m + 1 = 3n - 6",
+          "5m = 3n + 6 - 1"
+        ],
+        "tip": "兩邊減 $6$。"
+      },
+      {
+        "current": "5m + 1 - 6 = 3n",
+        "correct": "3n = 5m + -5",
+        "distractors": [
+          "3n = 5m - -5",
+          "3n = 5m + 1 + 6",
+          "n = 5m + -5",
+          "3n = -5 - 5m"
+        ],
+        "tip": "左右對調，方便寫主項在左。"
+      },
+      {
+        "current": "3n = 5m + -5",
+        "correct": "n = \\frac{5m + -5}{3}",
+        "distractors": [
+          "n = 3(5m + -5)",
+          "n = \\frac{3}{5m + -5}",
+          "n = 5m + -5 - 3",
+          "n = \\frac{5m}{3} + -5"
+        ],
+        "tip": "兩邊除以 $3$。"
+      }
+    ],
+    "finalAnswer": "n = \\frac{5m + -5}{3}",
+    "accepted": [
+      "n = \\frac{5m + -5}{3}",
+      "n=\\frac{5m+-5}{3}"
+    ]
+  },
+  {
+    "id": "cs-dse-2018-a27",
+    "level": 1,
+    "type": "係數×主項＝括號展開",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2018 卷一 Q1（題型）",
+    "prompt": "令 $x$ 成為公式 $7x = (2x + 3)4$ 的主項。",
+    "steps": [
+      {
+        "current": "7x = (2x + 3)4",
+        "correct": "7x = 8x + 12",
+        "distractors": [
+          "7x = 2x + 34",
+          "7x = 24x + 3",
+          "7x = (2 + 3)4x",
+          "7 = 2x + 3"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "7x = 8x + 12",
+        "correct": "7x - 8x = 12",
+        "distractors": [
+          "7x + 8x = 12",
+          "7x - 8x = -12",
+          "7x = 8x - 12",
+          "x - 8x = 12"
+        ],
+        "tip": "含 $x$ 項移到左邊。"
+      },
+      {
+        "current": "7x - 8x = 12",
+        "correct": "x(7 - 8) = 12",
+        "distractors": [
+          "x(7 + 8) = 12",
+          "x7 - 8 = 12",
+          "x = 7 - 8",
+          "x(7 - 8) = 3 + 4"
+        ],
+        "tip": "抽 $x$ 公因式。"
+      },
+      {
+        "current": "x(7 - 8) = 12",
+        "correct": "x = \\frac{12}{7 - 8}",
+        "distractors": [
+          "x = \\frac{7 - 8}{12}",
+          "x = 12(7 - 8)",
+          "x = \\frac{12}{7 + 8}",
+          "x = \\frac{3}{7 - 2}"
+        ],
+        "tip": "兩邊除以括號係數。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{12}{7 - 8}",
+    "accepted": [
+      "x = \\frac{12}{7 - 8}",
+      "x=\\frac{12}{7-8}"
+    ]
+  },
+  {
+    "id": "cs-dse-2014-a28",
+    "level": 1,
+    "type": "係數×主項＝括號展開",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2014 卷一 Q1（題型）",
+    "prompt": "令 $y$ 成為公式 $9y = (3y + 1)2$ 的主項。",
+    "steps": [
+      {
+        "current": "9y = (3y + 1)2",
+        "correct": "9y = 6y + 2",
+        "distractors": [
+          "9y = 3y + 12",
+          "9y = 32y + 1",
+          "9y = (3 + 1)2y",
+          "9 = 3y + 1"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "9y = 6y + 2",
+        "correct": "9y - 6y = 2",
+        "distractors": [
+          "9y + 6y = 2",
+          "9y - 6y = -2",
+          "9y = 6y - 2",
+          "y - 6y = 2"
+        ],
+        "tip": "含 $y$ 項移到左邊。"
+      },
+      {
+        "current": "9y - 6y = 2",
+        "correct": "y(9 - 6) = 2",
+        "distractors": [
+          "y(9 + 6) = 2",
+          "y9 - 6 = 2",
+          "y = 9 - 6",
+          "y(9 - 6) = 1 + 2"
+        ],
+        "tip": "抽 $y$ 公因式。"
+      },
+      {
+        "current": "y(9 - 6) = 2",
+        "correct": "y = \\frac{2}{9 - 6}",
+        "distractors": [
+          "y = \\frac{9 - 6}{2}",
+          "y = 2(9 - 6)",
+          "y = \\frac{2}{9 + 6}",
+          "y = \\frac{1}{9 - 3}"
+        ],
+        "tip": "兩邊除以括號係數。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{2}{9 - 6}",
+    "accepted": [
+      "y = \\frac{2}{9 - 6}",
+      "y=\\frac{2}{9-6}"
+    ]
+  },
+  {
+    "id": "cs-dse-2023-a29",
+    "level": 1,
+    "type": "係數×主項＝括號展開",
+    "errTag": "兩邊主項／抽公因式",
+    "ref": "參考自 2023 卷一 Q1（題型）",
+    "prompt": "令 $k$ 成為公式 $8k = (1k + 5)3$ 的主項。",
+    "steps": [
+      {
+        "current": "8k = (1k + 5)3",
+        "correct": "8k = 3k + 15",
+        "distractors": [
+          "8k = 1k + 53",
+          "8k = 13k + 5",
+          "8k = (1 + 5)3k",
+          "8 = 1k + 5"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "8k = 3k + 15",
+        "correct": "8k - 3k = 15",
+        "distractors": [
+          "8k + 3k = 15",
+          "8k - 3k = -15",
+          "8k = 3k - 15",
+          "k - 3k = 15"
+        ],
+        "tip": "含 $k$ 項移到左邊。"
+      },
+      {
+        "current": "8k - 3k = 15",
+        "correct": "k(8 - 3) = 15",
+        "distractors": [
+          "k(8 + 3) = 15",
+          "k8 - 3 = 15",
+          "k = 8 - 3",
+          "k(8 - 3) = 5 + 3"
+        ],
+        "tip": "抽 $k$ 公因式。"
+      },
+      {
+        "current": "k(8 - 3) = 15",
+        "correct": "k = \\frac{15}{8 - 3}",
+        "distractors": [
+          "k = \\frac{8 - 3}{15}",
+          "k = 15(8 - 3)",
+          "k = \\frac{15}{8 + 3}",
+          "k = \\frac{5}{8 - 1}"
+        ],
+        "tip": "兩邊除以括號係數。"
+      }
+    ],
+    "finalAnswer": "k = \\frac{15}{8 - 3}",
+    "accepted": [
+      "k = \\frac{15}{8 - 3}",
+      "k=\\frac{15}{8-3}"
+    ]
+  },
+  {
+    "id": "cs-adv-001",
+    "level": 2,
+    "type": "分式等於常數（繁）",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $x$ 成為公式 $\\frac{2x + 3}{4x + 5} = 3$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{2x + 3}{4x + 5} = 3",
+        "correct": "2x + 3 = 3(4x + 5)",
+        "distractors": [
+          "2x + 3 = 3 + 4x + 5",
+          "(2x + 3)(4x + 5) = 3",
+          "2x + 3 = 34x + 5",
+          "\\frac{2x}{4x} = 3"
+        ],
+        "tip": "兩邊乘分母。"
+      },
+      {
+        "current": "2x + 3 = 3(4x + 5)",
+        "correct": "2x + 3 = 12x + 15",
+        "distractors": [
+          "2x + 3 = 34x + 5",
+          "2x + 3 = 12x - 15",
+          "2x = 34x + 35",
+          "2x + 33 = 4x + 5"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "2x + 3 = 12x + 15",
+        "correct": "2x - 12x = 15 - 3",
+        "distractors": [
+          "2x + 12x = 15 - 3",
+          "2x - 12x = 15 + 3",
+          "2x - 12x = 3 - 15",
+          "x - 12x = 15 - 3"
+        ],
+        "tip": "含 $x$ 移左，常數移右。"
+      },
+      {
+        "current": "2x - 12x = 15 - 3",
+        "correct": "x = \\frac{15 - 3}{2 - 12}",
+        "distractors": [
+          "x = \\frac{2 - 12}{15 - 3}",
+          "x = (15 - 3)(2 - 12)",
+          "x = \\frac{15 + 3}{2 - 12}",
+          "x = \\frac{15 - 3}{2 + 12}"
+        ],
+        "tip": "抽公因後兩邊相除。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{15 - 3}{2 - 12}",
+    "accepted": [
+      "x = \\frac{15 - 3}{2 - 12}",
+      "x=\\frac{15-3}{2-12}"
+    ]
+  },
+  {
+    "id": "cs-adv-002",
+    "level": 2,
+    "type": "分式等於常數（繁）",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $y$ 成為公式 $\\frac{3y + -1}{2y + 7} = 4$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{3y + -1}{2y + 7} = 4",
+        "correct": "3y + -1 = 4(2y + 7)",
+        "distractors": [
+          "3y + -1 = 4 + 2y + 7",
+          "(3y + -1)(2y + 7) = 4",
+          "3y + -1 = 42y + 7",
+          "\\frac{3y}{2y} = 4"
+        ],
+        "tip": "兩邊乘分母。"
+      },
+      {
+        "current": "3y + -1 = 4(2y + 7)",
+        "correct": "3y + -1 = 8y + 28",
+        "distractors": [
+          "3y + -1 = 42y + 7",
+          "3y + -1 = 8y - 28",
+          "3y = 42y + 47",
+          "3y + -14 = 2y + 7"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "3y + -1 = 8y + 28",
+        "correct": "3y - 8y = 28 - -1",
+        "distractors": [
+          "3y + 8y = 28 - -1",
+          "3y - 8y = 28 + -1",
+          "3y - 8y = -1 - 28",
+          "y - 8y = 28 - -1"
+        ],
+        "tip": "含 $y$ 移左，常數移右。"
+      },
+      {
+        "current": "3y - 8y = 28 - -1",
+        "correct": "y = \\frac{28 - -1}{3 - 8}",
+        "distractors": [
+          "y = \\frac{3 - 8}{28 - -1}",
+          "y = (28 - -1)(3 - 8)",
+          "y = \\frac{28 + -1}{3 - 8}",
+          "y = \\frac{28 - -1}{3 + 8}"
+        ],
+        "tip": "抽公因後兩邊相除。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{28 - -1}{3 - 8}",
+    "accepted": [
+      "y = \\frac{28 - -1}{3 - 8}",
+      "y=\\frac{28--1}{3-8}"
+    ]
+  },
+  {
+    "id": "cs-adv-003",
+    "level": 2,
+    "type": "分式等於常數（繁）",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $m$ 成為公式 $\\frac{5m + 2}{3m + 4} = 2$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{5m + 2}{3m + 4} = 2",
+        "correct": "5m + 2 = 2(3m + 4)",
+        "distractors": [
+          "5m + 2 = 2 + 3m + 4",
+          "(5m + 2)(3m + 4) = 2",
+          "5m + 2 = 23m + 4",
+          "\\frac{5m}{3m} = 2"
+        ],
+        "tip": "兩邊乘分母。"
+      },
+      {
+        "current": "5m + 2 = 2(3m + 4)",
+        "correct": "5m + 2 = 6m + 8",
+        "distractors": [
+          "5m + 2 = 23m + 4",
+          "5m + 2 = 6m - 8",
+          "5m = 23m + 24",
+          "5m + 22 = 3m + 4"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "5m + 2 = 6m + 8",
+        "correct": "5m - 6m = 8 - 2",
+        "distractors": [
+          "5m + 6m = 8 - 2",
+          "5m - 6m = 8 + 2",
+          "5m - 6m = 2 - 8",
+          "m - 6m = 8 - 2"
+        ],
+        "tip": "含 $m$ 移左，常數移右。"
+      },
+      {
+        "current": "5m - 6m = 8 - 2",
+        "correct": "m = \\frac{8 - 2}{5 - 6}",
+        "distractors": [
+          "m = \\frac{5 - 6}{8 - 2}",
+          "m = (8 - 2)(5 - 6)",
+          "m = \\frac{8 + 2}{5 - 6}",
+          "m = \\frac{8 - 2}{5 + 6}"
+        ],
+        "tip": "抽公因後兩邊相除。"
+      }
+    ],
+    "finalAnswer": "m = \\frac{8 - 2}{5 - 6}",
+    "accepted": [
+      "m = \\frac{8 - 2}{5 - 6}",
+      "m=\\frac{8-2}{5-6}"
+    ]
+  },
+  {
+    "id": "cs-adv-004",
+    "level": 2,
+    "type": "分式等於常數（繁）",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $n$ 成為公式 $\\frac{4n + 1}{5n + 2} = 5$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{4n + 1}{5n + 2} = 5",
+        "correct": "4n + 1 = 5(5n + 2)",
+        "distractors": [
+          "4n + 1 = 5 + 5n + 2",
+          "(4n + 1)(5n + 2) = 5",
+          "4n + 1 = 55n + 2",
+          "\\frac{4n}{5n} = 5"
+        ],
+        "tip": "兩邊乘分母。"
+      },
+      {
+        "current": "4n + 1 = 5(5n + 2)",
+        "correct": "4n + 1 = 25n + 10",
+        "distractors": [
+          "4n + 1 = 55n + 2",
+          "4n + 1 = 25n - 10",
+          "4n = 55n + 52",
+          "4n + 15 = 5n + 2"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "4n + 1 = 25n + 10",
+        "correct": "4n - 25n = 10 - 1",
+        "distractors": [
+          "4n + 25n = 10 - 1",
+          "4n - 25n = 10 + 1",
+          "4n - 25n = 1 - 10",
+          "n - 25n = 10 - 1"
+        ],
+        "tip": "含 $n$ 移左，常數移右。"
+      },
+      {
+        "current": "4n - 25n = 10 - 1",
+        "correct": "n = \\frac{10 - 1}{4 - 25}",
+        "distractors": [
+          "n = \\frac{4 - 25}{10 - 1}",
+          "n = (10 - 1)(4 - 25)",
+          "n = \\frac{10 + 1}{4 - 25}",
+          "n = \\frac{10 - 1}{4 + 25}"
+        ],
+        "tip": "抽公因後兩邊相除。"
+      }
+    ],
+    "finalAnswer": "n = \\frac{10 - 1}{4 - 25}",
+    "accepted": [
+      "n = \\frac{10 - 1}{4 - 25}",
+      "n=\\frac{10-1}{4-25}"
+    ]
+  },
+  {
+    "id": "cs-adv-005",
+    "level": 2,
+    "type": "分式等於常數（繁）",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $p$ 成為公式 $\\frac{6p + -2}{3p + 1} = 3$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{6p + -2}{3p + 1} = 3",
+        "correct": "6p + -2 = 3(3p + 1)",
+        "distractors": [
+          "6p + -2 = 3 + 3p + 1",
+          "(6p + -2)(3p + 1) = 3",
+          "6p + -2 = 33p + 1",
+          "\\frac{6p}{3p} = 3"
+        ],
+        "tip": "兩邊乘分母。"
+      },
+      {
+        "current": "6p + -2 = 3(3p + 1)",
+        "correct": "6p + -2 = 9p + 3",
+        "distractors": [
+          "6p + -2 = 33p + 1",
+          "6p + -2 = 9p - 3",
+          "6p = 33p + 31",
+          "6p + -23 = 3p + 1"
+        ],
+        "tip": "右邊展開。"
+      },
+      {
+        "current": "6p + -2 = 9p + 3",
+        "correct": "6p - 9p = 3 - -2",
+        "distractors": [
+          "6p + 9p = 3 - -2",
+          "6p - 9p = 3 + -2",
+          "6p - 9p = -2 - 3",
+          "p - 9p = 3 - -2"
+        ],
+        "tip": "含 $p$ 移左，常數移右。"
+      },
+      {
+        "current": "6p - 9p = 3 - -2",
+        "correct": "p = \\frac{3 - -2}{6 - 9}",
+        "distractors": [
+          "p = \\frac{6 - 9}{3 - -2}",
+          "p = (3 - -2)(6 - 9)",
+          "p = \\frac{3 + -2}{6 - 9}",
+          "p = \\frac{3 - -2}{6 + 9}"
+        ],
+        "tip": "抽公因後兩邊相除。"
+      }
+    ],
+    "finalAnswer": "p = \\frac{3 - -2}{6 - 9}",
+    "accepted": [
+      "p = \\frac{3 - -2}{6 - 9}",
+      "p=\\frac{3--2}{6-9}"
+    ]
+  },
+  {
+    "id": "cs-adv-006",
+    "level": 2,
+    "type": "三倒數公式",
+    "errTag": "倒數公式／通分",
+    "prompt": "令 $x$ 成為公式 $\\frac{1}{x} + \\frac{1}{y} = \\frac{1}{z}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{x} + \\frac{1}{y} = \\frac{1}{z}",
+        "correct": "\\frac{1}{x} = \\frac{1}{z} - \\frac{1}{y}",
+        "distractors": [
+          "\\frac{1}{x} = \\frac{1}{z} + \\frac{1}{y}",
+          "x + y = z",
+          "\\frac{1}{x} = \\frac{1}{zy}",
+          "\\frac{1}{xy} = \\frac{1}{z}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{y}$。"
+      },
+      {
+        "current": "\\frac{1}{x} = \\frac{1}{z} - \\frac{1}{y}",
+        "correct": "\\frac{1}{x} = \\frac{y - z}{zy}",
+        "distractors": [
+          "\\frac{1}{x} = \\frac{z - y}{zy}",
+          "\\frac{1}{x} = \\frac{y + z}{zy}",
+          "y - z = \\frac{1}{x}",
+          "\\frac{1}{x} = y - z"
+        ],
+        "tip": "右邊通分。"
+      },
+      {
+        "current": "\\frac{1}{x} = \\frac{y - z}{zy}",
+        "correct": "x = \\frac{zy}{y - z}",
+        "distractors": [
+          "x = \\frac{y - z}{zy}",
+          "x = \\frac{zy}{z - y}",
+          "x = zy(y - z)",
+          "x = z + y"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{zy}{y - z}",
+    "accepted": [
+      "x = \\frac{zy}{y - z}",
+      "x=\\frac{zy}{y-z}"
+    ]
+  },
+  {
+    "id": "cs-adv-007",
+    "level": 2,
+    "type": "三倒數公式",
+    "errTag": "倒數公式／通分",
+    "prompt": "令 $a$ 成為公式 $\\frac{1}{a} + \\frac{1}{b} = \\frac{1}{c}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{a} + \\frac{1}{b} = \\frac{1}{c}",
+        "correct": "\\frac{1}{a} = \\frac{1}{c} - \\frac{1}{b}",
+        "distractors": [
+          "\\frac{1}{a} = \\frac{1}{c} + \\frac{1}{b}",
+          "a + b = c",
+          "\\frac{1}{a} = \\frac{1}{cb}",
+          "\\frac{1}{ab} = \\frac{1}{c}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{b}$。"
+      },
+      {
+        "current": "\\frac{1}{a} = \\frac{1}{c} - \\frac{1}{b}",
+        "correct": "\\frac{1}{a} = \\frac{b - c}{cb}",
+        "distractors": [
+          "\\frac{1}{a} = \\frac{c - b}{cb}",
+          "\\frac{1}{a} = \\frac{b + c}{cb}",
+          "b - c = \\frac{1}{a}",
+          "\\frac{1}{a} = b - c"
+        ],
+        "tip": "右邊通分。"
+      },
+      {
+        "current": "\\frac{1}{a} = \\frac{b - c}{cb}",
+        "correct": "a = \\frac{cb}{b - c}",
+        "distractors": [
+          "a = \\frac{b - c}{cb}",
+          "a = \\frac{cb}{c - b}",
+          "a = cb(b - c)",
+          "a = c + b"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "a = \\frac{cb}{b - c}",
+    "accepted": [
+      "a = \\frac{cb}{b - c}",
+      "a=\\frac{cb}{b-c}"
+    ]
+  },
+  {
+    "id": "cs-adv-008",
+    "level": 2,
+    "type": "三倒數公式",
+    "errTag": "倒數公式／通分",
+    "prompt": "令 $p$ 成為公式 $\\frac{1}{p} + \\frac{1}{q} = \\frac{1}{r}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{p} + \\frac{1}{q} = \\frac{1}{r}",
+        "correct": "\\frac{1}{p} = \\frac{1}{r} - \\frac{1}{q}",
+        "distractors": [
+          "\\frac{1}{p} = \\frac{1}{r} + \\frac{1}{q}",
+          "p + q = r",
+          "\\frac{1}{p} = \\frac{1}{rq}",
+          "\\frac{1}{pq} = \\frac{1}{r}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{q}$。"
+      },
+      {
+        "current": "\\frac{1}{p} = \\frac{1}{r} - \\frac{1}{q}",
+        "correct": "\\frac{1}{p} = \\frac{q - r}{rq}",
+        "distractors": [
+          "\\frac{1}{p} = \\frac{r - q}{rq}",
+          "\\frac{1}{p} = \\frac{q + r}{rq}",
+          "q - r = \\frac{1}{p}",
+          "\\frac{1}{p} = q - r"
+        ],
+        "tip": "右邊通分。"
+      },
+      {
+        "current": "\\frac{1}{p} = \\frac{q - r}{rq}",
+        "correct": "p = \\frac{rq}{q - r}",
+        "distractors": [
+          "p = \\frac{q - r}{rq}",
+          "p = \\frac{rq}{r - q}",
+          "p = rq(q - r)",
+          "p = r + q"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "p = \\frac{rq}{q - r}",
+    "accepted": [
+      "p = \\frac{rq}{q - r}",
+      "p=\\frac{rq}{q-r}"
+    ]
+  },
+  {
+    "id": "cs-adv-009",
+    "level": 2,
+    "type": "三倒數公式",
+    "errTag": "倒數公式／通分",
+    "prompt": "令 $m$ 成為公式 $\\frac{1}{m} + \\frac{1}{n} = \\frac{1}{k}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{1}{m} + \\frac{1}{n} = \\frac{1}{k}",
+        "correct": "\\frac{1}{m} = \\frac{1}{k} - \\frac{1}{n}",
+        "distractors": [
+          "\\frac{1}{m} = \\frac{1}{k} + \\frac{1}{n}",
+          "m + n = k",
+          "\\frac{1}{m} = \\frac{1}{kn}",
+          "\\frac{1}{mn} = \\frac{1}{k}"
+        ],
+        "tip": "兩邊減 $\\frac{1}{n}$。"
+      },
+      {
+        "current": "\\frac{1}{m} = \\frac{1}{k} - \\frac{1}{n}",
+        "correct": "\\frac{1}{m} = \\frac{n - k}{kn}",
+        "distractors": [
+          "\\frac{1}{m} = \\frac{k - n}{kn}",
+          "\\frac{1}{m} = \\frac{n + k}{kn}",
+          "n - k = \\frac{1}{m}",
+          "\\frac{1}{m} = n - k"
+        ],
+        "tip": "右邊通分。"
+      },
+      {
+        "current": "\\frac{1}{m} = \\frac{n - k}{kn}",
+        "correct": "m = \\frac{kn}{n - k}",
+        "distractors": [
+          "m = \\frac{n - k}{kn}",
+          "m = \\frac{kn}{k - n}",
+          "m = kn(n - k)",
+          "m = k + n"
+        ],
+        "tip": "兩邊取倒數。"
+      }
+    ],
+    "finalAnswer": "m = \\frac{kn}{n - k}",
+    "accepted": [
+      "m = \\frac{kn}{n - k}",
+      "m=\\frac{kn}{n-k}"
+    ]
+  },
+  {
+    "id": "cs-adv-010",
+    "level": 2,
+    "type": "根號分式求主項",
+    "errTag": "開方／平方",
+    "prompt": "令 $x$ 成為公式 $\\sqrt{\\frac{2x + 5}{3}} = 4$ 的主項。",
+    "steps": [
+      {
+        "current": "\\sqrt{\\frac{2x + 5}{3}} = 4",
+        "correct": "\\frac{2x + 5}{3} = 16",
+        "distractors": [
+          "\\frac{2x + 5}{3} = 4",
+          "2x + 5 = 4",
+          "\\sqrt{2x + 5} = 43",
+          "\\frac{2x + 5}{3} = \\sqrt{4}"
+        ],
+        "tip": "兩邊平方。"
+      },
+      {
+        "current": "\\frac{2x + 5}{3} = 16",
+        "correct": "2x + 5 = 48",
+        "distractors": [
+          "2x + 5 = 16",
+          "2x + 5 = 3 + 16",
+          "2x + 5 = \\frac{16}{3}",
+          "2x = 316"
+        ],
+        "tip": "兩邊乘 $3$。"
+      },
+      {
+        "current": "2x + 5 = 48",
+        "correct": "2x = 43",
+        "distractors": [
+          "2x = 48 + 5",
+          "2x = 5 - 48",
+          "x = 43",
+          "2x + 48 = 5"
+        ],
+        "tip": "兩邊減 $5$。"
+      },
+      {
+        "current": "2x = 43",
+        "correct": "x = \\frac{43}{2}",
+        "distractors": [
+          "x = 2(43)",
+          "x = \\frac{2}{43}",
+          "x = 43 - 2",
+          "x = \\frac{53}{2}"
+        ],
+        "tip": "兩邊除以 $2$。"
+      }
+    ],
+    "finalAnswer": "x = \\frac{43}{2}",
+    "accepted": [
+      "x = \\frac{43}{2}",
+      "x=\\frac{43}{2}"
+    ]
+  },
+  {
+    "id": "cs-adv-011",
+    "level": 2,
+    "type": "根號分式求主項",
+    "errTag": "開方／平方",
+    "prompt": "令 $y$ 成為公式 $\\sqrt{\\frac{3y + 1}{2}} = 5$ 的主項。",
+    "steps": [
+      {
+        "current": "\\sqrt{\\frac{3y + 1}{2}} = 5",
+        "correct": "\\frac{3y + 1}{2} = 25",
+        "distractors": [
+          "\\frac{3y + 1}{2} = 5",
+          "3y + 1 = 5",
+          "\\sqrt{3y + 1} = 52",
+          "\\frac{3y + 1}{2} = \\sqrt{5}"
+        ],
+        "tip": "兩邊平方。"
+      },
+      {
+        "current": "\\frac{3y + 1}{2} = 25",
+        "correct": "3y + 1 = 50",
+        "distractors": [
+          "3y + 1 = 25",
+          "3y + 1 = 2 + 25",
+          "3y + 1 = \\frac{25}{2}",
+          "3y = 225"
+        ],
+        "tip": "兩邊乘 $2$。"
+      },
+      {
+        "current": "3y + 1 = 50",
+        "correct": "3y = 49",
+        "distractors": [
+          "3y = 50 + 1",
+          "3y = 1 - 50",
+          "y = 49",
+          "3y + 50 = 1"
+        ],
+        "tip": "兩邊減 $1$。"
+      },
+      {
+        "current": "3y = 49",
+        "correct": "y = \\frac{49}{3}",
+        "distractors": [
+          "y = 3(49)",
+          "y = \\frac{3}{49}",
+          "y = 49 - 3",
+          "y = \\frac{51}{3}"
+        ],
+        "tip": "兩邊除以 $3$。"
+      }
+    ],
+    "finalAnswer": "y = \\frac{49}{3}",
+    "accepted": [
+      "y = \\frac{49}{3}",
+      "y=\\frac{49}{3}"
+    ]
+  },
+  {
+    "id": "cs-adv-012",
+    "level": 2,
+    "type": "根號分式求主項",
+    "errTag": "開方／平方",
+    "prompt": "令 $k$ 成為公式 $\\sqrt{\\frac{4k + 7}{5}} = 3$ 的主項。",
+    "steps": [
+      {
+        "current": "\\sqrt{\\frac{4k + 7}{5}} = 3",
+        "correct": "\\frac{4k + 7}{5} = 9",
+        "distractors": [
+          "\\frac{4k + 7}{5} = 3",
+          "4k + 7 = 3",
+          "\\sqrt{4k + 7} = 35",
+          "\\frac{4k + 7}{5} = \\sqrt{3}"
+        ],
+        "tip": "兩邊平方。"
+      },
+      {
+        "current": "\\frac{4k + 7}{5} = 9",
+        "correct": "4k + 7 = 45",
+        "distractors": [
+          "4k + 7 = 9",
+          "4k + 7 = 5 + 9",
+          "4k + 7 = \\frac{9}{5}",
+          "4k = 59"
+        ],
+        "tip": "兩邊乘 $5$。"
+      },
+      {
+        "current": "4k + 7 = 45",
+        "correct": "4k = 38",
+        "distractors": [
+          "4k = 45 + 7",
+          "4k = 7 - 45",
+          "k = 38",
+          "4k + 45 = 7"
+        ],
+        "tip": "兩邊減 $7$。"
+      },
+      {
+        "current": "4k = 38",
+        "correct": "k = \\frac{38}{4}",
+        "distractors": [
+          "k = 4(38)",
+          "k = \\frac{4}{38}",
+          "k = 38 - 4",
+          "k = \\frac{52}{4}"
+        ],
+        "tip": "兩邊除以 $4$。"
+      }
+    ],
+    "finalAnswer": "k = \\frac{38}{4}",
+    "accepted": [
+      "k = \\frac{38}{4}",
+      "k=\\frac{38}{4}"
+    ]
+  },
+  {
+    "id": "cs-adv-013",
+    "level": 2,
+    "type": "雙分式方程",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $x$ 成為公式 $\\frac{2}{x} + 3 = \\frac{4}{x + 1}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{2}{x} + 3 = \\frac{4}{x + 1}",
+        "correct": "\\frac{2 + 3x}{x} = \\frac{4}{x + 1}",
+        "distractors": [
+          "\\frac{2}{x} = \\frac{4}{x + 1} + 3",
+          "\\frac{2 + 3}{x} = \\frac{4}{x + 1}",
+          "2 + 3x = 4",
+          "\\frac{2}{x + 3} = \\frac{4}{x + 1}"
+        ],
+        "tip": "左邊通分：\\(\\dfrac{2}{x}+3=\\dfrac{2+3x}{x}\\)。"
+      },
+      {
+        "current": "\\frac{2 + 3x}{x} = \\frac{4}{x + 1}",
+        "correct": "(2 + 3x)(x + 1) = 4x",
+        "distractors": [
+          "2 + 3x = 4(x + 1)",
+          "(2 + 3x)(x + 1) = 4",
+          "2 + 3x = 4x",
+          "\\frac{2 + 3x}{x + 1} = 4x"
+        ],
+        "tip": "交叉相乘。"
+      },
+      {
+        "current": "(2 + 3x)(x + 1) = 4x",
+        "correct": "3x^{2} + (2 + 3 - 4)x + 2 = 0",
+        "distractors": [
+          "3x^{2} + (2 + 3 + 4)x + 2 = 0",
+          "3x^{2} + (2 - 3)x = 4x",
+          "2 + 3x + 1 = 4x",
+          "3x^{2} + 2x + 2 = 4"
+        ],
+        "tip": "展開後將所有項移到左邊整理成二次方程（若題目要求主項，可先保留此式再視情況求解）。"
+      }
+    ],
+    "finalAnswer": "3x^{2} + (2 + 3 - 4)x + 2 = 0",
+    "accepted": [
+      "3x^{2} + (2 + 3 - 4)x + 2 = 0",
+      "3x^{2}+(2+3-4)x+2=0"
+    ]
+  },
+  {
+    "id": "cs-adv-014",
+    "level": 2,
+    "type": "雙分式方程",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $y$ 成為公式 $\\frac{5}{y} + 1 = \\frac{6}{y + 2}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{5}{y} + 1 = \\frac{6}{y + 2}",
+        "correct": "\\frac{5 + 1y}{y} = \\frac{6}{y + 2}",
+        "distractors": [
+          "\\frac{5}{y} = \\frac{6}{y + 2} + 1",
+          "\\frac{5 + 1}{y} = \\frac{6}{y + 2}",
+          "5 + 1y = 6",
+          "\\frac{5}{y + 1} = \\frac{6}{y + 2}"
+        ],
+        "tip": "左邊通分：\\(\\dfrac{5}{y}+1=\\dfrac{5+1y}{y}\\)。"
+      },
+      {
+        "current": "\\frac{5 + 1y}{y} = \\frac{6}{y + 2}",
+        "correct": "(5 + 1y)(y + 2) = 6y",
+        "distractors": [
+          "5 + 1y = 6(y + 2)",
+          "(5 + 1y)(y + 2) = 6",
+          "5 + 1y = 6y",
+          "\\frac{5 + 1y}{y + 2} = 6y"
+        ],
+        "tip": "交叉相乘。"
+      },
+      {
+        "current": "(5 + 1y)(y + 2) = 6y",
+        "correct": "1y^{2} + (5 + 2 - 6)y + 10 = 0",
+        "distractors": [
+          "1y^{2} + (5 + 2 + 6)y + 10 = 0",
+          "1y^{2} + (5 - 2)y = 6y",
+          "5 + 1y + 2 = 6y",
+          "1y^{2} + 5y + 10 = 6"
+        ],
+        "tip": "展開後將所有項移到左邊整理成二次方程（若題目要求主項，可先保留此式再視情況求解）。"
+      }
+    ],
+    "finalAnswer": "1y^{2} + (5 + 2 - 6)y + 10 = 0",
+    "accepted": [
+      "1y^{2} + (5 + 2 - 6)y + 10 = 0",
+      "1y^{2}+(5+2-6)y+10=0"
+    ]
+  },
+  {
+    "id": "cs-adv-015",
+    "level": 2,
+    "type": "雙分式方程",
+    "errTag": "分式主項／清分母",
+    "prompt": "令 $m$ 成為公式 $\\frac{3}{m} + 4 = \\frac{5}{m + 3}$ 的主項。",
+    "steps": [
+      {
+        "current": "\\frac{3}{m} + 4 = \\frac{5}{m + 3}",
+        "correct": "\\frac{3 + 4m}{m} = \\frac{5}{m + 3}",
+        "distractors": [
+          "\\frac{3}{m} = \\frac{5}{m + 3} + 4",
+          "\\frac{3 + 4}{m} = \\frac{5}{m + 3}",
+          "3 + 4m = 5",
+          "\\frac{3}{m + 4} = \\frac{5}{m + 3}"
+        ],
+        "tip": "左邊通分：\\(\\dfrac{3}{m}+4=\\dfrac{3+4m}{m}\\)。"
+      },
+      {
+        "current": "\\frac{3 + 4m}{m} = \\frac{5}{m + 3}",
+        "correct": "(3 + 4m)(m + 3) = 5m",
+        "distractors": [
+          "3 + 4m = 5(m + 3)",
+          "(3 + 4m)(m + 3) = 5",
+          "3 + 4m = 5m",
+          "\\frac{3 + 4m}{m + 3} = 5m"
+        ],
+        "tip": "交叉相乘。"
+      },
+      {
+        "current": "(3 + 4m)(m + 3) = 5m",
+        "correct": "4m^{2} + (3 + 12 - 5)m + 9 = 0",
+        "distractors": [
+          "4m^{2} + (3 + 12 + 5)m + 9 = 0",
+          "4m^{2} + (3 - 12)m = 5m",
+          "3 + 4m + 3 = 5m",
+          "4m^{2} + 3m + 9 = 5"
+        ],
+        "tip": "展開後將所有項移到左邊整理成二次方程（若題目要求主項，可先保留此式再視情況求解）。"
+      }
+    ],
+    "finalAnswer": "4m^{2} + (3 + 12 - 5)m + 9 = 0",
+    "accepted": [
+      "4m^{2} + (3 + 12 - 5)m + 9 = 0",
+      "4m^{2}+(3+12-5)m+9=0"
+    ]
+  }
+]
