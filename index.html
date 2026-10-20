@@ -286,6 +286,23 @@
     margin: .5rem 0 0; font-size: .74rem; color: var(--muted); line-height: 1.45;
   }
 
+
+  .top-nav {
+    display: flex; gap: .45rem; flex-wrap: wrap;
+    margin: .55rem 0 0;
+  }
+  .top-nav a {
+    color: #fff; text-decoration: none;
+    font-size: .78rem; font-weight: 600;
+    padding: .22rem .65rem; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.38);
+    opacity: .92;
+  }
+  .top-nav a:hover { background: rgba(255,255,255,.14); opacity: 1; }
+  .top-nav a.active {
+    background: rgba(255,255,255,.22); border-color: #fff; opacity: 1;
+  }
+
   @media (max-width: 640px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
     .current-eq .eq .katex { font-size: 1.3em; }
@@ -298,6 +315,10 @@
 <header>
   <h1>DSE 數學卷一 · 主項變換操練</h1>
   <p>KaTeX 試卷式數式 · 拖放下一步 · 方程編輯器 · 自動出題</p>
+  <nav class="top-nav" aria-label="工具切換">
+    <a href="index.html" class="active">主項變換</a>
+    <a href="indices.html">指數化簡</a>
+  </nav>
 </header>
 <main>
   <div class="stats">

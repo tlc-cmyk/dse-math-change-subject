@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>DSE 數學 · 指數化簡操練</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<style>
+  :root {
+    --bg: #f3f1eb;
+    --paper: #fffcf7;
+    --card: #ffffff;
+    --ink: #1c1c1c;
+    --muted: #5c6570;
+    --brand: #1a4f8a;
+    --brand-soft: #eef3f9;
+    --ok: #1a6b35;
+    --ok-bg: #eaf6ee;
+    --ok-border: #b5dcc0;
+    --bad: #a61b12;
+    --bad-bg: #fdf2f1;
+    --bad-border: #f0bfbc;
+    --line: #d4d0c8;
+    --chip: #eef2f6;
+    --drop: #f7f5f0;
+    --drop-active: #e3edf8;
+    --tile: #fffefb;
+    --shadow: 0 3px 14px rgba(28, 28, 28, 0.07);
+    --math: "KaTeX_Main", "Times New Roman", "Noto Serif TC", "Songti TC", serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans TC", "PingFang HK", "Microsoft JhengHei", "Hiragino Sans CNS", sans-serif;
+    background: linear-gradient(180deg, #e8e4db 0%, var(--bg) 35%, #ebe8e0 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    touch-action: manipulation;
+  }
+  header {
+    background: var(--brand);
+    color: #fff;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,.14);
+  }
+  header h1 { margin: 0; font-size: 1.18rem; font-weight: 700; }
+  header p { margin: .28rem 0 0; opacity: .92; font-size: .86rem; }
+  main { max-width: 900px; margin: 1rem auto; padding: 0 .85rem 2.5rem; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: .55rem; margin-bottom: .9rem;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: .7rem .5rem; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat .n { font-size: 1.3rem; font-weight: 700; color: var(--brand); }
+  .stat .l { font-size: .7rem; color: var(--muted); margin-top: .1rem; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.15rem 1.2rem 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .75rem; }
+  .chip {
+    background: var(--chip); color: var(--brand); font-size: .74rem; font-weight: 600;
+    padding: .2rem .55rem; border-radius: 999px; border: 1px solid #cfd8e4;
+  }
+  .chip.warn { color: #8a4500; background: #fff7eb; border-color: #efd4a6; }
+  .chip.step { color: #0b5a48; background: #e7f6f1; border-color: #b5ddd2; }
+  .chip.mode { color: #4a3d7a; background: #f2effa; border-color: #d4cce8; cursor: pointer; }
+  .chip.mode.active { background: #4a3d7a; color: #fff; border-color: #4a3d7a; }
+
+  .q-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--brand);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin: .4rem 0 .85rem;
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+  .q-box .katex { font-size: 1.15em; }
+  .progress-bar {
+    height: 5px; background: #e5e1d8; border-radius: 999px; overflow: hidden; margin: 0 0 .85rem;
+  }
+  .progress-bar > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--brand), #2a8a6a);
+    transition: width .28s ease; border-radius: 999px;
+  }
+
+  .step-history { margin: 0 0 .7rem; padding: 0; list-style: none; }
+  .step-history li {
+    font-size: .88rem; color: var(--muted); padding: .35rem 0;
+    border-bottom: 1px dashed #e0dbd2; display: flex; align-items: center; gap: .4rem;
+  }
+  .step-history .katex { font-size: 1.05em; color: var(--ok); }
+
+  .current-eq {
+    text-align: center;
+    background: #fff;
+    border: 1.5px solid #c8d6e6;
+    border-radius: 12px;
+    padding: 1.15rem 1rem;
+    margin-bottom: .85rem;
+    min-height: 4.2rem;
+  }
+  .current-eq .label { font-size: .76rem; color: var(--muted); margin-bottom: .5rem; letter-spacing: .02em; }
+  .current-eq .eq .katex { font-size: 1.55em; }
+
+  .drop-zone {
+    min-height: 78px;
+    border: 2.5px dashed #a9b4c2;
+    border-radius: 14px;
+    background: var(--drop);
+    display: flex; align-items: center; justify-content: center;
+    padding: .9rem; margin-bottom: .8rem;
+    transition: background .15s, border-color .15s, box-shadow .15s;
+    user-select: none; -webkit-user-select: none;
+  }
+  .drop-zone.drag-over {
+    background: var(--drop-active); border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(26, 79, 138, .16);
+  }
+  .drop-zone.correct { border-style: solid; border-color: var(--ok); background: var(--ok-bg); }
+  .drop-zone .placeholder { color: var(--muted); font-size: .9rem; text-align: center; pointer-events: none; }
+  .drop-zone .snapped .katex { font-size: 1.4em; color: var(--ok); }
+
+  .tile-bank-label { font-size: .8rem; color: var(--muted); margin: .15rem 0 .5rem; }
+  .tile-bank { display: flex; flex-wrap: wrap; gap: .55rem; min-height: 56px; }
+  .tile {
+    background: var(--tile);
+    border: 1.5px solid #b7c2d0;
+    border-radius: 12px;
+    padding: .7rem .95rem;
+    cursor: grab;
+    box-shadow: 0 2px 5px rgba(28,28,28,.05);
+    user-select: none; -webkit-user-select: none;
+    touch-action: none;
+    transition: transform .12s, box-shadow .12s, opacity .12s;
+    max-width: 100%;
+  }
+  .tile .katex { font-size: 1.22em; pointer-events: none; }
+  .tile:active, .tile.dragging { cursor: grabbing; }
+  .tile.dragging { opacity: .4; transform: scale(.97); }
+  .tile.ghost {
+    position: fixed; z-index: 9999; pointer-events: none; opacity: .96;
+    box-shadow: 0 8px 22px rgba(28,28,28,.2); transform: scale(1.03); margin: 0;
+  }
+
+  .mode-tabs {
+    display: flex; flex-wrap: wrap; gap: .4rem; margin: .75rem 0 .6rem;
+  }
+
+  /* Equation editor */
+  .editor-panel {
+    display: none;
+    margin-top: .5rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: .75rem;
+  }
+  .editor-panel.show { display: block; }
+  .editor-toolbar {
+    display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .55rem;
+  }
+  .editor-toolbar button {
+    min-width: 2.2rem;
+    padding: .4rem .55rem;
+    font-size: .88rem;
+    background: #f4f2ec;
+    color: var(--ink);
+    border: 1px solid #d0cbc0;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .editor-toolbar button:hover { background: #eae6dc; }
+  .editor-toolbar button .katex { font-size: .95em; }
+  .editor-preview {
+    min-height: 3.4rem;
+    border: 1.5px solid #c5d0dc;
+    border-radius: 10px;
+    background: #faf9f6;
+    padding: .75rem .9rem;
+    margin-bottom: .5rem;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--math);
+  }
+  .editor-preview .katex { font-size: 1.45em; }
+  .editor-preview .placeholder-ed { color: #9aa3ad; font-size: .9rem; font-family: inherit; }
+  .editor-raw {
+    width: 100%;
+    font-family: "Times New Roman", "Cascadia Code", ui-monospace, monospace;
+    font-size: .95rem;
+    padding: .55rem .7rem;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: .45rem;
+    background: #fff;
+  }
+  .editor-raw:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(26,79,138,.12); }
+  .editor-hint { font-size: .75rem; color: var(--muted); margin: 0 0 .5rem; line-height: 1.4; }
+
+  .feedback {
+    margin-top: .75rem; padding: .8rem .95rem; border-radius: 11px;
+    display: none; line-height: 1.55; font-size: .93rem;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--ok-bg); border: 1px solid var(--ok-border); color: var(--ok); }
+  .feedback.bad { background: var(--bad-bg); border: 1px solid var(--bad-border); color: var(--bad); }
+  .feedback.info { background: #f3f1eb; border: 1px solid var(--line); color: var(--ink); }
+  .feedback h3 { margin: 0 0 .28rem; font-size: .96rem; }
+  .feedback .katex { font-size: 1.1em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .9rem; }
+  button {
+    border: none; border-radius: 10px; padding: .62rem .95rem;
+    font-size: .9rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-secondary { background: #0d6e56; color: #fff; }
+  .btn-ghost { background: #ebe8e0; color: var(--ink); }
+  .btn-ghost:hover { background: #e0dcd2; }
+  .btn-warn { background: #fff6e8; color: #8a4500; border: 1px solid #efd4a6; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+
+  .complete-panel {
+    display: none; margin-top: .75rem; padding: 1rem;
+    border-radius: 12px; background: var(--ok-bg); border: 1px solid var(--ok-border);
+  }
+  .complete-panel.show { display: block; }
+  .complete-panel h3 { margin: 0 0 .5rem; color: var(--ok); }
+  .complete-panel ol { margin: .35rem 0 .7rem; padding-left: 1.2rem; color: var(--ink); }
+  .complete-panel li { margin: .45rem 0; line-height: 1.55; }
+  .complete-panel .katex { font-size: 1.12em; }
+  .final-ans { margin-top: .45rem; font-size: 1.05rem; }
+  .final-ans .katex { font-size: 1.35em; }
+
+  details.errors {
+    margin-top: .95rem; background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: .7rem .95rem; box-shadow: var(--shadow);
+  }
+  details.errors summary { cursor: pointer; font-weight: 600; color: var(--brand); }
+  .err-list { margin: .5rem 0 0; padding: 0; list-style: none; font-size: .88rem; }
+  .err-list li {
+    display: flex; justify-content: space-between; gap: .5rem;
+    padding: .35rem 0; border-bottom: 1px dashed var(--line);
+  }
+  .err-list li:last-child { border-bottom: none; }
+  footer { text-align: center; color: var(--muted); font-size: .76rem; margin-top: 1.1rem; }
+
+
+  .level-picker {
+    margin: 0 0 .85rem;
+    padding: .75rem .85rem;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .level-picker .lp-label {
+    font-size: .78rem; color: var(--muted); margin-bottom: .45rem; font-weight: 600;
+  }
+  .level-seg {
+    display: flex; flex-wrap: wrap; gap: .35rem;
+  }
+  .level-seg button {
+    flex: 1 1 auto; min-width: 5.5rem;
+    padding: .5rem .7rem; border-radius: 999px;
+    background: #f4f2ec; color: var(--ink);
+    border: 1.5px solid #d0cbc0; font-size: .86rem;
+  }
+  .level-seg button:hover { background: #eae6dc; }
+  .level-seg button.active {
+    background: var(--brand); color: #fff; border-color: var(--brand);
+  }
+  .level-sub {
+    margin: .5rem 0 0; font-size: .74rem; color: var(--muted); line-height: 1.45;
+  }
+
+
+  .top-nav {
+    display: flex; gap: .45rem; flex-wrap: wrap;
+    margin: .55rem 0 0;
+  }
+  .top-nav a {
+    color: #fff; text-decoration: none;
+    font-size: .78rem; font-weight: 600;
+    padding: .22rem .65rem; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.38);
+    opacity: .92;
+  }
+  .top-nav a:hover { background: rgba(255,255,255,.14); opacity: 1; }
+  .top-nav a.active {
+    background: rgba(255,255,255,.22); border-color: #fff; opacity: 1;
+  }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .current-eq .eq .katex { font-size: 1.3em; }
+    .tile .katex { font-size: 1.1em; }
+    header h1 { font-size: 1.02rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>DSE 數學卷一 · 指數化簡操練</h1>
+  <p>指數定律操練 · 拖放下一步 · 正指數作答 · 自動出題</p>
+  <nav class="top-nav" aria-label="工具切換">
+    <a href="index.html">主項變換</a>
+    <a href="indices.html" class="active">指數化簡</a>
+  </nav>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat"><div class="n" id="statTotal">0</div><div class="l">已做題數</div></div>
+    <div class="stat"><div class="n" id="statPerfect">0</div><div class="l">全對（無錯拖）</div></div>
+    <div class="stat"><div class="n" id="statStepAcc">—</div><div class="l">步驟正確率</div></div>
+    <div class="stat"><div class="n" id="statRate">—</div><div class="l">全對率</div></div>
+  </div>
+
+  <div class="card" id="quizCard">
+    <div class="meta">
+      <span class="chip" id="chipType">題型</span>
+      <span class="chip warn" id="chipLevel">難度</span>
+      <span class="chip" id="chipNo">第 1 題</span>
+      <span class="chip step" id="chipStep">步驟 1 / ?</span>
+    </div>
+    <div class="level-picker" id="levelPicker">
+      <div class="lp-label">難度選擇</div>
+      <div class="level-seg" role="group" aria-label="難度">
+        <button type="button" data-level="0" id="btnLv0">簡單</button>
+        <button type="button" data-level="1" id="btnLv1" class="active">DSE Level</button>
+        <button type="button" data-level="2" id="btnLv2">進階</button>
+      </div>
+      <p class="level-sub" id="levelSub">DSE Level＝卷一甲(1)常見指數定律／正指數化簡</p>
+    </div>
+    <div class="q-box" id="questionBox"></div>
+    <div class="progress-bar" aria-hidden="true"><i id="progressFill"></i></div>
+    <ul class="step-history" id="stepHistory"></ul>
+
+    <div class="mode-tabs">
+      <span class="chip mode active" id="tabDrag" role="button" tabindex="0">拖放逐步</span>
+      <span class="chip mode" id="tabEditor" role="button" tabindex="0">自己輸入／砌答案</span>
+    </div>
+
+    <div id="playArea">
+      <div class="current-eq">
+        <div class="label">目前式子</div>
+        <div class="eq" id="currentEq"></div>
+      </div>
+
+      <div id="dragMode">
+        <div class="drop-zone" id="dropZone" role="region" aria-label="投放區">
+          <span class="placeholder">將正確嘅下一步拖入呢度</span>
+        </div>
+        <div class="tile-bank-label">可選嘅下一步（拖其中一個）：</div>
+        <div class="tile-bank" id="tileBank"></div>
+      </div>
+
+      <div class="editor-panel" id="editorPanel">
+        <div class="editor-toolbar" id="editorToolbar"></div>
+        <div class="editor-preview" id="editorPreview"><span class="placeholder-ed">預覽會喺呢度顯示</span></div>
+        <input type="text" class="editor-raw" id="editorRaw" placeholder="例如：\\frac{x^{2}}{y^{3}}" autocomplete="off" spellcheck="false" />
+        <p class="editor-hint">用工具列插入分數／根號，或直接輸入 LaTeX。最終答案須以<strong>正指數</strong>表示，例如 <code>\\frac{x^{2}}{y^{3}}</code>。撳「核對最終答案」提交。</p>
+        <div class="actions" style="margin-top:.35rem">
+          <button type="button" class="btn-primary" id="btnCheckFinal">核對最終答案</button>
+        </div>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="complete-panel" id="completePanel">
+      <h3 id="completeTitle">完成！</h3>
+      <div id="completeBody"></div>
+      <div class="actions">
+        <button type="button" class="btn-secondary" id="btnNext">下一題</button>
+      </div>
+    </div>
+
+    <div class="actions" id="playActions">
+      <button type="button" class="btn-ghost" id="btnHint">提示</button>
+      <button type="button" class="btn-warn" id="btnReveal">睇完整詳解</button>
+      <button type="button" class="btn-ghost" id="btnSkip">跳過／下一題</button>
+      <button type="button" class="btn-ghost" id="btnReset">重置統計</button>
+    </div>
+  </div>
+
+  <details class="errors">
+    <summary>錯題類型統計（方便複習）</summary>
+    <ul class="err-list" id="errList"><li style="color:#5c6570">暫時未有錯題記錄</li></ul>
+  </details>
+  <footer>數式以 KaTeX 排版。化簡後請以正指數表示。題目為模擬生成，僅供溫習操練。</footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+
+  const LEVELS = ["簡單", "DSE Level", "進階"];
+  const LEVEL_SUBS = [
+    "簡單＝初中基礎移項",
+    "DSE Level＝卷一甲(1)常見指數定律／正指數化簡",
+    "進階＝較繁分數／多變數"
+  ];
+  let selectedLevel = 1; // default DSE Level
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const shuffle = (arr) => {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  const letterPool = "abcdefghkmnpqrstuvwxyz".split("");
+  const distinct = (n) => {
+    const used = new Set();
+    const out = [];
+    while (out.length < n) {
+      const L = pick(letterPool);
+      if (!used.has(L)) { used.add(L); out.push(L); }
+    }
+    return out;
+  };
+  /** Nonzero small int excluding zero */
+  const nz = (a, b) => { let x; do { x = randInt(a, b); } while (x === 0); return x; };
+
+  function katexReady() {
+    return typeof katex !== "undefined";
+  }
+
+  function renderTex(tex, display) {
+    if (!katexReady()) return '<span class="math-fallback">' + String(tex).replace(/</g, "&lt;") + "</span>";
+    try {
+      return katex.renderToString(tex, { throwOnError: false, displayMode: !!display, output: "html" });
+    } catch (e) {
+      return '<span class="math-fallback">' + String(tex).replace(/</g, "&lt;") + "</span>";
+    }
+  }
+
+  function setTex(node, tex, display) {
+    node.innerHTML = renderTex(tex, display);
+  }
+
+  /** Inline mix: replace $...$ with KaTeX */
+  function renderPrompt(htmlWithDollars) {
+    return String(htmlWithDollars).replace(/\$([^$]+)\$/g, (_, tex) => renderTex(tex.trim(), false));
+  }
+
+  // ---- LaTeX normalize for answer check ----
+  function normLatex(s) {
+    return String(s || "")
+      .replace(/\s+/g, "")
+      .replace(/\\\\/g, "\\")
+      .replace(/\{([a-zA-Z0-9])\}/g, "$1")
+      .replace(/\\left/g, "")
+      .replace(/\\right/g, "")
+      .replace(/\\cdot/g, "")
+      .replace(/\\times/g, "")
+      .replace(/\\div/g, "/")
+      .replace(/÷/g, "/")
+      .replace(/×/g, "")
+      .replace(/−/g, "-")
+      .replace(/–/g, "-")
+      .replace(/⋅/g, "")
+      .replace(/\\,/g, "")
+      .replace(/\\;/g, "")
+      .replace(/\\!/g, "")
+      .replace(/\\dfrac/g, "\\frac")
+      .replace(/\\tfrac/g, "\\frac")
+      .replace(/\\sqrt\{([^{}]+)\}/g, "sqrt($1)")
+      .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, "(($1)/($2))")
+      .replace(/\\pi/g, "pi")
+      .replace(/π/g, "pi")
+      .replace(/\^\{2\}/g, "^2")
+      .replace(/\^2/g, "^2")
+      .replace(/²/g, "^2")
+      .toLowerCase();
+  }
+
+  function answersMatch(user, accepted) {
+    const u = normLatex(user);
+    if (!u) return false;
+    return accepted.some((a) => normLatex(a) === u);
+  }
+
+  function idxPrompt(expr) {
+    return `化簡 $${expr}$，並以正指數表示答案。`;
+  }
+
+  /** Positive-index monomial from [base, exp] pairs */
+  function monoPositive(parts) {
+    const num = [], den = [];
+    for (const [b, e] of parts) {
+      if (!e) continue;
+      if (e > 0) num.push(e === 1 ? b : `${b}^{${e}}`);
+      else den.push(e === -1 ? b : `${b}^{${-e}}`);
+    }
+    if (!num.length && !den.length) return "1";
+    if (!den.length) return num.join("");
+    const n = num.length ? num.join("") : "1";
+    return `\\frac{${n}}{${den.join("")}}`;
+  }
+
+  // ---- Generators: index simplification ----
+  const generators = [
+    // ========== 簡單 (0) ==========
+    () => {
+      const [a] = distinct(1);
+      const m = randInt(2, 8), n = randInt(2, 8);
+      const s0 = `${a}^{${m}} \\times ${a}^{${n}}`;
+      const s1 = `${a}^{${m} + ${n}}`;
+      const s2 = `${a}^{${m + n}}`;
+      return {
+        type: "同底相乘", level: 0, errTag: "同底相乘指數相加",
+        fingerprint: `s1|${a}|${m}|${n}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${m} \\times ${n}}`,
+              `${a}^{${m} - ${n}}`,
+              `(${a}^{${m}})^{${n}}`,
+              `${a}^{${m}}${a}^{${n}}`
+            ],
+            tip: `同底相乘：指數相加 $a^{m}\\times a^{n}=a^{m+n}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${m * n}}`,
+              `${a}^{${Math.abs(m - n)}}`,
+              `\\frac{1}{${a}^{${m + n}}}`,
+              `${a}^{${m - n}}`
+            ],
+            tip: `計出指數：$${m}+${n}=${m + n}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${a}^{${m + n}}`]
+      };
+    },
+
+    () => {
+      const [a] = distinct(1);
+      const m = randInt(4, 10), n = randInt(1, m - 1);
+      const s0 = `\\frac{${a}^{${m}}}{${a}^{${n}}}`;
+      const s1 = `${a}^{${m} - ${n}}`;
+      const s2 = `${a}^{${m - n}}`;
+      return {
+        type: "同底相除", level: 0, errTag: "同底相除指數相減",
+        fingerprint: `s2|${a}|${m}|${n}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${m} + ${n}}`,
+              `${a}^{${m} \\times ${n}}`,
+              `${a}^{\\frac{${m}}{${n}}}`,
+              `\\frac{${a}^{${n}}}{${a}^{${m}}}`
+            ],
+            tip: `同底相除：指數相減 $a^{m}\\div a^{n}=a^{m-n}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${m + n}}`,
+              `${a}^{${n - m}}`,
+              `\\frac{1}{${a}^{${m - n}}}`,
+              `${a}^{${m * n}}`
+            ],
+            tip: `計出指數：$${m}-${n}=${m - n}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${a}^{${m - n}}`]
+      };
+    },
+
+    () => {
+      const [a] = distinct(1);
+      const m = randInt(2, 6), n = randInt(2, 5);
+      const s0 = `(${a}^{${m}})^{${n}}`;
+      const s1 = `${a}^{${m} \\times ${n}}`;
+      const s2 = `${a}^{${m * n}}`;
+      return {
+        type: "方之方", level: 0, errTag: "方之方指數相乘",
+        fingerprint: `s3|${a}|${m}|${n}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${m} + ${n}}`,
+              `${a}^{${m} - ${n}}`,
+              `${a}^{${m}}${a}^{${n}}`,
+              `${n}(${a}^{${m}})`
+            ],
+            tip: `方之方：指數相乘 $(a^{m})^{n}=a^{mn}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${m + n}}`,
+              `${a}^{${Math.abs(m - n)}}`,
+              `\\frac{1}{${a}^{${m * n}}}`,
+              `(${a}^{${m}})^{${n}}`
+            ],
+            tip: `計出指數：$${m}\\times${n}=${m * n}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${a}^{${m * n}}`]
+      };
+    },
+
+    () => {
+      const [a, b] = distinct(2);
+      const n = randInt(2, 6);
+      const s0 = `(${a}${b})^{${n}}`;
+      const s1 = `${a}^{${n}}${b}^{${n}}`;
+      return {
+        type: "積的方", level: 0, errTag: "積的方分配指數",
+        fingerprint: `s4|${a}|${b}|${n}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}${b}^{${n}}`,
+              `${a}^{${n}}${b}`,
+              `${a}^{${n} + ${n}}${b}`,
+              `\\frac{${a}^{${n}}}{${b}^{${n}}}`
+            ],
+            tip: `積的方：$(ab)^{n}=a^{n}b^{n}$。`
+          }
+        ],
+        finalAnswer: s1,
+        accepted: [s1, `${a}^{${n}}${b}^{${n}}`, `${b}^{${n}}${a}^{${n}}`]
+      };
+    },
+
+    () => {
+      const [a] = distinct(1);
+      const n = randInt(2, 8);
+      const s0 = `${a}^{-${n}}`;
+      const s1 = `\\frac{1}{${a}^{${n}}}`;
+      return {
+        type: "負指數改寫", level: 0, errTag: "負指數改分數",
+        fingerprint: `s5|${a}|${n}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `-${a}^{${n}}`,
+              `\\frac{1}{${a}^{-${n}}}`,
+              `${a}^{${n}}`,
+              `-\\frac{1}{${a}^{${n}}}`
+            ],
+            tip: `負指數定義：$a^{-n}=\\dfrac{1}{a^{n}}$（$a\\neq 0$）。`
+          }
+        ],
+        finalAnswer: s1,
+        accepted: [s1, `1/${a}^{${n}}`, `\\frac{1}{${a}^{${n}}}`]
+      };
+    },
+
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(3, 7), n = randInt(1, 3), p = randInt(2, 5);
+      const s0 = `\\frac{${a}^{${m}}${b}^{${p}}}{${a}^{${n}}}`;
+      const s1 = `${a}^{${m} - ${n}}${b}^{${p}}`;
+      const s2 = `${a}^{${m - n}}${b}^{${p}}`;
+      return {
+        type: "單項式分式化簡", level: 0, errTag: "同底相除指數相減",
+        fingerprint: `s6|${a}|${b}|${m}|${n}|${p}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${m} + ${n}}${b}^{${p}}`,
+              `${a}^{${m}}${b}^{${p} - ${n}}`,
+              `${a}^{${m * n}}${b}^{${p}}`,
+              `\\frac{${a}^{${m - n}}}{${b}^{${p}}}`
+            ],
+            tip: `只處理同底 $${a}$：分子減分母指數；$${b}$ 保持。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${m + n}}${b}^{${p}}`,
+              `\\frac{${b}^{${p}}}{${a}^{${m - n}}}`,
+              `${a}^{${n - m}}${b}^{${p}}`,
+              `${a}${b}^{${p}}`
+            ],
+            tip: `計出 $${a}$ 指數：$${m}-${n}=${m - n}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${a}^{${m - n}}${b}^{${p}}`, `${b}^{${p}}${a}^{${m - n}}`]
+      };
+    },
+
+    // ========== DSE Level (1) ==========
+    // D1: x^{-k}(x y^r)^s
+    () => {
+      const [x, y] = distinct(2);
+      const k = randInt(2, 5);
+      const r = randInt(2, 4);
+      const s = randInt(2, 5);
+      const ex = s - k;
+      const ey = r * s;
+      const s0 = `${x}^{-${k}}(${x}${y}^{${r}})^{${s}}`;
+      const s1 = `${x}^{-${k}} \\cdot ${x}^{${s}}${y}^{${r * s}}`;
+      const s2 = `${x}^{${s} - ${k}}${y}^{${r * s}}`;
+      const s3 = monoPositive([[x, ex], [y, ey]]);
+      const acc = [s3];
+      if (ex > 0) {
+        acc.push(`${x}^{${ex}}${y}^{${ey}}`, `${y}^{${ey}}${x}^{${ex}}`);
+      } else if (ex < 0) {
+        acc.push(`\\frac{${y}^{${ey}}}{${x}^{${-ex}}}`, `\\frac{${y}^{${ey}}}{${x}^{${-ex}}}`);
+      } else {
+        acc.push(`${y}^{${ey}}`);
+      }
+      return {
+        type: "負指數×積的方", level: 1, errTag: "積的方／指數合併",
+        fingerprint: `d1|${x}|${y}|${k}|${r}|${s}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${x}^{-${k}} \\cdot ${x}${y}^{${r * s}}`,
+              `${x}^{-${k}} \\cdot ${x}^{${s}}${y}^{${r}}`,
+              `${x}^{-${k * s}}(${x}${y}^{${r}})`,
+              `${x}^{-${k} + ${s}}${y}^{${r}}`
+            ],
+            tip: `先展開 $(${x}${y}^{${r}})^{${s}}=${x}^{${s}}${y}^{${r}\\times${s}}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x}^{-${k} \\times ${s}}${y}^{${r * s}}`,
+              `${x}^{${k} - ${s}}${y}^{${r * s}}`,
+              `${x}^{-${k}}${y}^{${r * s}}`,
+              `${x}^{-${k} + ${s}}${y}^{${r}}`
+            ],
+            tip: `同底 $${x}$ 指數相加：$-${k}+${s}$。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${x}^{${ex}}${y}^{-${ey}}`,
+              `${x}^{${s + k}}${y}^{${ey}}`,
+              `${x}^{${ex}}${y}^{${r}}`,
+              ex >= 0 ? `\\frac{1}{${x}^{${ex}}${y}^{${ey}}}` : `${x}^{${-ex}}${y}^{${ey}}`
+            ],
+            tip: `合併後若有負指數，改寫成正指數分數。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: acc
+      };
+    },
+
+    // D2: (a^m b^n)^p / (a^q b^r)
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(2, 4), n = randInt(1, 3), p = randInt(2, 4);
+      const q = randInt(1, 5), r = randInt(1, 6);
+      const ea = m * p - q;
+      const eb = n * p - r;
+      const s0 = `\\frac{(${a}^{${m}}${b}^{${n}})^{${p}}}{${a}^{${q}}${b}^{${r}}}`;
+      const s1 = `\\frac{${a}^{${m * p}}${b}^{${n * p}}}{${a}^{${q}}${b}^{${r}}}`;
+      const s2 = `${a}^{${m * p} - ${q}}${b}^{${n * p} - ${r}}`;
+      const s3 = monoPositive([[a, ea], [b, eb]]);
+      const acc = [s3, monoPositive([[b, eb], [a, ea]])];
+      return {
+        type: "積的方÷單項式", level: 1, errTag: "積的方／指數合併",
+        fingerprint: `d2|${a}|${b}|${m}|${n}|${p}|${q}|${r}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{${a}^{${m + p}}${b}^{${n + p}}}{${a}^{${q}}${b}^{${r}}}`,
+              `\\frac{${a}^{${m}}${b}^{${n * p}}}{${a}^{${q}}${b}^{${r}}}`,
+              `\\frac{${a}^{${m * p}}${b}^{${n}}}{${a}^{${q}}${b}^{${r}}}`,
+              `(${a}^{${m}}${b}^{${n}})^{${p} - ${q}}`
+            ],
+            tip: `先展開分子：$(${a}^{${m}}${b}^{${n}})^{${p}}=${a}^{${m}\\times${p}}${b}^{${n}\\times${p}}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${m * p} + ${q}}${b}^{${n * p} + ${r}}`,
+              `${a}^{${m * p} - ${q}}${b}^{${n * p} + ${r}}`,
+              `${a}^{${m * p}\\times${q}}${b}^{${n * p} - ${r}}`,
+              `${a}^{${q} - ${m * p}}${b}^{${r} - ${n * p}}`
+            ],
+            tip: `同底相除：指數相減。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${a}^{${-ea}}${b}^{${-eb}}`,
+              monoPositive([[a, -ea], [b, -eb]]),
+              `${a}^{${m * p + q}}${b}^{${n * p - r}}`,
+              `${a}^{${ea}}${b}^{-${Math.abs(eb)}}`
+            ],
+            tip: `化成全部正指數（負指數搬去分母）。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: acc
+      };
+    },
+
+    // D3: x^p (x^q y^r)^s / y^t
+    () => {
+      const [x, y] = distinct(2);
+      const p = randInt(1, 4), q = randInt(1, 3), r = randInt(1, 3);
+      const s = randInt(2, 4), t = randInt(1, 8);
+      const ex = p + q * s;
+      const ey = r * s - t;
+      const s0 = `\\frac{${x}^{${p}}(${x}^{${q}}${y}^{${r}})^{${s}}}{${y}^{${t}}}`;
+      const s1 = `\\frac{${x}^{${p}}\\cdot ${x}^{${q * s}}${y}^{${r * s}}}{${y}^{${t}}}`;
+      const s2 = `${x}^{${p} + ${q * s}}${y}^{${r * s} - ${t}}`;
+      const s3 = monoPositive([[x, ex], [y, ey]]);
+      return {
+        type: "嵌套積的方／除", level: 1, errTag: "積的方／指數合併",
+        fingerprint: `d3|${x}|${y}|${p}|${q}|${r}|${s}|${t}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{${x}^{${p}}\\cdot ${x}^{${q}}${y}^{${r * s}}}{${y}^{${t}}}`,
+              `\\frac{${x}^{${p + s}}(${x}^{${q}}${y}^{${r}})}{${y}^{${t}}}`,
+              `\\frac{${x}^{${p}}\\cdot ${x}^{${q + s}}${y}^{${r + s}}}{${y}^{${t}}}`,
+              `${x}^{${p}}(${x}^{${q}}${y}^{${r}})^{${s} - ${t}}`
+            ],
+            tip: `展開 $(${x}^{${q}}${y}^{${r}})^{${s}}=${x}^{${q}\\times${s}}${y}^{${r}\\times${s}}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x}^{${p}\\times${q * s}}${y}^{${r * s} - ${t}}`,
+              `${x}^{${p} + ${q * s}}${y}^{${r * s} + ${t}}`,
+              `${x}^{${p} - ${q * s}}${y}^{${r * s} - ${t}}`,
+              `${x}^{${p} + ${q * s}}${y}^{${t} - ${r * s}}`
+            ],
+            tip: `合併 $${x}$ 指數；$${y}$ 指數相減。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              monoPositive([[x, -ex], [y, -ey]]),
+              `${x}^{${ex}}${y}^{${ey}}`,
+              `${x}^{${ex + 1}}${y}^{${ey}}`,
+              `\\frac{${x}^{${ex}}${y}^{${Math.abs(ey)}}}{1}`
+            ],
+            tip: `寫成正指數形式。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, monoPositive([[y, ey], [x, ex]])]
+      };
+    },
+
+    // D4: mix multiply/divide with zero/negative mid: a^m b^{-n} * a^{-p} b^{q}
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(2, 5), n = randInt(1, 4), p = randInt(1, 4), q = randInt(2, 5);
+      const ea = m - p;
+      const eb = -n + q;
+      const s0 = `${a}^{${m}}${b}^{-${n}} \\times ${a}^{-${p}}${b}^{${q}}`;
+      const s1 = `${a}^{${m} + (-${p})}${b}^{-${n} + ${q}}`;
+      const s2 = `${a}^{${m - p}}${b}^{${-n + q}}`;
+      const s3 = monoPositive([[a, ea], [b, eb]]);
+      return {
+        type: "含負指數相乘", level: 1, errTag: "同底相乘指數相加",
+        fingerprint: `d4|${a}|${b}|${m}|${n}|${p}|${q}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${m}\\times(-${p})}${b}^{-${n}\\times${q}}`,
+              `${a}^{${m} - ${p}}${b}^{-${n}\\times${q}}`,
+              `${a}^{${m} + ${p}}${b}^{-${n} + ${q}}`,
+              `${a}^{${m}}${b}^{${q} - ${n}}`
+            ],
+            tip: `各底分別將指數相加（含負數）。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${m + p}}${b}^{${-n + q}}`,
+              `${a}^{${p - m}}${b}^{${-n + q}}`,
+              `${a}^{${m - p}}${b}^{${n + q}}`,
+              `${a}^{${m - p}}${b}^{${n - q}}`
+            ],
+            tip: `計出各指數數值。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${a}^{${ea}}${b}^{${eb}}`,
+              monoPositive([[a, -ea], [b, -eb]]),
+              `${a}^{-${Math.abs(ea)}}${b}^{${eb}}`,
+              `\\frac{${a}^{${Math.abs(ea)}}}{${b}^{${Math.abs(eb)}}}`
+            ],
+            tip: `全部改為正指數表示。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, monoPositive([[b, eb], [a, ea]])]
+      };
+    },
+
+    // D5: (m^5 n^{-2})^6 / (m^4 n^{-3}) style
+    () => {
+      const [m, n] = distinct(2);
+      const a = randInt(2, 5), b = -randInt(1, 3), p = randInt(2, 5);
+      const c = randInt(1, 4), d = -randInt(1, 4);
+      const ea = a * p - c;
+      const eb = b * p - d;
+      const s0 = `\\frac{(${m}^{${a}}${n}^{${b}})^{${p}}}{${m}^{${c}}${n}^{${d}}}`;
+      const s1 = `\\frac{${m}^{${a * p}}${n}^{${b * p}}}{${m}^{${c}}${n}^{${d}}}`;
+      const s2 = `${m}^{${a * p} - ${c}}${n}^{${b * p} - ${d}}`;
+      const s3 = monoPositive([[m, ea], [n, eb]]);
+      return {
+        type: "分式積的方（含負）", level: 1, errTag: "積的方／指數合併",
+        fingerprint: `d5|${m}|${n}|${a}|${b}|${p}|${c}|${d}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{${m}^{${a + p}}${n}^{${b + p}}}{${m}^{${c}}${n}^{${d}}}`,
+              `\\frac{${m}^{${a * p}}${n}^{${b}}}{${m}^{${c}}${n}^{${d}}}`,
+              `\\frac{${m}^{${a}}${n}^{${b * p}}}{${m}^{${c}}${n}^{${d}}}`,
+              `(${m}^{${a}}${n}^{${b}})^{${p} - ${c}}`
+            ],
+            tip: `展開分子各指數乘 $${p}$（負指數一齊乘）。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${m}^{${a * p} + ${c}}${n}^{${b * p} - ${d}}`,
+              `${m}^{${a * p} - ${c}}${n}^{${b * p} + ${d}}`,
+              `${m}^{${c} - ${a * p}}${n}^{${d} - ${b * p}}`,
+              `${m}^{${a * p}\\times${c}}${n}^{${b * p} - ${d}}`
+            ],
+            tip: `上下同底指數相減。注意：減去負數等於加上其絕對值。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${m}^{${ea}}${n}^{${eb}}`,
+              monoPositive([[m, -ea], [n, -eb]]),
+              `${m}^{${ea}}${n}^{-${Math.abs(eb)}}`,
+              `\\frac{${m}^{${Math.abs(ea)}}${n}^{${Math.abs(eb)}}}{1}`
+            ],
+            tip: `改寫成正指數。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, monoPositive([[n, eb], [m, ea]])]
+      };
+    },
+
+    // D6: simple with zero exponent appearing: a^m / a^m * b^n
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(2, 6), n = randInt(2, 5), k = randInt(1, 4);
+      const s0 = `\\frac{${a}^{${m}}${b}^{${n}}}{${a}^{${m}}${b}^{-${k}}}`;
+      const s1 = `${a}^{${m} - ${m}}${b}^{${n} - (-${k})}`;
+      const s2 = `${a}^{0}${b}^{${n + k}}`;
+      const s3 = `${b}^{${n + k}}`;
+      return {
+        type: "零指數出現", level: 1, errTag: "零指數／指數合併",
+        fingerprint: `d6|${a}|${b}|${m}|${n}|${k}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${m} + ${m}}${b}^{${n} + ${k}}`,
+              `${a}^{${m} - ${m}}${b}^{${n} - ${k}}`,
+              `${a}^{0}${b}^{${n}\\times${k}}`,
+              `${b}^{${n + k}}`
+            ],
+            tip: `同底指數相減；分母 $${b}^{-${k}}$ 即減 $(- ${k})$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{0}${b}^{${n - k}}`,
+              `${a}^{1}${b}^{${n + k}}`,
+              `${a}^{${2 * m}}${b}^{${n + k}}`,
+              `${b}^{${n + k}}`
+            ],
+            tip: `$${m}-${m}=0$；$${n}-(-${k})=${n + k}$。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `0\\cdot ${b}^{${n + k}}`,
+              `${a}${b}^{${n + k}}`,
+              `\\frac{1}{${b}^{${n + k}}}`,
+              `${a}^{0} + ${b}^{${n + k}}`
+            ],
+            tip: `$a^{0}=1$（$a\\neq 0$），故只剩 $${b}^{${n + k}}$。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, `${b}^{${n + k}}`, `1${b}^{${n + k}}`]
+      };
+    },
+
+    // ========== 進階 (2) ==========
+    // A1 three letters
+    () => {
+      const [a, b, c] = distinct(3);
+      const p = randInt(2, 4), q = randInt(1, 3), r = randInt(2, 4);
+      const u = randInt(1, 3), v = randInt(1, 4), w = randInt(1, 3);
+      // (a^p b^{-q} c^r) / (a^u b^v c^{-w})
+      const ea = p - u, eb = -q - v, ec = r - (-w);
+      const s0 = `\\frac{${a}^{${p}}${b}^{-${q}}${c}^{${r}}}{${a}^{${u}}${b}^{${v}}${c}^{-${w}}}`;
+      const s1 = `${a}^{${p} - ${u}}${b}^{-${q} - ${v}}${c}^{${r} - (-${w})}`;
+      const s2 = `${a}^{${ea}}${b}^{${eb}}${c}^{${ec}}`;
+      const s3 = monoPositive([[a, ea], [b, eb], [c, ec]]);
+      return {
+        type: "三字母分式", level: 2, errTag: "多底指數合併",
+        fingerprint: `a1|${a}|${b}|${c}|${p}|${q}|${r}|${u}|${v}|${w}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{${p} + ${u}}${b}^{-${q} + ${v}}${c}^{${r} + ${w}}`,
+              `${a}^{${p} - ${u}}${b}^{-${q} + ${v}}${c}^{${r} + ${w}}`,
+              `${a}^{${p} - ${u}}${b}^{-${q} - ${v}}${c}^{${r} - ${w}}`,
+              `${a}^{${p}\\times${u}}${b}^{-${q} - ${v}}${c}^{${r} + ${w}}`
+            ],
+            tip: `各字母分別做指數相減；減負指數記得變加。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${ea}}${b}^{${-q + v}}${c}^{${ec}}`,
+              `${a}^{${p + u}}${b}^{${eb}}${c}^{${ec}}`,
+              `${a}^{${ea}}${b}^{${eb}}${c}^{${r - w}}`,
+              `${a}^{${ea}}${b}^{${eb}}${c}^{${r + w + 1}}`
+            ],
+            tip: `計出三個指數嘅數值。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${a}^{${ea}}${b}^{${eb}}${c}^{${ec}}`,
+              monoPositive([[a, -ea], [b, -eb], [c, -ec]]),
+              `${a}^{${ea}}${b}^{${Math.abs(eb)}}${c}^{${ec}}`,
+              `\\frac{${a}^{${Math.abs(ea)}}${c}^{${ec}}}{${b}^{${Math.abs(eb)}}}`
+            ],
+            tip: `負指數搬去分母，寫成正指數。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3]
+      };
+    },
+
+    // A2: (a^{-m}/b^{n})^{-p}
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(1, 4), n = randInt(1, 4), p = randInt(2, 4);
+      // (a^{-m} / b^n)^{-p} = (a^{-m})^{-p} / (b^n)^{-p} = a^{m p} / b^{-n p} = a^{mp} b^{np}
+      // Or: (b^n / a^{-m})^p wait
+      // (a^{-m}/b^n)^{-p} = (b^n / a^{-m})^p = b^{np} / a^{-mp} = a^{mp} b^{np}
+      const s0 = `\\left(\\frac{${a}^{-${m}}}{${b}^{${n}}}\\right)^{-${p}}`;
+      const s1 = `\\left(\\frac{${b}^{${n}}}{${a}^{-${m}}}\\right)^{${p}}`;
+      const s2 = `\\frac{${b}^{${n * p}}}{${a}^{-${m * p}}}`;
+      const s3 = `${a}^{${m * p}}${b}^{${n * p}}`;
+      return {
+        type: "分式整體負指數", level: 2, errTag: "負指數／積的方",
+        fingerprint: `a2|${a}|${b}|${m}|${n}|${p}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\left(\\frac{${a}^{-${m}}}{${b}^{${n}}}\\right)^{${p}}`,
+              `\\left(\\frac{${a}^{${m}}}{${b}^{${n}}}\\right)^{-${p}}`,
+              `\\frac{${a}^{-${m}\\times(-${p})}}{${b}^{${n}\\times(-${p})}}`,
+              `\\left(\\frac{${b}^{-${n}}}{${a}^{${m}}}\\right)^{${p}}`
+            ],
+            tip: `$(X)^{-p}=\\dfrac{1}{X^{p}}=\\left(\\dfrac{1}{X}\\right)^{p}$，即分數上下顛倒再乘正指數。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `\\frac{${b}^{${n + p}}}{${a}^{-${m + p}}}`,
+              `\\frac{${b}^{${n * p}}}{${a}^{${m * p}}}`,
+              `${b}^{${n * p}}${a}^{-${m * p}}`,
+              `\\frac{${b}^{${n}}}{${a}^{-${m * p}}}`
+            ],
+            tip: `積／商的方：各指數乘 $${p}$。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `\\frac{${b}^{${n * p}}}{${a}^{${m * p}}}`,
+              `${a}^{-${m * p}}${b}^{${n * p}}`,
+              `\\frac{${a}^{${m * p}}}{${b}^{${n * p}}}`,
+              `${a}^{${m * p}}${b}^{-${n * p}}`
+            ],
+            tip: `分母 $${a}^{-${m * p}}$ 等於乘 $${a}^{${m * p}}$，得正指數積。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, `${b}^{${n * p}}${a}^{${m * p}}`, `${a}^{${m * p}}${b}^{${n * p}}`]
+      };
+    },
+
+    // A3 nested fraction with outer power
+    () => {
+      const [x, y] = distinct(2);
+      const a = randInt(2, 4), b = randInt(1, 3), p = randInt(2, 3);
+      // [ (x^a / y^{-b}) ]^p = x^{a p} / y^{-b p} = x^{ap} y^{bp}
+      const s0 = `\\left(\\frac{${x}^{${a}}}{${y}^{-${b}}}\\right)^{${p}}`;
+      const s1 = `\\frac{${x}^{${a * p}}}{${y}^{-${b * p}}}`;
+      const s2 = `${x}^{${a * p}}${y}^{${b * p}}`;
+      return {
+        type: "分數冪展開", level: 2, errTag: "積的方／負指數",
+        fingerprint: `a3|${x}|${y}|${a}|${b}|${p}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{${x}^{${a + p}}}{${y}^{-${b + p}}}`,
+              `\\frac{${x}^{${a * p}}}{${y}^{${b * p}}}`,
+              `${x}^{${a * p}}${y}^{-${b * p}}`,
+              `\\frac{${x}^{${a}}}{${y}^{-${b * p}}}`
+            ],
+            tip: `商的方：分子分母指數各乘 $${p}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `\\frac{${x}^{${a * p}}}{${y}^{${b * p}}}`,
+              `${x}^{${a * p}}${y}^{-${b * p}}`,
+              `\\frac{${y}^{${b * p}}}{${x}^{${a * p}}}`,
+              `${x}^{${a * p} + ${b * p}}`
+            ],
+            tip: `\\(\\dfrac{1}{y^{-k}}=y^{k}\\)，故得正指數積。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${y}^{${b * p}}${x}^{${a * p}}`]
+      };
+    },
+
+    // A4 multiple negatives cancel partially
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(2, 5), n = randInt(2, 4), p = randInt(1, 3), q = randInt(1, 4);
+      // a^{-m} b^{-n} / a^{-p} b^{q} = a^{-m-(-p)} b^{-n-q} = a^{-m+p} b^{-n-q}
+      const ea = -m + p;
+      const eb = -n - q;
+      const s0 = `\\frac{${a}^{-${m}}${b}^{-${n}}}{${a}^{-${p}}${b}^{${q}}}`;
+      const s1 = `${a}^{-${m} - (-${p})}${b}^{-${n} - ${q}}`;
+      const s2 = `${a}^{${-m + p}}${b}^{${-n - q}}`;
+      const s3 = monoPositive([[a, ea], [b, eb]]);
+      return {
+        type: "多重負指數相消", level: 2, errTag: "負指數／指數合併",
+        fingerprint: `a4|${a}|${b}|${m}|${n}|${p}|${q}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${a}^{-${m} - ${p}}${b}^{-${n} - ${q}}`,
+              `${a}^{-${m} + ${p}}${b}^{-${n} + ${q}}`,
+              `${a}^{-${m}\\times(-${p})}${b}^{-${n} - ${q}}`,
+              `${a}^{-${m} - (-${p})}${b}^{-${n} + ${q}}`
+            ],
+            tip: `上下指數相減；分母負指數要變號。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${a}^{${-m - p}}${b}^{${-n - q}}`,
+              `${a}^{${-m + p}}${b}^{${-n + q}}`,
+              `${a}^{${m - p}}${b}^{${-n - q}}`,
+              `${a}^{${-m + p}}${b}^{${n + q}}`
+            ],
+            tip: `計出數值：$-${m}-(-${p})=${-m + p}$ 等。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${a}^{${ea}}${b}^{${eb}}`,
+              monoPositive([[a, -ea], [b, -eb]]),
+              `${a}^{${Math.abs(ea)}}${b}^{${Math.abs(eb)}}`,
+              `\\frac{${a}^{${Math.abs(ea)}}}{${b}^{${Math.abs(eb)}}}`
+            ],
+            tip: `寫成正指數分數（常見錯：符號搞反）。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3]
+      };
+    },
+
+    // A5 three-letter nested power
+    () => {
+      const [x, y, z] = distinct(3);
+      const a = randInt(1, 3), b = randInt(1, 3), c = randInt(1, 2);
+      const p = randInt(2, 3);
+      const u = randInt(1, 4), v = randInt(0, 3);
+      // (x^{-a} y^b z^{-c})^p * x^u / y^v
+      const ex = -a * p + u;
+      const ey = b * p - v;
+      const ez = -c * p;
+      const s0 = `(${x}^{-${a}}${y}^{${b}}${z}^{-${c}})^{${p}} \\times \\frac{${x}^{${u}}}{${y}^{${v}}}`;
+      const s1 = `${x}^{-${a * p}}${y}^{${b * p}}${z}^{-${c * p}} \\times \\frac{${x}^{${u}}}{${y}^{${v}}}`;
+      const s2 = `${x}^{-${a * p} + ${u}}${y}^{${b * p} - ${v}}${z}^{-${c * p}}`;
+      const s3 = monoPositive([[x, ex], [y, ey], [z, ez]]);
+      return {
+        type: "三字母嵌套冪", level: 2, errTag: "多底指數合併",
+        fingerprint: `a5|${x}|${y}|${z}|${a}|${b}|${c}|${p}|${u}|${v}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${x}^{-${a + p}}${y}^{${b + p}}${z}^{-${c + p}} \\times \\frac{${x}^{${u}}}{${y}^{${v}}}`,
+              `${x}^{-${a * p}}${y}^{${b}}${z}^{-${c * p}} \\times \\frac{${x}^{${u}}}{${y}^{${v}}}`,
+              `${x}^{-${a}}${y}^{${b * p}}${z}^{-${c}} \\times \\frac{${x}^{${u}}}{${y}^{${v}}}`,
+              `(${x}^{-${a}}${y}^{${b}}${z}^{-${c}}\\frac{${x}^{${u}}}{${y}^{${v}}})^{${p}}`
+            ],
+            tip: `先將括號內各方指數乘 $${p}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x}^{-${a * p}\\times${u}}${y}^{${b * p} - ${v}}${z}^{-${c * p}}`,
+              `${x}^{-${a * p} + ${u}}${y}^{${b * p} + ${v}}${z}^{-${c * p}}`,
+              `${x}^{-${a * p} - ${u}}${y}^{${b * p} - ${v}}${z}^{-${c * p}}`,
+              `${x}^{-${a * p} + ${u}}${y}^{${b * p} - ${v}}${z}^{${c * p}}`
+            ],
+            tip: `再同後面分數合併各底指數。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${x}^{${ex}}${y}^{${ey}}${z}^{${ez}}`,
+              monoPositive([[x, -ex], [y, -ey], [z, -ez]]),
+              `${x}^{${ex}}${y}^{${ey}}${z}^{${Math.abs(ez)}}`,
+              `\\frac{${x}^{${Math.abs(ex)}}${y}^{${Math.abs(ey)}}}{${z}^{${Math.abs(ez)}}}`
+            ],
+            tip: `最後全部用正指數表示。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3]
+      };
+    },
+
+    // A6 careful: (a^m / b^{-n})^p / a^{q}
+    () => {
+      const [a, b] = distinct(2);
+      const m = randInt(2, 4), n = randInt(1, 3), p = randInt(2, 3), q = randInt(1, 5);
+      const ea = m * p - q;
+      const eb = n * p; // from 1/b^{-np} = b^{np}
+      const s0 = `\\frac{\\left(\\dfrac{${a}^{${m}}}{${b}^{-${n}}}\\right)^{${p}}}{${a}^{${q}}}`;
+      const s1 = `\\frac{\\dfrac{${a}^{${m * p}}}{${b}^{-${n * p}}}}{${a}^{${q}}}`;
+      const s2 = `\\frac{${a}^{${m * p}}${b}^{${n * p}}}{${a}^{${q}}}`;
+      const s3 = monoPositive([[a, ea], [b, eb]]);
+      return {
+        type: "雙層分式冪", level: 2, errTag: "積的方／負指數",
+        fingerprint: `a6|${a}|${b}|${m}|${n}|${p}|${q}`,
+        prompt: idxPrompt(s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{\\dfrac{${a}^{${m + p}}}{${b}^{-${n + p}}}}{${a}^{${q}}}`,
+              `\\frac{\\dfrac{${a}^{${m * p}}}{${b}^{${n * p}}}}{${a}^{${q}}}`,
+              `\\frac{(${a}^{${m}}${b}^{${n}})^{${p}}}{${a}^{${q}}}`,
+              `\\frac{${a}^{${m * p}}}{${b}^{-${n}}${a}^{${q}}}`
+            ],
+            tip: `內層分數先做「商的方」。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `\\frac{${a}^{${m * p}}}{${b}^{${n * p}}${a}^{${q}}}`,
+              `\\frac{${a}^{${m * p}}}{${b}^{-${n * p}}${a}^{${q}}}`,
+              `${a}^{${m * p} - ${q}}${b}^{-${n * p}}`,
+              `\\frac{${a}^{${m * p}}${b}^{-${n * p}}}{${a}^{${q}}}`
+            ],
+            tip: `\\(\\dfrac{1}{b^{-k}}=b^{k}\\)，簡化中間層。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${a}^{${m * p + q}}${b}^{${n * p}}`,
+              monoPositive([[a, -ea], [b, -eb]]),
+              `${a}^{${ea}}${b}^{-${eb}}`,
+              `\\frac{${b}^{${eb}}}{${a}^{${Math.abs(ea)}}}`
+            ],
+            tip: `再除 $${a}^{${q}}$，並保持正指數。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, monoPositive([[b, eb], [a, ea]])]
+      };
+    }
+  ];
+
+
+  // ---- state ----
+  let total = 0, perfect = 0, stepAttempts = 0, stepHits = 0, qIndex = 0;
+  let current = null, stepIdx = 0, missThisQ = 0, revealed = false, finished = false;
+  let inputMode = "drag"; // drag | editor
+  const errMap = Object.create(null);
+  const el = (id) => document.getElementById(id);
+
+  // Anti-repeat: per-level recent generator indices + fingerprints
+  const RECENT_WINDOW = 10;
+  const recentByLevel = { 0: [], 1: [], 2: [] }; // {gi, fp}[]
+  let lastGenIndexByLevel = { 0: -1, 1: -1, 2: -1 };
+  // One-time classify (each generator always returns the same level)
+  const gensByLevel = { 0: [], 1: [], 2: [] };
+  generators.forEach((g, i) => {
+    const sample = g();
+    const lv = typeof sample.level === "number" ? sample.level : 1;
+    gensByLevel[lv].push(i);
+  });
+
+  function makeQuestion() {
+    const lv = selectedLevel;
+    const pool = gensByLevel[lv].slice();
+    if (!pool.length) {
+      // fallback: any generator
+      return pick(generators)();
+    }
+    const recent = recentByLevel[lv];
+    const recentFps = new Set(recent.map((r) => r.fp));
+    const recentGis = new Set(recent.map((r) => r.gi));
+    const lastGi = lastGenIndexByLevel[lv];
+    const order = shuffle(pool);
+
+    function build(gi) {
+      const q = generators[gi]();
+      const fp = q.fingerprint || (q.type + "|" + (q.finalAnswer || ""));
+      return { q, gi, fp };
+    }
+
+    let hit = null;
+    // 1) Prefer unused generator indices (not in recent window), not back-to-back
+    for (const gi of order) {
+      if (gi === lastGi && order.length > 1) continue;
+      if (recentGis.has(gi)) continue;
+      hit = build(gi);
+      if (!recentFps.has(hit.fp)) break;
+      hit = null;
+    }
+    // 2) Allow reused gens but avoid fingerprint collision & back-to-back
+    if (!hit) {
+      for (const gi of order) {
+        if (gi === lastGi && order.length > 1) continue;
+        const cand = build(gi);
+        if (recentFps.has(cand.fp) && recentFps.size < RECENT_WINDOW && order.length > 1) continue;
+        hit = cand;
+        break;
+      }
+    }
+    // 3) Exhaust: take anything in pool
+    if (!hit) hit = build(order[0]);
+
+    recent.push({ gi: hit.gi, fp: hit.fp });
+    while (recent.length > RECENT_WINDOW) recent.shift();
+    lastGenIndexByLevel[lv] = hit.gi;
+    hit.q._genIndex = hit.gi;
+    return hit.q;
+  }
+
+  function setSelectedLevel(lv, restart) {
+    selectedLevel = lv;
+    [0, 1, 2].forEach((i) => {
+      const b = el("btnLv" + i);
+      if (b) b.classList.toggle("active", i === lv);
+    });
+    const sub = el("levelSub");
+    if (sub) sub.textContent = LEVEL_SUBS[lv];
+    if (restart) showQuestion();
+  }
+
+  function updateStats() {
+    el("statTotal").textContent = String(total);
+    el("statPerfect").textContent = String(perfect);
+    el("statRate").textContent = total ? Math.round((perfect / total) * 100) + "%" : "—";
+    el("statStepAcc").textContent = stepAttempts
+      ? Math.round((stepHits / stepAttempts) * 100) + "%" : "—";
+    const keys = Object.keys(errMap);
+    const list = el("errList");
+    if (!keys.length) {
+      list.innerHTML = '<li style="color:#5c6570">暫時未有錯題記錄</li>';
+      return;
+    }
+    keys.sort((a, b) => errMap[b] - errMap[a]);
+    list.innerHTML = keys.map((k) =>
+      `<li><span>${k}</span><strong>${errMap[k]} 次</strong></li>`
+    ).join("");
+  }
+
+  function setFeedback(kind, title, body) {
+    const fb = el("feedback");
+    fb.className = "feedback show " + kind;
+    fb.innerHTML = `<h3>${title}</h3>` + (body ? `<div>${renderPrompt(body)}</div>` : "");
+  }
+  function clearFeedback() {
+    const fb = el("feedback");
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+
+  function uniqueTiles(correct, distractors) {
+    const seen = new Set([correct]);
+    const d = [];
+    for (const x of distractors) {
+      if (!seen.has(x)) { seen.add(x); d.push(x); }
+    }
+    const n = 2 + Math.floor(Math.random() * 3);
+    return shuffle([correct].concat(d.slice(0, n)));
+  }
+
+  // ---- Equation editor ----
+  function buildToolbar() {
+    const bar = el("editorToolbar");
+    const tools = [
+      { label: "分數", insert: "\\frac{□}{□}", title: "分數" },
+      { label: "根號", insert: "\\sqrt{□}", title: "根號" },
+      { label: "²", insert: "^{2}", title: "平方" },
+      { label: "ⁿ", insert: "^{□}", title: "上標" },
+      { label: "( )", insert: "(□)", title: "括號" },
+      { label: "+", insert: "+", title: "加" },
+      { label: "−", insert: "-", title: "減" },
+      { label: "×", insert: "\\times ", title: "乘" },
+      { label: "÷", insert: "\\div ", title: "除" },
+      { label: "π", insert: "\\pi ", title: "圓周率" },
+      { label: "=", insert: "=", title: "等號" },
+      { label: "清走", action: "clear", title: "清空" },
+      { label: "刪除", action: "back", title: "刪除一字" }
+    ];
+    bar.innerHTML = "";
+    tools.forEach((t) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.title = t.title;
+      if (t.label === "分數") b.innerHTML = renderTex("\\frac{a}{b}", false);
+      else if (t.label === "根號") b.innerHTML = renderTex("\\sqrt{\\phantom{x}}", false);
+      else if (t.label === "π") b.innerHTML = renderTex("\\pi", false);
+      else if (t.label === "²") b.innerHTML = renderTex("x^{2}", false);
+      else b.textContent = t.label;
+      b.addEventListener("click", () => {
+        const input = el("editorRaw");
+        if (t.action === "clear") {
+          input.value = "";
+          updateEditorPreview();
+          input.focus();
+          return;
+        }
+        if (t.action === "back") {
+          input.value = input.value.slice(0, -1);
+          updateEditorPreview();
+          input.focus();
+          return;
+        }
+        insertAtCursor(input, t.insert.replace(/□/g, ""));
+        // if template had □, place cursor usefully for frac
+        if (t.insert.includes("\\frac")) {
+          // put cursor inside first braces: after \frac{
+          const v = input.value;
+          const idx = v.lastIndexOf("\\frac{");
+          if (idx >= 0) {
+            const pos = idx + 6;
+            input.setSelectionRange(pos, pos);
+          }
+        }
+        updateEditorPreview();
+        input.focus();
+      });
+      bar.appendChild(b);
+    });
+  }
+
+  function insertAtCursor(input, text) {
+    const start = input.selectionStart || 0;
+    const end = input.selectionEnd || 0;
+    const v = input.value;
+    input.value = v.slice(0, start) + text + v.slice(end);
+    const pos = start + text.length;
+    input.setSelectionRange(pos, pos);
+  }
+
+  function updateEditorPreview() {
+    const raw = el("editorRaw").value.trim();
+    const prev = el("editorPreview");
+    if (!raw) {
+      prev.innerHTML = '<span class="placeholder-ed">預覽會喺呢度顯示</span>';
+      return;
+    }
+    // Allow bare expressions; if no $, treat whole as math
+    setTex(prev, raw, false);
+  }
+
+  function setMode(mode) {
+    inputMode = mode;
+    el("tabDrag").classList.toggle("active", mode === "drag");
+    el("tabEditor").classList.toggle("active", mode === "editor");
+    el("dragMode").style.display = mode === "drag" ? "" : "none";
+    el("editorPanel").classList.toggle("show", mode === "editor");
+    if (mode === "editor") {
+      // Prefill subject = 
+      const fa = current && current.finalAnswer;
+      if (fa && !el("editorRaw").value) {
+        const m = fa.match(/^([^=]+)=/);
+        if (m) {
+          el("editorRaw").value = m[1].trim() + " = ";
+          updateEditorPreview();
+        }
+      }
+      el("editorRaw").focus();
+    }
+  }
+
+  // ---- Steps / DnD ----
+  let dragPayload = null, ghost = null, pointerDragging = false;
+
+  function clearGhost() {
+    if (ghost && ghost.parentNode) ghost.parentNode.removeChild(ghost);
+    ghost = null;
+  }
+
+  function renderStep() {
+    if (!current || finished) return;
+    const step = current.steps[stepIdx];
+    const n = current.steps.length;
+    el("chipStep").textContent = `步驟 ${stepIdx + 1} / ${n}`;
+    el("progressFill").style.width = ((stepIdx / n) * 100) + "%";
+    setTex(el("currentEq"), step.current, true);
+    clearFeedback();
+
+    const zone = el("dropZone");
+    zone.className = "drop-zone";
+    zone.innerHTML = '<span class="placeholder">將正確嘅下一步拖入呢度</span>';
+
+    const bank = el("tileBank");
+    bank.innerHTML = "";
+    const tiles = uniqueTiles(step.correct, step.distractors);
+    tiles.forEach((tex, i) => {
+      const t = document.createElement("div");
+      t.className = "tile";
+      t.setAttribute("draggable", "true");
+      t.dataset.correct = tex === step.correct ? "1" : "0";
+      t.dataset.tex = tex;
+      t.dataset.id = String(i);
+      t.innerHTML = renderTex(tex, false);
+      bank.appendChild(t);
+      bindTileDrag(t);
+    });
+  }
+
+  function appendHistory(tex) {
+    const li = document.createElement("li");
+    li.innerHTML = "✓ " + renderTex(tex, false);
+    el("stepHistory").appendChild(li);
+  }
+
+  function finishQuestion(opts) {
+    finished = true;
+    const wasPerfect = missThisQ === 0 && !revealed && !opts.skipped && !opts.editorMiss;
+    total += 1;
+    if (wasPerfect) perfect += 1;
+    if (!wasPerfect && missThisQ === 0 && (revealed || opts.skipped || opts.editorMiss)) {
+      errMap[current.errTag] = (errMap[current.errTag] || 0) + 1;
+    }
+    updateStats();
+
+    el("playArea").style.display = "none";
+    el("playActions").style.display = "none";
+    el("progressFill").style.width = "100%";
+
+    const panel = el("completePanel");
+    panel.classList.add("show");
+    let title = "完成！";
+    if (opts.skipped) title = "已跳過";
+    else if (revealed) title = "已睇完整詳解";
+    else if (wasPerfect) title = "完成 · 全對！";
+    else title = "完成（過程有錯過）";
+    el("completeTitle").textContent = title;
+
+    const lines = current.steps.map((s) =>
+      `<li>${renderTex(s.current, false)} → ${renderTex(s.correct, false)}<br/><small style="color:#5c6570">${renderPrompt(s.tip)}</small></li>`
+    ).join("");
+    el("completeBody").innerHTML =
+      `<ol>${lines}</ol>` +
+      `<div class="final-ans">最終答案：${renderTex(current.finalAnswer, false)}</div>`;
+  }
+
+  function onCorrectDrop(tex) {
+    const step = current.steps[stepIdx];
+    stepAttempts += 1;
+    stepHits += 1;
+    updateStats();
+
+    const zone = el("dropZone");
+    zone.className = "drop-zone correct";
+    zone.innerHTML = '<span class="snapped">' + renderTex(tex, false) + "</span>";
+    el("tileBank").innerHTML = "";
+    setFeedback("ok", "✓ 正確！", step.tip);
+    appendHistory(tex);
+
+    const next = stepIdx + 1;
+    setTimeout(() => {
+      if (next >= current.steps.length) finishQuestion({});
+      else { stepIdx = next; renderStep(); }
+    }, 600);
+  }
+
+  function onWrongDrop() {
+    stepAttempts += 1;
+    missThisQ += 1;
+    errMap[current.errTag] = (errMap[current.errTag] || 0) + 1;
+    updateStats();
+    setFeedback("bad", "✗ 未啱，再試啦", "磚塊已返回題庫。留意移項、除係數同開方嘅細節。");
+    const zone = el("dropZone");
+    zone.className = "drop-zone";
+    zone.innerHTML = '<span class="placeholder">將正確嘅下一步拖入呢度</span>';
+  }
+
+  function tryDrop(isCorrect, tex) {
+    if (finished) return;
+    if (isCorrect) onCorrectDrop(tex);
+    else onWrongDrop();
+  }
+
+  function bindTileDrag(tile) {
+    tile.addEventListener("dragstart", (e) => {
+      dragPayload = { correct: tile.dataset.correct === "1", tex: tile.dataset.tex, el: tile };
+      tile.classList.add("dragging");
+      try {
+        e.dataTransfer.setData("text/plain", tile.dataset.id);
+        e.dataTransfer.effectAllowed = "move";
+      } catch (_) {}
+    });
+    tile.addEventListener("dragend", () => {
+      tile.classList.remove("dragging");
+      dragPayload = null;
+      el("dropZone").classList.remove("drag-over");
+    });
+
+    tile.addEventListener("pointerdown", (e) => {
+      if (e.button != null && e.button !== 0) return;
+      if (e.pointerType === "mouse") return;
+      e.preventDefault();
+      pointerDragging = true;
+      dragPayload = { correct: tile.dataset.correct === "1", tex: tile.dataset.tex, el: tile };
+      tile.classList.add("dragging");
+      tile.setPointerCapture(e.pointerId);
+      ghost = tile.cloneNode(true);
+      ghost.classList.add("ghost");
+      ghost.classList.remove("dragging");
+      document.body.appendChild(ghost);
+      moveGhost(e.clientX, e.clientY);
+    });
+    tile.addEventListener("pointermove", (e) => {
+      if (!pointerDragging || !ghost) return;
+      moveGhost(e.clientX, e.clientY);
+      const zone = el("dropZone");
+      const r = zone.getBoundingClientRect();
+      const over = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      zone.classList.toggle("drag-over", over);
+    });
+    tile.addEventListener("pointerup", (e) => {
+      if (!pointerDragging) return;
+      pointerDragging = false;
+      tile.classList.remove("dragging");
+      try { tile.releasePointerCapture(e.pointerId); } catch (_) {}
+      const zone = el("dropZone");
+      const r = zone.getBoundingClientRect();
+      const over = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      zone.classList.remove("drag-over");
+      clearGhost();
+      if (over && dragPayload) tryDrop(dragPayload.correct, dragPayload.tex);
+      dragPayload = null;
+    });
+    tile.addEventListener("pointercancel", () => {
+      pointerDragging = false;
+      tile.classList.remove("dragging");
+      el("dropZone").classList.remove("drag-over");
+      clearGhost();
+      dragPayload = null;
+    });
+  }
+
+  function moveGhost(x, y) {
+    if (!ghost) return;
+    const w = ghost.offsetWidth || 120;
+    const h = ghost.offsetHeight || 40;
+    ghost.style.left = (x - w / 2) + "px";
+    ghost.style.top = (y - h / 2) + "px";
+  }
+
+  const dropZone = el("dropZone");
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("drag-over");
+    try { e.dataTransfer.dropEffect = "move"; } catch (_) {}
+  });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+    if (!dragPayload || finished) return;
+    tryDrop(dragPayload.correct, dragPayload.tex);
+    dragPayload = null;
+  });
+
+  function showQuestion() {
+    current = makeQuestion();
+    stepIdx = 0;
+    missThisQ = 0;
+    revealed = false;
+    finished = false;
+    qIndex += 1;
+
+    el("chipType").textContent = current.type;
+    el("chipLevel").textContent = LEVELS[current.level];
+    el("chipNo").textContent = "第 " + qIndex + " 題";
+    el("questionBox").innerHTML = renderPrompt(current.prompt);
+    el("stepHistory").innerHTML = "";
+    el("playArea").style.display = "";
+    el("playActions").style.display = "flex";
+    el("completePanel").classList.remove("show");
+    el("btnHint").disabled = false;
+    el("btnReveal").disabled = false;
+    el("editorRaw").value = "";
+    updateEditorPreview();
+    setMode("drag");
+    renderStep();
+  }
+
+  // Editor final check: accept if matches final; jump to complete (mark perfect only if no prior misses)
+  el("btnCheckFinal").addEventListener("click", () => {
+    if (finished || !current) return;
+    const raw = el("editorRaw").value.trim();
+    if (!raw) {
+      setFeedback("bad", "請先輸入答案", "可用工具列砌出最終主項式。");
+      return;
+    }
+    const ok = answersMatch(raw, current.accepted || [current.finalAnswer]);
+    if (ok) {
+      // Credit remaining steps as hits if jumping via editor
+      const remain = current.steps.length - stepIdx;
+      stepAttempts += Math.max(1, remain);
+      stepHits += Math.max(1, remain);
+      updateStats();
+      setFeedback("ok", "✓ 最終答案正確！", "標準式：" + "$" + current.finalAnswer + "$");
+      setTimeout(() => finishQuestion({}), 500);
+    } else {
+      missThisQ += 1;
+      stepAttempts += 1;
+      errMap[current.errTag] = (errMap[current.errTag] || 0) + 1;
+      updateStats();
+      setFeedback("bad", "✗ 未啱", "再檢查移項同分數形式。可繼續用拖放逐步練習，或撳「睇完整詳解」。");
+    }
+  });
+
+  el("editorRaw").addEventListener("input", updateEditorPreview);
+  el("editorRaw").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") el("btnCheckFinal").click();
+  });
+
+  el("tabDrag").addEventListener("click", () => setMode("drag"));
+  el("tabEditor").addEventListener("click", () => setMode("editor"));
+
+  el("btnHint").addEventListener("click", () => {
+    if (finished || !current) return;
+    setFeedback("info", "提示", current.steps[stepIdx].tip);
+  });
+  el("btnReveal").addEventListener("click", () => {
+    if (finished || !current) return;
+    revealed = true;
+    finishQuestion({});
+  });
+  el("btnSkip").addEventListener("click", () => {
+    if (!finished) {
+      revealed = true;
+      finishQuestion({ skipped: true });
+    } else showQuestion();
+  });
+  el("btnNext").addEventListener("click", showQuestion);
+  el("btnReset").addEventListener("click", () => {
+    total = 0; perfect = 0; stepAttempts = 0; stepHits = 0;
+    for (const k of Object.keys(errMap)) delete errMap[k];
+    updateStats();
+    qIndex = 0;
+    showQuestion();
+  });
+
+  function boot() {
+    if (!katexReady()) {
+      setTimeout(boot, 40);
+      return;
+    }
+    buildToolbar();
+    updateStats();
+    [0, 1, 2].forEach((i) => {
+      const b = el("btnLv" + i);
+      if (!b) return;
+      b.addEventListener("click", () => {
+        if (selectedLevel === i) return;
+        setSelectedLevel(i, true);
+      });
+    });
+    setSelectedLevel(1, false);
+    showQuestion();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
