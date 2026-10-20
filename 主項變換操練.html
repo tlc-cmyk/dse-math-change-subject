@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>DSE 數學 · 主項變換操練</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<style>
+  :root {
+    --bg: #f3f1eb;
+    --paper: #fffcf7;
+    --card: #ffffff;
+    --ink: #1c1c1c;
+    --muted: #5c6570;
+    --brand: #1a4f8a;
+    --brand-soft: #eef3f9;
+    --ok: #1a6b35;
+    --ok-bg: #eaf6ee;
+    --ok-border: #b5dcc0;
+    --bad: #a61b12;
+    --bad-bg: #fdf2f1;
+    --bad-border: #f0bfbc;
+    --line: #d4d0c8;
+    --chip: #eef2f6;
+    --drop: #f7f5f0;
+    --drop-active: #e3edf8;
+    --tile: #fffefb;
+    --shadow: 0 3px 14px rgba(28, 28, 28, 0.07);
+    --math: "KaTeX_Main", "Times New Roman", "Noto Serif TC", "Songti TC", serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans TC", "PingFang HK", "Microsoft JhengHei", "Hiragino Sans CNS", sans-serif;
+    background: linear-gradient(180deg, #e8e4db 0%, var(--bg) 35%, #ebe8e0 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    touch-action: manipulation;
+  }
+  header {
+    background: var(--brand);
+    color: #fff;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,.14);
+  }
+  header h1 { margin: 0; font-size: 1.18rem; font-weight: 700; }
+  header p { margin: .28rem 0 0; opacity: .92; font-size: .86rem; }
+  main { max-width: 900px; margin: 1rem auto; padding: 0 .85rem 2.5rem; }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: .55rem; margin-bottom: .9rem;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    padding: .7rem .5rem; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat .n { font-size: 1.3rem; font-weight: 700; color: var(--brand); }
+  .stat .l { font-size: .7rem; color: var(--muted); margin-top: .1rem; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.15rem 1.2rem 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .meta { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .75rem; }
+  .chip {
+    background: var(--chip); color: var(--brand); font-size: .74rem; font-weight: 600;
+    padding: .2rem .55rem; border-radius: 999px; border: 1px solid #cfd8e4;
+  }
+  .chip.warn { color: #8a4500; background: #fff7eb; border-color: #efd4a6; }
+  .chip.step { color: #0b5a48; background: #e7f6f1; border-color: #b5ddd2; }
+  .chip.mode { color: #4a3d7a; background: #f2effa; border-color: #d4cce8; cursor: pointer; }
+  .chip.mode.active { background: #4a3d7a; color: #fff; border-color: #4a3d7a; }
+
+  .q-box {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--brand);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    margin: .4rem 0 .85rem;
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+  .q-box .katex { font-size: 1.15em; }
+  .progress-bar {
+    height: 5px; background: #e5e1d8; border-radius: 999px; overflow: hidden; margin: 0 0 .85rem;
+  }
+  .progress-bar > i {
+    display: block; height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--brand), #2a8a6a);
+    transition: width .28s ease; border-radius: 999px;
+  }
+
+  .step-history { margin: 0 0 .7rem; padding: 0; list-style: none; }
+  .step-history li {
+    font-size: .88rem; color: var(--muted); padding: .35rem 0;
+    border-bottom: 1px dashed #e0dbd2; display: flex; align-items: center; gap: .4rem;
+  }
+  .step-history .katex { font-size: 1.05em; color: var(--ok); }
+
+  .current-eq {
+    text-align: center;
+    background: #fff;
+    border: 1.5px solid #c8d6e6;
+    border-radius: 12px;
+    padding: 1.15rem 1rem;
+    margin-bottom: .85rem;
+    min-height: 4.2rem;
+  }
+  .current-eq .label { font-size: .76rem; color: var(--muted); margin-bottom: .5rem; letter-spacing: .02em; }
+  .current-eq .eq .katex { font-size: 1.55em; }
+
+  .drop-zone {
+    min-height: 78px;
+    border: 2.5px dashed #a9b4c2;
+    border-radius: 14px;
+    background: var(--drop);
+    display: flex; align-items: center; justify-content: center;
+    padding: .9rem; margin-bottom: .8rem;
+    transition: background .15s, border-color .15s, box-shadow .15s;
+    user-select: none; -webkit-user-select: none;
+  }
+  .drop-zone.drag-over {
+    background: var(--drop-active); border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(26, 79, 138, .16);
+  }
+  .drop-zone.correct { border-style: solid; border-color: var(--ok); background: var(--ok-bg); }
+  .drop-zone .placeholder { color: var(--muted); font-size: .9rem; text-align: center; pointer-events: none; }
+  .drop-zone .snapped .katex { font-size: 1.4em; color: var(--ok); }
+
+  .tile-bank-label { font-size: .8rem; color: var(--muted); margin: .15rem 0 .5rem; }
+  .tile-bank { display: flex; flex-wrap: wrap; gap: .55rem; min-height: 56px; }
+  .tile {
+    background: var(--tile);
+    border: 1.5px solid #b7c2d0;
+    border-radius: 12px;
+    padding: .7rem .95rem;
+    cursor: grab;
+    box-shadow: 0 2px 5px rgba(28,28,28,.05);
+    user-select: none; -webkit-user-select: none;
+    touch-action: none;
+    transition: transform .12s, box-shadow .12s, opacity .12s;
+    max-width: 100%;
+  }
+  .tile .katex { font-size: 1.22em; pointer-events: none; }
+  .tile:active, .tile.dragging { cursor: grabbing; }
+  .tile.dragging { opacity: .4; transform: scale(.97); }
+  .tile.ghost {
+    position: fixed; z-index: 9999; pointer-events: none; opacity: .96;
+    box-shadow: 0 8px 22px rgba(28,28,28,.2); transform: scale(1.03); margin: 0;
+  }
+
+  .mode-tabs {
+    display: flex; flex-wrap: wrap; gap: .4rem; margin: .75rem 0 .6rem;
+  }
+
+  /* Equation editor */
+  .editor-panel {
+    display: none;
+    margin-top: .5rem;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    padding: .75rem;
+  }
+  .editor-panel.show { display: block; }
+  .editor-toolbar {
+    display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .55rem;
+  }
+  .editor-toolbar button {
+    min-width: 2.2rem;
+    padding: .4rem .55rem;
+    font-size: .88rem;
+    background: #f4f2ec;
+    color: var(--ink);
+    border: 1px solid #d0cbc0;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+  .editor-toolbar button:hover { background: #eae6dc; }
+  .editor-toolbar button .katex { font-size: .95em; }
+  .editor-preview {
+    min-height: 3.4rem;
+    border: 1.5px solid #c5d0dc;
+    border-radius: 10px;
+    background: #faf9f6;
+    padding: .75rem .9rem;
+    margin-bottom: .5rem;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--math);
+  }
+  .editor-preview .katex { font-size: 1.45em; }
+  .editor-preview .placeholder-ed { color: #9aa3ad; font-size: .9rem; font-family: inherit; }
+  .editor-raw {
+    width: 100%;
+    font-family: "Times New Roman", "Cascadia Code", ui-monospace, monospace;
+    font-size: .95rem;
+    padding: .55rem .7rem;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    margin-bottom: .45rem;
+    background: #fff;
+  }
+  .editor-raw:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px rgba(26,79,138,.12); }
+  .editor-hint { font-size: .75rem; color: var(--muted); margin: 0 0 .5rem; line-height: 1.4; }
+
+  .feedback {
+    margin-top: .75rem; padding: .8rem .95rem; border-radius: 11px;
+    display: none; line-height: 1.55; font-size: .93rem;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--ok-bg); border: 1px solid var(--ok-border); color: var(--ok); }
+  .feedback.bad { background: var(--bad-bg); border: 1px solid var(--bad-border); color: var(--bad); }
+  .feedback.info { background: #f3f1eb; border: 1px solid var(--line); color: var(--ink); }
+  .feedback h3 { margin: 0 0 .28rem; font-size: .96rem; }
+  .feedback .katex { font-size: 1.1em; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .9rem; }
+  button {
+    border: none; border-radius: 10px; padding: .62rem .95rem;
+    font-size: .9rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-secondary { background: #0d6e56; color: #fff; }
+  .btn-ghost { background: #ebe8e0; color: var(--ink); }
+  .btn-ghost:hover { background: #e0dcd2; }
+  .btn-warn { background: #fff6e8; color: #8a4500; border: 1px solid #efd4a6; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+
+  .complete-panel {
+    display: none; margin-top: .75rem; padding: 1rem;
+    border-radius: 12px; background: var(--ok-bg); border: 1px solid var(--ok-border);
+  }
+  .complete-panel.show { display: block; }
+  .complete-panel h3 { margin: 0 0 .5rem; color: var(--ok); }
+  .complete-panel ol { margin: .35rem 0 .7rem; padding-left: 1.2rem; color: var(--ink); }
+  .complete-panel li { margin: .45rem 0; line-height: 1.55; }
+  .complete-panel .katex { font-size: 1.12em; }
+  .final-ans { margin-top: .45rem; font-size: 1.05rem; }
+  .final-ans .katex { font-size: 1.35em; }
+
+  details.errors {
+    margin-top: .95rem; background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: .7rem .95rem; box-shadow: var(--shadow);
+  }
+  details.errors summary { cursor: pointer; font-weight: 600; color: var(--brand); }
+  .err-list { margin: .5rem 0 0; padding: 0; list-style: none; font-size: .88rem; }
+  .err-list li {
+    display: flex; justify-content: space-between; gap: .5rem;
+    padding: .35rem 0; border-bottom: 1px dashed var(--line);
+  }
+  .err-list li:last-child { border-bottom: none; }
+  footer { text-align: center; color: var(--muted); font-size: .76rem; margin-top: 1.1rem; }
+
+  @media (max-width: 640px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .current-eq .eq .katex { font-size: 1.3em; }
+    .tile .katex { font-size: 1.1em; }
+    header h1 { font-size: 1.02rem; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>DSE 數學卷一 · 主項變換操練</h1>
+  <p>KaTeX 試卷式數式 · 拖放下一步 · 方程編輯器 · 自動出題</p>
+</header>
+<main>
+  <div class="stats">
+    <div class="stat"><div class="n" id="statTotal">0</div><div class="l">已做題數</div></div>
+    <div class="stat"><div class="n" id="statPerfect">0</div><div class="l">全對（無錯拖）</div></div>
+    <div class="stat"><div class="n" id="statStepAcc">—</div><div class="l">步驟正確率</div></div>
+    <div class="stat"><div class="n" id="statRate">—</div><div class="l">全對率</div></div>
+  </div>
+
+  <div class="card" id="quizCard">
+    <div class="meta">
+      <span class="chip" id="chipType">題型</span>
+      <span class="chip warn" id="chipLevel">難度</span>
+      <span class="chip" id="chipNo">第 1 題</span>
+      <span class="chip step" id="chipStep">步驟 1 / ?</span>
+    </div>
+    <div class="q-box" id="questionBox"></div>
+    <div class="progress-bar" aria-hidden="true"><i id="progressFill"></i></div>
+    <ul class="step-history" id="stepHistory"></ul>
+
+    <div class="mode-tabs">
+      <span class="chip mode active" id="tabDrag" role="button" tabindex="0">拖放逐步</span>
+      <span class="chip mode" id="tabEditor" role="button" tabindex="0">自己輸入／砌答案</span>
+    </div>
+
+    <div id="playArea">
+      <div class="current-eq">
+        <div class="label">目前方程</div>
+        <div class="eq" id="currentEq"></div>
+      </div>
+
+      <div id="dragMode">
+        <div class="drop-zone" id="dropZone" role="region" aria-label="投放區">
+          <span class="placeholder">將正確嘅下一步拖入呢度</span>
+        </div>
+        <div class="tile-bank-label">可選嘅下一步（拖其中一個）：</div>
+        <div class="tile-bank" id="tileBank"></div>
+      </div>
+
+      <div class="editor-panel" id="editorPanel">
+        <div class="editor-toolbar" id="editorToolbar"></div>
+        <div class="editor-preview" id="editorPreview"><span class="placeholder-ed">預覽會喺呢度顯示</span></div>
+        <input type="text" class="editor-raw" id="editorRaw" placeholder="例如：t = \\frac{v - u}{a}" autocomplete="off" spellcheck="false" />
+        <p class="editor-hint">用工具列插入分數／根號，或直接輸入 LaTeX。最終答案格式例如 <code>x=\\frac{c-b}{a}</code>。撳「核對最終答案」提交。</p>
+        <div class="actions" style="margin-top:.35rem">
+          <button type="button" class="btn-primary" id="btnCheckFinal">核對最終答案</button>
+        </div>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="complete-panel" id="completePanel">
+      <h3 id="completeTitle">完成！</h3>
+      <div id="completeBody"></div>
+      <div class="actions">
+        <button type="button" class="btn-secondary" id="btnNext">下一題</button>
+      </div>
+    </div>
+
+    <div class="actions" id="playActions">
+      <button type="button" class="btn-ghost" id="btnHint">提示</button>
+      <button type="button" class="btn-warn" id="btnReveal">睇完整詳解</button>
+      <button type="button" class="btn-ghost" id="btnSkip">跳過／下一題</button>
+      <button type="button" class="btn-ghost" id="btnReset">重置統計</button>
+    </div>
+  </div>
+
+  <details class="errors">
+    <summary>錯題類型統計（方便複習）</summary>
+    <ul class="err-list" id="errList"><li style="color:#5c6570">暫時未有錯題記錄</li></ul>
+  </details>
+  <footer>數式以 KaTeX 排版，樣式貼近 DSE 試卷印刷體。題目為模擬生成，僅供溫習操練。</footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  const LEVELS = ["基礎", "中等", "進階"];
+  const pick = (a) => a[Math.floor(Math.random() * a.length)];
+  const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const shuffle = (arr) => {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
+  const letterPool = "abcdefghkmnpqrstuvwxyz".split("");
+  const distinct = (n) => {
+    const used = new Set();
+    const out = [];
+    while (out.length < n) {
+      const L = pick(letterPool);
+      if (!used.has(L)) { used.add(L); out.push(L); }
+    }
+    return out;
+  };
+
+  function katexReady() {
+    return typeof katex !== "undefined";
+  }
+
+  function renderTex(tex, display) {
+    if (!katexReady()) return '<span class="math-fallback">' + String(tex).replace(/</g, "&lt;") + "</span>";
+    try {
+      return katex.renderToString(tex, { throwOnError: false, displayMode: !!display, output: "html" });
+    } catch (e) {
+      return '<span class="math-fallback">' + String(tex).replace(/</g, "&lt;") + "</span>";
+    }
+  }
+
+  function setTex(node, tex, display) {
+    node.innerHTML = renderTex(tex, display);
+  }
+
+  /** Inline mix: replace $...$ with KaTeX */
+  function renderPrompt(htmlWithDollars) {
+    return String(htmlWithDollars).replace(/\$([^$]+)\$/g, (_, tex) => renderTex(tex.trim(), false));
+  }
+
+  // ---- LaTeX normalize for answer check ----
+  function normLatex(s) {
+    return String(s || "")
+      .replace(/\s+/g, "")
+      .replace(/\\\\/g, "\\")
+      .replace(/\{([a-zA-Z0-9])\}/g, "$1")
+      .replace(/\\left/g, "")
+      .replace(/\\right/g, "")
+      .replace(/\\cdot/g, "")
+      .replace(/\\times/g, "")
+      .replace(/\\div/g, "/")
+      .replace(/÷/g, "/")
+      .replace(/×/g, "")
+      .replace(/−/g, "-")
+      .replace(/–/g, "-")
+      .replace(/⋅/g, "")
+      .replace(/\\,/g, "")
+      .replace(/\\;/g, "")
+      .replace(/\\!/g, "")
+      .replace(/\\dfrac/g, "\\frac")
+      .replace(/\\tfrac/g, "\\frac")
+      .replace(/\\sqrt\{([^{}]+)\}/g, "sqrt($1)")
+      .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, "(($1)/($2))")
+      .replace(/\\pi/g, "pi")
+      .replace(/π/g, "pi")
+      .replace(/\^\{2\}/g, "^2")
+      .replace(/\^2/g, "^2")
+      .replace(/²/g, "^2")
+      .toLowerCase();
+  }
+
+  function answersMatch(user, accepted) {
+    const u = normLatex(user);
+    if (!u) return false;
+    return accepted.some((a) => normLatex(a) === u);
+  }
+
+  // ---- Generators: LaTeX strings ----
+  const generators = [
+    // 1. Ax+B=C
+    () => {
+      const [x] = distinct(1);
+      const A = randInt(2, 9), B = randInt(1, 12), C = randInt(1, 24);
+      const s0 = `${A}${x} + ${B} = ${C}`;
+      const s1 = `${A}${x} = ${C} - ${B}`;
+      const s2 = `${x} = \\frac{${C} - ${B}}{${A}}`;
+      const finalAlt = Number.isInteger((C - B) / A) ? [`${x}=${(C - B) / A}`] : [];
+      return {
+        type: "一次式移項除係數", level: 0, errTag: "一次式／移項除係數",
+        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${A}${x} = ${C} + ${B}`,
+              `${A}${x} + ${C} = ${B}`,
+              `${x} + ${B} = ${C}`,
+              `${A}${x} = ${C} - ${A}`
+            ],
+            tip: `兩邊同時減去 $${B}$，令常數項移到右邊。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x} = (${C} - ${B}) \\times ${A}`,
+              `${x} = \\frac{${A}}{${C} - ${B}}`,
+              `${x} = ${C} - ${B} - ${A}`,
+              `${x} = \\frac{${C}}{${A}} + ${B}`
+            ],
+            tip: `兩邊同時除以係數 $${A}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${x}=(${C}-${B})/${A}`, ...finalAlt]
+      };
+    },
+
+    // 2. A(x+B)=C
+    () => {
+      const [x] = distinct(1);
+      const A = randInt(2, 8), B = randInt(1, 9), C = randInt(2, 30);
+      const s0 = `${A}(${x} + ${B}) = ${C}`;
+      const s1 = `${x} + ${B} = \\frac{${C}}{${A}}`;
+      const s2 = `${x} = \\frac{${C}}{${A}} - ${B}`;
+      return {
+        type: "去括號／分配律逆向", level: 0, errTag: "去括號／分配",
+        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${x} + ${B} = ${C} \\times ${A}`,
+              `${A}${x} + ${B} = ${C}`,
+              `${x} + ${A * B} = ${C}`,
+              `${A}${x} + ${A}${B} = ${C}`
+            ],
+            tip: `兩邊同時除以 $${A}$，消去括號外嘅係數。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x} = \\frac{${C}}{${A}} + ${B}`,
+              `${x} = \\frac{${A}}{${C}} - ${B}`,
+              `${x} = ${C} - ${A} - ${B}`,
+              `${x} = \\frac{${C} - ${B}}{${A}}`
+            ],
+            tip: `兩邊同時減 $${B}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${x}=${C}/${A}-${B}`, `${x}=(${C}-${A * B})/${A}`]
+      };
+    },
+
+    // 3. (x+A)/B=C
+    () => {
+      const [x] = distinct(1);
+      const A = randInt(1, 9), B = randInt(2, 9), C = randInt(1, 8);
+      const BC = B * C;
+      const s0 = `\\frac{${x} + ${A}}{${B}} = ${C}`;
+      const s1 = `${x} + ${A} = ${BC}`;
+      const s2 = `${x} = ${BC} - ${A}`;
+      return {
+        type: "分式兩邊乘分母", level: 0, errTag: "分式清分母",
+        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${x} + ${A} = \\frac{${C}}{${B}}`,
+              `${x} + ${A} = ${B} + ${C}`,
+              `\\frac{${x}}{${B}} = ${C} - ${A}`,
+              `(${x} + ${A}) \\times ${B} = ${C}`
+            ],
+            tip: `兩邊同時乘以分母 $${B}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x} = ${BC} + ${A}`,
+              `${x} = ${A} - ${BC}`,
+              `${x} = \\frac{${BC}}{${A}}`,
+              `${x} = ${B} + ${C} - ${A}`
+            ],
+            tip: `兩邊同時減 $${A}$。`
+          }
+        ],
+        finalAnswer: `${x} = ${BC - A}`,
+        accepted: [s2, `${x}=${BC - A}`, `${x}=${BC}-${A}`]
+      };
+    },
+
+    // 4. A/x=B
+    () => {
+      const [x] = distinct(1);
+      const A = randInt(2, 20), B = randInt(2, 9);
+      const s0 = `\\frac{${A}}{${x}} = ${B}`;
+      const s1 = `${A} = ${B}${x}`;
+      const s2 = `${x} = \\frac{${A}}{${B}}`;
+      const alt = Number.isInteger(A / B) ? [`${x}=${A / B}`] : [];
+      return {
+        type: "倒數關係", level: 1, errTag: "倒數／交叉相乘",
+        prompt: `已知 $${s0}$。<br/>試以 $${x}$ 為主項，將下列方程改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${A}${x} = ${B}`,
+              `${A} = \\frac{${B}}{${x}}`,
+              `\\frac{${x}}{${A}} = ${B}`,
+              `${A} - ${x} = ${B}`
+            ],
+            tip: `兩邊同時乘以 $${x}$，令未知數離開分母。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${x} = \\frac{${B}}{${A}}`,
+              `${x} = ${A} \\times ${B}`,
+              `${x} = ${A} - ${B}`,
+              `${x} = ${B}^{${A}}`
+            ],
+            tip: `兩邊同時除以 $${B}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `${x}=${A}/${B}`, ...alt]
+      };
+    },
+
+    // 5. v=u+at
+    () => {
+      const s0 = `v = u + at`;
+      const s1 = `v - u = at`;
+      const s2 = `t = \\frac{v - u}{a}`;
+      return {
+        type: "物理公式（勻加速）", level: 1, errTag: "公式移項（線性）",
+        prompt: `已知 $${s0}$。<br/>試以 $t$ 為主項，將下列公式改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [`v + u = at`, `v - at = u`, `\\frac{v}{u} = at`, `v - a = ut`],
+            tip: `兩邊同時減 $u$，令含 $t$ 嘅項單獨喺一邊。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `t = (v - u) \\times a`,
+              `t = \\frac{a}{v - u}`,
+              `t = v - u - a`,
+              `t = \\frac{v}{a} - u`
+            ],
+            tip: `兩邊同時除以 $a$。注意：$\\dfrac{v}{a}-u$ 唔等同 $\\dfrac{v-u}{a}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `t=(v-u)/a`, `t=\\frac{v-u}{a}`]
+      };
+    },
+
+    // 6. s=((u+v)t)/2
+    () => {
+      const s0 = `s = \\frac{(u + v)t}{2}`;
+      const s1 = `2s = (u + v)t`;
+      const s2 = `\\frac{2s}{t} = u + v`;
+      const s3 = `u = \\frac{2s}{t} - v`;
+      return {
+        type: "物理公式（平均速率）", level: 1, errTag: "公式移項（含括號）",
+        prompt: `已知 $${s0}$。<br/>試以 $u$ 為主項，將下列公式改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{s}{2} = (u + v)t`,
+              `2s = \\frac{u + v}{t}`,
+              `s = \\frac{(u + v)\\times 2}{t}`,
+              `\\frac{2}{s} = (u + v)t`
+            ],
+            tip: `兩邊同時乘 $2$，清走分母。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `2s \\times t = u + v`,
+              `2s = u + v + t`,
+              `\\frac{2s}{u + v} = t`,
+              `2s - t = u + v`
+            ],
+            tip: `兩邊同時除以 $t$。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `u = \\frac{2s}{t} + v`,
+              `u = 2s \\times t - v`,
+              `u = \\frac{t}{2s} - v`,
+              `u = 2s - t - v`
+            ],
+            tip: `兩邊同時減 $v$。`
+          }
+        ],
+        finalAnswer: s3,
+        accepted: [s3, `u=2s/t-v`, `u=\\frac{2s}{t}-v`, `u=\\frac{2s-vt}{t}`]
+      };
+    },
+
+    // 7. A=πr²
+    () => {
+      const s0 = `A = \\pi r^{2}`;
+      const s1 = `\\frac{A}{\\pi} = r^{2}`;
+      const s2 = `r = \\sqrt{\\frac{A}{\\pi}}`;
+      return {
+        type: "開方求主項", level: 1, errTag: "開方／平方",
+        prompt: `已知圓面積 $${s0}$。<br/>試以 $r$ 為主項，將下列公式改寫。（取正值）`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `A\\pi = r^{2}`,
+              `A - \\pi = r^{2}`,
+              `\\frac{A}{r^{2}} = \\pi`,
+              `\\frac{\\pi}{A} = r^{2}`
+            ],
+            tip: `兩邊同時除以 $\\pi$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `r = \\left(\\frac{A}{\\pi}\\right)^{2}`,
+              `r = \\frac{\\sqrt{A}}{\\pi}`,
+              `r = \\frac{A}{\\sqrt{\\pi}}`,
+              `r = \\sqrt{A\\pi}`
+            ],
+            tip: `兩邊開方（取正）。注意：$\\sqrt{\\dfrac{A}{\\pi}} \\neq \\dfrac{\\sqrt{A}}{\\pi}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `r=\\sqrt{A/\\pi}`, `r=\\sqrt{\\frac{A}{\\pi}}`]
+      };
+    },
+
+    // 8. 1/f=1/u+1/v
+    () => {
+      const s0 = `\\frac{1}{f} = \\frac{1}{u} + \\frac{1}{v}`;
+      const s1 = `\\frac{1}{f} = \\frac{v + u}{uv}`;
+      const s2 = `f = \\frac{uv}{u + v}`;
+      return {
+        type: "光學公式（透鏡）", level: 2, errTag: "倒數公式／通分",
+        prompt: `已知 $${s0}$。<br/>試以 $f$ 為主項，將下列公式改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `\\frac{1}{f} = \\frac{u + v}{u + v}`,
+              `\\frac{1}{f} = uv`,
+              `\\frac{1}{f} = \\frac{1}{u + v}`,
+              `\\frac{1}{f} = \\frac{uv}{u + v}`
+            ],
+            tip: `右邊通分：$\\dfrac{1}{u}+\\dfrac{1}{v}=\\dfrac{v+u}{uv}$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `f = \\frac{u + v}{uv}`,
+              `f = u + v`,
+              `f = \\frac{1}{u + v}`,
+              `f = \\frac{u}{v} + \\frac{v}{u}`
+            ],
+            tip: `兩邊取倒數：若 $\\dfrac{1}{f}=\\dfrac{P}{Q}$，則 $f=\\dfrac{Q}{P}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `f=uv/(u+v)`, `f=\\frac{uv}{u+v}`]
+      };
+    },
+
+    // 9. F=(9/5)C+32
+    () => {
+      const s0 = `F = \\frac{9}{5}C + 32`;
+      const s1 = `F - 32 = \\frac{9}{5}C`;
+      const s2 = `C = \\frac{5}{9}(F - 32)`;
+      return {
+        type: "溫度換算公式", level: 0, errTag: "一次公式移項",
+        prompt: `已知華氏與攝氏換算 $${s0}$。<br/>試以 $C$ 為主項，將下列公式改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `F + 32 = \\frac{9}{5}C`,
+              `F - 32 = \\frac{5}{9}C`,
+              `\\frac{F}{32} = \\frac{9}{5}C`,
+              `\\frac{9}{5}F - 32 = C`
+            ],
+            tip: `兩邊同時減 $32$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `C = \\frac{9}{5}(F - 32)`,
+              `C = \\frac{5}{9}F - 32`,
+              `C = (F - 32) \\times \\frac{9}{5}`,
+              `C = 5(F - 32) \\times 9`
+            ],
+            tip: `兩邊同時乘以 $\\dfrac{5}{9}$（即乘以 $\\dfrac{9}{5}$ 嘅倒數）。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `C=(5/9)(F-32)`, `C=\\frac{5(F-32)}{9}`, `C=\\frac{5}{9}(F-32)`]
+      };
+    },
+
+    // 10. y-k=m(x-h)
+    () => {
+      const s0 = `y - k = m(x - h)`;
+      const s1 = `\\frac{y - k}{m} = x - h`;
+      const s2 = `x = \\frac{y - k}{m} + h`;
+      return {
+        type: "點斜式改寫", level: 1, errTag: "線性方程改寫",
+        prompt: `已知直線方程 $${s0}$。<br/>試以 $x$ 為主項，將下列方程改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `(y - k) \\times m = x - h`,
+              `y - k - m = x - h`,
+              `\\frac{y - k}{m} = x + h`,
+              `m(y - k) = x - h`
+            ],
+            tip: `兩邊同時除以斜率 $m$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `x = \\frac{y - k}{m} - h`,
+              `x = \\frac{m}{y - k} + h`,
+              `x = \\frac{y - k + h}{m}`,
+              `x = (y - k)m + h`
+            ],
+            tip: `兩邊同時加 $h$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `x=(y-k)/m+h`, `x=h+\\frac{y-k}{m}`, `x=\\frac{y-k+mh}{m}`]
+      };
+    },
+
+    // 11. P=I²R
+    () => {
+      const s0 = `P = I^{2}R`;
+      const s1 = `\\frac{P}{R} = I^{2}`;
+      const s2 = `I = \\sqrt{\\frac{P}{R}}`;
+      return {
+        type: "開方（電功率）", level: 1, errTag: "開方／平方",
+        prompt: `已知 $${s0}$。<br/>試以 $I$ 為主項，將下列公式改寫。（取正值）`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `PR = I^{2}`,
+              `P - R = I^{2}`,
+              `\\frac{P}{I^{2}} = R`,
+              `\\frac{R}{P} = I^{2}`
+            ],
+            tip: `兩邊同時除以 $R$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `I = \\left(\\frac{P}{R}\\right)^{2}`,
+              `I = \\frac{\\sqrt{P}}{R}`,
+              `I = \\frac{P}{\\sqrt{R}}`,
+              `I = \\sqrt{PR}`
+            ],
+            tip: `兩邊開方（取正）。注意：$\\sqrt{\\dfrac{P}{R}} \\neq \\dfrac{\\sqrt{P}}{R}$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `I=\\sqrt{P/R}`, `I=\\sqrt{\\frac{P}{R}}`]
+      };
+    },
+
+    // 12. a/b=c/d
+    () => {
+      const s0 = `\\frac{a}{b} = \\frac{c}{d}`;
+      const s1 = `ad = bc`;
+      const s2 = `b = \\frac{ad}{c}`;
+      return {
+        type: "比例式改寫", level: 0, errTag: "比例式／交叉相乘",
+        prompt: `已知 $${s0}$。<br/>試以 $b$ 為主項，將下列方程改寫。`,
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `ac = bd`,
+              `\\frac{a}{d} = \\frac{c}{b}`,
+              `a + d = b + c`,
+              `ab = cd`
+            ],
+            tip: `交叉相乘：$a\\cdot d = b\\cdot c$。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `b = \\frac{ac}{d}`,
+              `b = \\frac{c}{ad}`,
+              `b = adc`,
+              `b = \\frac{bc}{a}`
+            ],
+            tip: `兩邊同時除以 $c$，得出 $b$。`
+          }
+        ],
+        finalAnswer: s2,
+        accepted: [s2, `b=ad/c`, `b=\\frac{ad}{c}`, `b=\\frac{a d}{c}`]
+      };
+    }
+  ];
+
+  // ---- state ----
+  let total = 0, perfect = 0, stepAttempts = 0, stepHits = 0, qIndex = 0;
+  let current = null, stepIdx = 0, missThisQ = 0, revealed = false, finished = false;
+  let inputMode = "drag"; // drag | editor
+  const errMap = Object.create(null);
+  const el = (id) => document.getElementById(id);
+
+  function makeQuestion() { return pick(generators)(); }
+
+  function updateStats() {
+    el("statTotal").textContent = String(total);
+    el("statPerfect").textContent = String(perfect);
+    el("statRate").textContent = total ? Math.round((perfect / total) * 100) + "%" : "—";
+    el("statStepAcc").textContent = stepAttempts
+      ? Math.round((stepHits / stepAttempts) * 100) + "%" : "—";
+    const keys = Object.keys(errMap);
+    const list = el("errList");
+    if (!keys.length) {
+      list.innerHTML = '<li style="color:#5c6570">暫時未有錯題記錄</li>';
+      return;
+    }
+    keys.sort((a, b) => errMap[b] - errMap[a]);
+    list.innerHTML = keys.map((k) =>
+      `<li><span>${k}</span><strong>${errMap[k]} 次</strong></li>`
+    ).join("");
+  }
+
+  function setFeedback(kind, title, body) {
+    const fb = el("feedback");
+    fb.className = "feedback show " + kind;
+    fb.innerHTML = `<h3>${title}</h3>` + (body ? `<div>${renderPrompt(body)}</div>` : "");
+  }
+  function clearFeedback() {
+    const fb = el("feedback");
+    fb.className = "feedback";
+    fb.innerHTML = "";
+  }
+
+  function uniqueTiles(correct, distractors) {
+    const seen = new Set([correct]);
+    const d = [];
+    for (const x of distractors) {
+      if (!seen.has(x)) { seen.add(x); d.push(x); }
+    }
+    const n = 2 + Math.floor(Math.random() * 3);
+    return shuffle([correct].concat(d.slice(0, n)));
+  }
+
+  // ---- Equation editor ----
+  function buildToolbar() {
+    const bar = el("editorToolbar");
+    const tools = [
+      { label: "分數", insert: "\\frac{□}{□}", title: "分數" },
+      { label: "根號", insert: "\\sqrt{□}", title: "根號" },
+      { label: "²", insert: "^{2}", title: "平方" },
+      { label: "ⁿ", insert: "^{□}", title: "上標" },
+      { label: "( )", insert: "(□)", title: "括號" },
+      { label: "+", insert: "+", title: "加" },
+      { label: "−", insert: "-", title: "減" },
+      { label: "×", insert: "\\times ", title: "乘" },
+      { label: "÷", insert: "\\div ", title: "除" },
+      { label: "π", insert: "\\pi ", title: "圓周率" },
+      { label: "=", insert: "=", title: "等號" },
+      { label: "清走", action: "clear", title: "清空" },
+      { label: "刪除", action: "back", title: "刪除一字" }
+    ];
+    bar.innerHTML = "";
+    tools.forEach((t) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.title = t.title;
+      if (t.label === "分數") b.innerHTML = renderTex("\\frac{a}{b}", false);
+      else if (t.label === "根號") b.innerHTML = renderTex("\\sqrt{\\phantom{x}}", false);
+      else if (t.label === "π") b.innerHTML = renderTex("\\pi", false);
+      else if (t.label === "²") b.innerHTML = renderTex("x^{2}", false);
+      else b.textContent = t.label;
+      b.addEventListener("click", () => {
+        const input = el("editorRaw");
+        if (t.action === "clear") {
+          input.value = "";
+          updateEditorPreview();
+          input.focus();
+          return;
+        }
+        if (t.action === "back") {
+          input.value = input.value.slice(0, -1);
+          updateEditorPreview();
+          input.focus();
+          return;
+        }
+        insertAtCursor(input, t.insert.replace(/□/g, ""));
+        // if template had □, place cursor usefully for frac
+        if (t.insert.includes("\\frac")) {
+          // put cursor inside first braces: after \frac{
+          const v = input.value;
+          const idx = v.lastIndexOf("\\frac{");
+          if (idx >= 0) {
+            const pos = idx + 6;
+            input.setSelectionRange(pos, pos);
+          }
+        }
+        updateEditorPreview();
+        input.focus();
+      });
+      bar.appendChild(b);
+    });
+  }
+
+  function insertAtCursor(input, text) {
+    const start = input.selectionStart || 0;
+    const end = input.selectionEnd || 0;
+    const v = input.value;
+    input.value = v.slice(0, start) + text + v.slice(end);
+    const pos = start + text.length;
+    input.setSelectionRange(pos, pos);
+  }
+
+  function updateEditorPreview() {
+    const raw = el("editorRaw").value.trim();
+    const prev = el("editorPreview");
+    if (!raw) {
+      prev.innerHTML = '<span class="placeholder-ed">預覽會喺呢度顯示</span>';
+      return;
+    }
+    // Allow bare expressions; if no $, treat whole as math
+    setTex(prev, raw, false);
+  }
+
+  function setMode(mode) {
+    inputMode = mode;
+    el("tabDrag").classList.toggle("active", mode === "drag");
+    el("tabEditor").classList.toggle("active", mode === "editor");
+    el("dragMode").style.display = mode === "drag" ? "" : "none";
+    el("editorPanel").classList.toggle("show", mode === "editor");
+    if (mode === "editor") {
+      // Prefill subject = 
+      const fa = current && current.finalAnswer;
+      if (fa && !el("editorRaw").value) {
+        const m = fa.match(/^([^=]+)=/);
+        if (m) {
+          el("editorRaw").value = m[1].trim() + " = ";
+          updateEditorPreview();
+        }
+      }
+      el("editorRaw").focus();
+    }
+  }
+
+  // ---- Steps / DnD ----
+  let dragPayload = null, ghost = null, pointerDragging = false;
+
+  function clearGhost() {
+    if (ghost && ghost.parentNode) ghost.parentNode.removeChild(ghost);
+    ghost = null;
+  }
+
+  function renderStep() {
+    if (!current || finished) return;
+    const step = current.steps[stepIdx];
+    const n = current.steps.length;
+    el("chipStep").textContent = `步驟 ${stepIdx + 1} / ${n}`;
+    el("progressFill").style.width = ((stepIdx / n) * 100) + "%";
+    setTex(el("currentEq"), step.current, true);
+    clearFeedback();
+
+    const zone = el("dropZone");
+    zone.className = "drop-zone";
+    zone.innerHTML = '<span class="placeholder">將正確嘅下一步拖入呢度</span>';
+
+    const bank = el("tileBank");
+    bank.innerHTML = "";
+    const tiles = uniqueTiles(step.correct, step.distractors);
+    tiles.forEach((tex, i) => {
+      const t = document.createElement("div");
+      t.className = "tile";
+      t.setAttribute("draggable", "true");
+      t.dataset.correct = tex === step.correct ? "1" : "0";
+      t.dataset.tex = tex;
+      t.dataset.id = String(i);
+      t.innerHTML = renderTex(tex, false);
+      bank.appendChild(t);
+      bindTileDrag(t);
+    });
+  }
+
+  function appendHistory(tex) {
+    const li = document.createElement("li");
+    li.innerHTML = "✓ " + renderTex(tex, false);
+    el("stepHistory").appendChild(li);
+  }
+
+  function finishQuestion(opts) {
+    finished = true;
+    const wasPerfect = missThisQ === 0 && !revealed && !opts.skipped && !opts.editorMiss;
+    total += 1;
+    if (wasPerfect) perfect += 1;
+    if (!wasPerfect && missThisQ === 0 && (revealed || opts.skipped || opts.editorMiss)) {
+      errMap[current.errTag] = (errMap[current.errTag] || 0) + 1;
+    }
+    updateStats();
+
+    el("playArea").style.display = "none";
+    el("playActions").style.display = "none";
+    el("progressFill").style.width = "100%";
+
+    const panel = el("completePanel");
+    panel.classList.add("show");
+    let title = "完成！";
+    if (opts.skipped) title = "已跳過";
+    else if (revealed) title = "已睇完整詳解";
+    else if (wasPerfect) title = "完成 · 全對！";
+    else title = "完成（過程有錯過）";
+    el("completeTitle").textContent = title;
+
+    const lines = current.steps.map((s) =>
+      `<li>${renderTex(s.current, false)} → ${renderTex(s.correct, false)}<br/><small style="color:#5c6570">${renderPrompt(s.tip)}</small></li>`
+    ).join("");
+    el("completeBody").innerHTML =
+      `<ol>${lines}</ol>` +
+      `<div class="final-ans">最終答案：${renderTex(current.finalAnswer, false)}</div>`;
+  }
+
+  function onCorrectDrop(tex) {
+    const step = current.steps[stepIdx];
+    stepAttempts += 1;
+    stepHits += 1;
+    updateStats();
+
+    const zone = el("dropZone");
+    zone.className = "drop-zone correct";
+    zone.innerHTML = '<span class="snapped">' + renderTex(tex, false) + "</span>";
+    el("tileBank").innerHTML = "";
+    setFeedback("ok", "✓ 正確！", step.tip);
+    appendHistory(tex);
+
+    const next = stepIdx + 1;
+    setTimeout(() => {
+      if (next >= current.steps.length) finishQuestion({});
+      else { stepIdx = next; renderStep(); }
+    }, 600);
+  }
+
+  function onWrongDrop() {
+    stepAttempts += 1;
+    missThisQ += 1;
+    errMap[current.errTag] = (errMap[current.errTag] || 0) + 1;
+    updateStats();
+    setFeedback("bad", "✗ 未啱，再試啦", "磚塊已返回題庫。留意移項、除係數同開方嘅細節。");
+    const zone = el("dropZone");
+    zone.className = "drop-zone";
+    zone.innerHTML = '<span class="placeholder">將正確嘅下一步拖入呢度</span>';
+  }
+
+  function tryDrop(isCorrect, tex) {
+    if (finished) return;
+    if (isCorrect) onCorrectDrop(tex);
+    else onWrongDrop();
+  }
+
+  function bindTileDrag(tile) {
+    tile.addEventListener("dragstart", (e) => {
+      dragPayload = { correct: tile.dataset.correct === "1", tex: tile.dataset.tex, el: tile };
+      tile.classList.add("dragging");
+      try {
+        e.dataTransfer.setData("text/plain", tile.dataset.id);
+        e.dataTransfer.effectAllowed = "move";
+      } catch (_) {}
+    });
+    tile.addEventListener("dragend", () => {
+      tile.classList.remove("dragging");
+      dragPayload = null;
+      el("dropZone").classList.remove("drag-over");
+    });
+
+    tile.addEventListener("pointerdown", (e) => {
+      if (e.button != null && e.button !== 0) return;
+      if (e.pointerType === "mouse") return;
+      e.preventDefault();
+      pointerDragging = true;
+      dragPayload = { correct: tile.dataset.correct === "1", tex: tile.dataset.tex, el: tile };
+      tile.classList.add("dragging");
+      tile.setPointerCapture(e.pointerId);
+      ghost = tile.cloneNode(true);
+      ghost.classList.add("ghost");
+      ghost.classList.remove("dragging");
+      document.body.appendChild(ghost);
+      moveGhost(e.clientX, e.clientY);
+    });
+    tile.addEventListener("pointermove", (e) => {
+      if (!pointerDragging || !ghost) return;
+      moveGhost(e.clientX, e.clientY);
+      const zone = el("dropZone");
+      const r = zone.getBoundingClientRect();
+      const over = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      zone.classList.toggle("drag-over", over);
+    });
+    tile.addEventListener("pointerup", (e) => {
+      if (!pointerDragging) return;
+      pointerDragging = false;
+      tile.classList.remove("dragging");
+      try { tile.releasePointerCapture(e.pointerId); } catch (_) {}
+      const zone = el("dropZone");
+      const r = zone.getBoundingClientRect();
+      const over = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      zone.classList.remove("drag-over");
+      clearGhost();
+      if (over && dragPayload) tryDrop(dragPayload.correct, dragPayload.tex);
+      dragPayload = null;
+    });
+    tile.addEventListener("pointercancel", () => {
+      pointerDragging = false;
+      tile.classList.remove("dragging");
+      el("dropZone").classList.remove("drag-over");
+      clearGhost();
+      dragPayload = null;
+    });
+  }
+
+  function moveGhost(x, y) {
+    if (!ghost) return;
+    const w = ghost.offsetWidth || 120;
+    const h = ghost.offsetHeight || 40;
+    ghost.style.left = (x - w / 2) + "px";
+    ghost.style.top = (y - h / 2) + "px";
+  }
+
+  const dropZone = el("dropZone");
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("drag-over");
+    try { e.dataTransfer.dropEffect = "move"; } catch (_) {}
+  });
+  dropZone.addEventListener("dragleave", () => dropZone.classList.remove("drag-over"));
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+    if (!dragPayload || finished) return;
+    tryDrop(dragPayload.correct, dragPayload.tex);
+    dragPayload = null;
+  });
+
+  function showQuestion() {
+    current = makeQuestion();
+    stepIdx = 0;
+    missThisQ = 0;
+    revealed = false;
+    finished = false;
+    qIndex += 1;
+
+    el("chipType").textContent = current.type;
+    el("chipLevel").textContent = "難度：" + LEVELS[current.level];
+    el("chipNo").textContent = "第 " + qIndex + " 題";
+    el("questionBox").innerHTML = renderPrompt(current.prompt);
+    el("stepHistory").innerHTML = "";
+    el("playArea").style.display = "";
+    el("playActions").style.display = "flex";
+    el("completePanel").classList.remove("show");
+    el("btnHint").disabled = false;
+    el("btnReveal").disabled = false;
+    el("editorRaw").value = "";
+    updateEditorPreview();
+    setMode("drag");
+    renderStep();
+  }
+
+  // Editor final check: accept if matches final; jump to complete (mark perfect only if no prior misses)
+  el("btnCheckFinal").addEventListener("click", () => {
+    if (finished || !current) return;
+    const raw = el("editorRaw").value.trim();
+    if (!raw) {
+      setFeedback("bad", "請先輸入答案", "可用工具列砌出最終主項式。");
+      return;
+    }
+    const ok = answersMatch(raw, current.accepted || [current.finalAnswer]);
+    if (ok) {
+      // Credit remaining steps as hits if jumping via editor
+      const remain = current.steps.length - stepIdx;
+      stepAttempts += Math.max(1, remain);
+      stepHits += Math.max(1, remain);
+      updateStats();
+      setFeedback("ok", "✓ 最終答案正確！", "標準式：" + "$" + current.finalAnswer + "$");
+      setTimeout(() => finishQuestion({}), 500);
+    } else {
+      missThisQ += 1;
+      stepAttempts += 1;
+      errMap[current.errTag] = (errMap[current.errTag] || 0) + 1;
+      updateStats();
+      setFeedback("bad", "✗ 未啱", "再檢查移項同分數形式。可繼續用拖放逐步練習，或撳「睇完整詳解」。");
+    }
+  });
+
+  el("editorRaw").addEventListener("input", updateEditorPreview);
+  el("editorRaw").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") el("btnCheckFinal").click();
+  });
+
+  el("tabDrag").addEventListener("click", () => setMode("drag"));
+  el("tabEditor").addEventListener("click", () => setMode("editor"));
+
+  el("btnHint").addEventListener("click", () => {
+    if (finished || !current) return;
+    setFeedback("info", "提示", current.steps[stepIdx].tip);
+  });
+  el("btnReveal").addEventListener("click", () => {
+    if (finished || !current) return;
+    revealed = true;
+    finishQuestion({});
+  });
+  el("btnSkip").addEventListener("click", () => {
+    if (!finished) {
+      revealed = true;
+      finishQuestion({ skipped: true });
+    } else showQuestion();
+  });
+  el("btnNext").addEventListener("click", showQuestion);
+  el("btnReset").addEventListener("click", () => {
+    total = 0; perfect = 0; stepAttempts = 0; stepHits = 0;
+    for (const k of Object.keys(errMap)) delete errMap[k];
+    updateStats();
+    qIndex = 0;
+    showQuestion();
+  });
+
+  function boot() {
+    if (!katexReady()) {
+      setTimeout(boot, 40);
+      return;
+    }
+    buildToolbar();
+    updateStats();
+    showQuestion();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot);
+  } else {
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
