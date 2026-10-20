@@ -74,6 +74,12 @@
   .chip.warn { color: #8a4500; background: #fff7eb; border-color: #efd4a6; }
   .chip.step { color: #0b5a48; background: #e7f6f1; border-color: #b5ddd2; }
   .chip.mode { color: #4a3d7a; background: #f2effa; border-color: #d4cce8; cursor: pointer; }
+
+  .chip.ref {
+    color: #5a5348; background: #f3efe6; border-color: #ddd4c4;
+    font-weight: 500;
+  }
+
   .chip.mode.active { background: #4a3d7a; color: #fff; border-color: #4a3d7a; }
 
   .q-box {
@@ -332,6 +338,7 @@
     <div class="meta">
       <span class="chip" id="chipType">題型</span>
       <span class="chip warn" id="chipLevel">難度</span>
+      <span class="chip" id="chipRef" style="display:none"></span>
       <span class="chip" id="chipNo">第 1 題</span>
       <span class="chip step" id="chipStep">步驟 1 / ?</span>
     </div>
@@ -851,6 +858,7 @@
       return {
         type: "兩邊有主項／展開抽公因", level: 1, errTag: "兩邊主項／抽公因式",
         fingerprint: `d1|${a}|${b}|${k}`,
+        refs: ["參考自 樣本試卷 卷一 Q2（題型）", "參考自 2016 卷一 Q2（題型）", "參考自 2019 卷一 Q1（題型）"],
         prompt: dsePrompt(b, s0),
         steps: [
           {
@@ -920,6 +928,7 @@
       return {
         type: "兩邊括號／抽公因", level: 1, errTag: "兩邊主項／抽公因式",
         fingerprint: `d2|${p}|${x}|${q}|${r}|${s}|${t}`,
+        ref: "參考自 2019 卷一 Q1（題型）",
         prompt: dsePrompt(x, s0),
         steps: [
           {
@@ -985,6 +994,7 @@
       return {
         type: "分母含主項", level: 1, errTag: "分母主項／清分母",
         fingerprint: `d3|${m}|${n}|${x}|${k}`,
+        refs: ["參考自 練習卷 卷一 Q2（題型）", "參考自 2015 卷一 Q2（題型）", "參考自 2017 卷一 Q1（題型）"],
         prompt: dsePrompt(x, s0),
         steps: [
           {
@@ -1052,6 +1062,7 @@
       return {
         type: "分式公式抽公因", level: 1, errTag: "分式主項／抽公因式",
         fingerprint: `d4|${q}|${p}|${a}|${b}`,
+        refs: ["參考自 練習卷 卷一 Q2（題型）", "參考自 2017 卷一 Q1（題型）"],
         prompt: dsePrompt(p, s0),
         steps: [
           {
@@ -1126,6 +1137,7 @@
       return {
         type: "兩邊展開移項", level: 1, errTag: "兩邊展開／移項",
         fingerprint: `d5|${A}|${x}|${B}|${C}|${y}|${D}`,
+        refs: ["參考自 2014 卷一 Q5（題型）", "參考自 2012 卷一 Q2（題型）"],
         prompt: dsePrompt(x, s0),
         steps: [
           {
@@ -1170,42 +1182,66 @@
 
     // D6. Product collect+factorise: a x + b x = c → x  (letters)
     () => {
-      const [a, b, x, c] = distinct(4);
-      const s0 = `${a}${x} + ${b}${x} = ${c}`;
-      const s1 = `${x}(${a} + ${b}) = ${c}`;
-      const s2 = `${x} = \\frac{${c}}{${a} + ${b}}`;
+      const [x] = distinct(1);
+      const A = randInt(2, 9), B = randInt(1, 9), C = randInt(2, 7), s = randInt(2, 6);
+      const s0 = `${A}${x} = (${s}${x} + ${B})${C}`;
+      const s1 = `${A}${x} = ${s}${C}${x} + ${B * C}`;
+      const s2 = `${A}${x} - ${s}${C}${x} = ${B * C}`;
+      const s3 = `${x}(${A} - ${s}${C}) = ${B * C}`;
+      const s4 = `${x} = \\frac{${B * C}}{${A} - ${s}${C}}`;
       return {
-        type: "抽公因式除係數", level: 1, errTag: "抽公因式",
-        fingerprint: `d6|${a}|${b}|${x}|${c}`,
+        type: "係數×主項＝括號展開", level: 1, errTag: "兩邊主項／抽公因式",
+        fingerprint: `d6|${A}|${x}|${s}|${B}|${C}`,
+        ref: "參考自 2016 卷一 Q2（題型）",
         prompt: dsePrompt(x, s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `${x}(${a}${b}) = ${c}`,
-              `${a} + ${b}${x} = ${c}`,
-              `${x}${a} + ${b} = ${c}`,
-              `${x} = ${a} + ${b} + ${c}`
+              `${A}${x} = ${s}${x} + ${B}${C}`,
+              `${A}${x} = ${s}${C}${x} + ${B}`,
+              `${A}${x} = (${s}${x} + ${B} + ${C})`,
+              `${A} = (${s}${x} + ${B})${C}`
             ],
-            tip: `左邊抽 $${x}$ 為公因式。`
+            tip: `右邊展開：$(${s}${x}+${B})${C}=${s}${C}${x}+${B * C}$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `${x} = ${c}(${a} + ${b})`,
-              `${x} = \\frac{${a} + ${b}}{${c}}`,
-              `${x} = ${c} - ${a} - ${b}`,
-              `${x} = \\frac{${c}}{${a}} + ${b}`
+              `${A}${x} + ${s}${C}${x} = ${B * C}`,
+              `${A}${x} - ${s}${C}${x} = -${B * C}`,
+              `${A}${x} = ${s}${C}${x} - ${B * C}`,
+              `${A}${x} - ${B * C} = ${s}${C}${x}`
             ],
-            tip: `兩邊同時除以 $(${a}+${b})$。`
+            tip: `將含 $${x}$ 嘅項移到左邊。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${x}(${A} + ${s}${C}) = ${B * C}`,
+              `${x}(${A} - ${s}${C}) = -${B * C}`,
+              `${A} - ${s}${C}${x} = ${B * C}`,
+              `${x} = ${B * C}`
+            ],
+            tip: `左邊抽 $${x}$ 為公因式。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${x} = \\frac{${A} - ${s}${C}}{${B * C}}`,
+              `${x} = ${B * C}(${A} - ${s}${C})`,
+              `${x} = \\frac{${B * C}}{${s}${C} - ${A}}`,
+              `${x} = \\frac{${B}}{${A} - ${s}${C}}`
+            ],
+            tip: `兩邊除以 $(${A}-${s}${C})$。`
           }
         ],
-        finalAnswer: s2,
-        accepted: [s2, `${x}=${c}/(${a}+${b})`, `${x}=\\frac{${c}}{${a}+${b}}`]
+        finalAnswer: s4,
+        accepted: [s4, `${x}=\\frac{${B * C}}{${A}-${s * C}}`, `${x}=\\frac{${B * C}}{${A}-${s}${C}}`]
       };
     },
 
-    // D7. a(x+b)=c(2x-d) → x
+
     () => {
       const [a, x, b, c] = distinct(4);
       const d = randInt(1, 7);
@@ -1218,6 +1254,7 @@
       return {
         type: "括號方程抽公因", level: 1, errTag: "兩邊主項／抽公因式",
         fingerprint: `d7|${a}|${x}|${b}|${c}|${d}`,
+        refs: ["參考自 樣本試卷 卷一 Q2（題型）", "參考自 2016 卷一 Q2（題型）"],
         prompt: dsePrompt(x, s0),
         steps: [
           {
@@ -1267,6 +1304,196 @@
           `${x}=\\frac{${c}${d}+${a}${b}}{${two}${c}-${a}}`,
           `${x}=\\frac{-${c}${d}-${a}${b}}{${a}-${two}${c}}`,
           `${x}=\\frac{${a}${b}+${c}${d}}{2${c}-${a}}`
+        ]
+      };
+    },
+
+    () => {
+      const [h, k] = distinct(2);
+      const A = randInt(2, 7), C = randInt(1, 5);
+      const s0 = `\\frac{${A}}{${h}} - \\frac{1}{${k}} = ${C}`;
+      const s1 = `-\\frac{1}{${k}} = ${C} - \\frac{${A}}{${h}}`;
+      const s2 = `-\\frac{1}{${k}} = \\frac{${C}${h} - ${A}}{${h}}`;
+      const s3 = `\\frac{1}{${k}} = \\frac{${A} - ${C}${h}}{${h}}`;
+      const s4 = `${k} = \\frac{${h}}{${A} - ${C}${h}}`;
+      return {
+        type: "倒數差移項", level: 1, errTag: "倒數公式／通分",
+        fingerprint: `d8|${A}|${h}|${k}|${C}`,
+        ref: "參考自 2013 卷一 Q2（題型）",
+        prompt: dsePrompt(k, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `-\\frac{1}{${k}} = ${C} + \\frac{${A}}{${h}}`,
+              `\\frac{1}{${k}} = ${C} - \\frac{${A}}{${h}}`,
+              `\\frac{${A}}{${h}} - ${C} = \\frac{1}{${k}}`,
+              `-\\frac{1}{${k}} = \\frac{${A}}{${h}} - ${C}`
+            ],
+            tip: `兩邊減 $\\dfrac{${A}}{${h}}$，令含 $${k}$ 嘅項單獨一邊。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `-\\frac{1}{${k}} = \\frac{${C} - ${A}}{${h}}`,
+              `-\\frac{1}{${k}} = \\frac{${C}${h} + ${A}}{${h}}`,
+              `-\\frac{1}{${k}} = ${C}${h} - ${A}`,
+              `\\frac{1}{${k}} = \\frac{${C}${h} - ${A}}{${h}}`
+            ],
+            tip: `右邊通分。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `\\frac{1}{${k}} = \\frac{${C}${h} - ${A}}{${h}}`,
+              `\\frac{1}{${k}} = \\frac{${A} - ${C}${h}}{-${h}}`,
+              `-\\frac{1}{${k}} = \\frac{${A} - ${C}${h}}{${h}}`,
+              `\\frac{1}{${k}} = ${A} - ${C}${h}`
+            ],
+            tip: `兩邊乘 $-1$，令左邊為 $\\dfrac{1}{${k}}$。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${k} = \\frac{${A} - ${C}${h}}{${h}}`,
+              `${k} = \\frac{${h}}{${C}${h} - ${A}}`,
+              `${k} = ${h}(${A} - ${C}${h})`,
+              `${k} = \\frac{${h}}{${A} + ${C}${h}}`
+            ],
+            tip: `兩邊取倒數。`
+          }
+        ],
+        finalAnswer: s4,
+        accepted: [s4, `${k}=\\frac{${h}}{${A}-${C}${h}}`]
+      };
+    },
+
+    () => {
+      const [a, b] = distinct(2);
+      const p = randInt(1, 6), q = randInt(1, 6);
+      let m = randInt(2, 5), n = randInt(2, 5);
+      if (m === n) n = m === 5 ? 3 : m + 1;
+      const s0 = `\\frac{${a} + ${p}}{${m}} = \\frac{${b} + ${q}}{${n}}`;
+      const s1 = `${n}(${a} + ${p}) = ${m}(${b} + ${q})`;
+      const s2 = `${n}${a} + ${n * p} = ${m}${b} + ${m * q}`;
+      const s3 = `${n}${a} + ${n * p} - ${m * q} = ${m}${b}`;
+      const s4 = `${b} = \\frac{${n}${a} + ${n * p} - ${m * q}}{${m}}`;
+      return {
+        type: "比例一次式", level: 1, errTag: "比例式／交叉相乘",
+        fingerprint: `d9|${a}|${b}|${p}|${q}|${m}|${n}`,
+        ref: "參考自 2018 卷一 Q1（題型）",
+        prompt: dsePrompt(b, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${m}(${a} + ${p}) = ${n}(${b} + ${q})`,
+              `${n}(${a} + ${p}) = ${m}${b} + ${q}`,
+              `${a} + ${p} = ${b} + ${q}`,
+              `\\frac{${a} + ${p}}{${n}} = \\frac{${b} + ${q}}{${m}}`
+            ],
+            tip: `交叉相乘。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${n}${a} + ${p} = ${m}${b} + ${q}`,
+              `${n}${a} + ${n * p} = ${m}${b} + ${q}`,
+              `${n} + ${a} + ${p} = ${m} + ${b} + ${q}`,
+              `${n}${a} + ${n * p} = ${m}(${b} + ${q})`
+            ],
+            tip: `兩邊展開。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${n}${a} + ${n * p} + ${m * q} = ${m}${b}`,
+              `${n}${a} - ${n * p} - ${m * q} = ${m}${b}`,
+              `${n}${a} + ${n * p} - ${m * q} = ${b}`,
+              `${m}${b} = ${n}${a} + ${n * p} + ${m * q}`
+            ],
+            tip: `將常數移走，令含 $${b}$ 嘅項單獨一邊。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${b} = ${n}${a} + ${n * p} - ${m * q} - ${m}`,
+              `${b} = \\frac{${m}}{${n}${a} + ${n * p} - ${m * q}}`,
+              `${b} = \\frac{${n}${a} + ${n * p} + ${m * q}}{${m}}`,
+              `${b} = (${n}${a} + ${n * p} - ${m * q})${m}`
+            ],
+            tip: `兩邊除以 $${m}$。`
+          }
+        ],
+        finalAnswer: s4,
+        accepted: [
+          s4,
+          `${b}=\\frac{${n}${a}+${n * p}-${m * q}}{${m}}`,
+          `${b}=\\frac{${n}(${a}+${p})-${m * q}}{${m}}`
+        ]
+      };
+    },
+
+    () => {
+      const [h, k] = distinct(2);
+      const A = randInt(3, 9), B = randInt(2, 6);
+      const s0 = `\\frac{${A}}{${h} + ${k}} = \\frac{${B}}{${k}}`;
+      const s1 = `${A}${k} = ${B}(${h} + ${k})`;
+      const s2 = `${A}${k} = ${B}${h} + ${B}${k}`;
+      const s3 = `${A}${k} - ${B}${k} = ${B}${h}`;
+      const s4 = `${h} = \\frac{${k}(${A} - ${B})}{${B}}`;
+      return {
+        type: "分式比例求主項", level: 1, errTag: "比例式／交叉相乘",
+        fingerprint: `d10|${A}|${h}|${k}|${B}`,
+        ref: "參考自 2023 卷一 Q1（題型）",
+        prompt: dsePrompt(h, s0),
+        steps: [
+          {
+            current: s0, correct: s1,
+            distractors: [
+              `${A}${k} = ${B}(${h} - ${k})`,
+              `${A}(${h} + ${k}) = ${B}${k}`,
+              `${A}${B} = ${k}(${h} + ${k})`,
+              `\\frac{${A}}{${B}} = \\frac{${h} + ${k}}{${k}}`
+            ],
+            tip: `交叉相乘。`
+          },
+          {
+            current: s1, correct: s2,
+            distractors: [
+              `${A}${k} = ${B}${h} - ${B}${k}`,
+              `${A}${k} = ${B}${h} + ${k}`,
+              `${A} = ${B}${h} + ${B}${k}`,
+              `${A}${k} = ${h} + ${B}${k}`
+            ],
+            tip: `右邊展開。`
+          },
+          {
+            current: s2, correct: s3,
+            distractors: [
+              `${A}${k} + ${B}${k} = ${B}${h}`,
+              `${A}${k} - ${B}${k} = ${h}`,
+              `${A}${k} - ${B}${h} = ${B}${k}`,
+              `${B}${h} = ${A}${k} + ${B}${k}`
+            ],
+            tip: `含 $${h}$ 嘅項單獨留在一邊。`
+          },
+          {
+            current: s3, correct: s4,
+            distractors: [
+              `${h} = \\frac{${B}}{${k}(${A} - ${B})}`,
+              `${h} = ${k}(${A} - ${B})${B}`,
+              `${h} = \\frac{${k}(${A} + ${B})}{${B}}`,
+              `${h} = \\frac{${A}${k} - ${B}${k}}{${A}}`
+            ],
+            tip: `抽 $${k}$ 再除以 $${B}$。`
+          }
+        ],
+        finalAnswer: s4,
+        accepted: [
+          s4,
+          `${h}=\\frac{${k}(${A}-${B})}{${B}}`,
+          `${h}=\\frac{${A}${k}-${B}${k}}{${B}}`
         ]
       };
     },
@@ -2061,6 +2288,23 @@
 
     el("chipType").textContent = current.type;
     el("chipLevel").textContent = LEVELS[current.level];
+    (function () {
+      const chip = el("chipRef");
+      if (!chip) return;
+      let ref = current.ref || "";
+      if (!ref && current.refs && current.refs.length) {
+        ref = current.refs[Math.floor(Math.random() * current.refs.length)];
+      }
+      if (ref && current.level === 1) {
+        chip.textContent = ref;
+        chip.style.display = "";
+        chip.classList.add("ref");
+      } else {
+        chip.textContent = "";
+        chip.style.display = "none";
+        chip.classList.remove("ref");
+      }
+    })();
     el("chipNo").textContent = "第 " + qIndex + " 題";
     el("questionBox").innerHTML = renderPrompt(current.prompt);
     el("stepHistory").innerHTML = "";

@@ -74,6 +74,12 @@
   .chip.warn { color: #8a4500; background: #fff7eb; border-color: #efd4a6; }
   .chip.step { color: #0b5a48; background: #e7f6f1; border-color: #b5ddd2; }
   .chip.mode { color: #4a3d7a; background: #f2effa; border-color: #d4cce8; cursor: pointer; }
+
+  .chip.ref {
+    color: #5a5348; background: #f3efe6; border-color: #ddd4c4;
+    font-weight: 500;
+  }
+
   .chip.mode.active { background: #4a3d7a; color: #fff; border-color: #4a3d7a; }
 
   .q-box {
@@ -332,6 +338,7 @@
     <div class="meta">
       <span class="chip" id="chipType">題型</span>
       <span class="chip warn" id="chipLevel">難度</span>
+      <span class="chip" id="chipRef" style="display:none"></span>
       <span class="chip" id="chipNo">第 1 題</span>
       <span class="chip step" id="chipStep">步驟 1 / ?</span>
     </div>
@@ -742,6 +749,7 @@
       return {
         type: "負指數×積的方", level: 1, errTag: "積的方／指數合併",
         fingerprint: `d1|${x}|${y}|${k}|${r}|${s}`,
+        refs: ["參考自 樣本試卷 卷一 Q1（題型）", "參考自 2018 卷一 Q2（題型）", "參考自 2020 卷一 Q1（題型）"],
         prompt: idxPrompt(s0),
         steps: [
           {
@@ -795,6 +803,7 @@
       return {
         type: "積的方÷單項式", level: 1, errTag: "積的方／指數合併",
         fingerprint: `d2|${a}|${b}|${m}|${n}|${p}|${q}|${r}`,
+        refs: ["參考自 練習卷 卷一 Q1（題型）", "參考自 2014 卷一 Q1（題型）", "參考自 2015 卷一 Q1（題型）"],
         prompt: idxPrompt(s0),
         steps: [
           {
@@ -847,6 +856,7 @@
       return {
         type: "嵌套積的方／除", level: 1, errTag: "積的方／指數合併",
         fingerprint: `d3|${x}|${y}|${p}|${q}|${r}|${s}|${t}`,
+        refs: ["參考自 樣本試卷 卷一 Q1（題型）", "參考自 2016 卷一 Q1（題型）"],
         prompt: idxPrompt(s0),
         steps: [
           {
@@ -898,6 +908,7 @@
       return {
         type: "含負指數相乘", level: 1, errTag: "同底相乘指數相加",
         fingerprint: `d4|${a}|${b}|${m}|${n}|${p}|${q}`,
+        refs: ["參考自 2018 卷一 Q2（題型）", "參考自 2020 卷一 Q1（題型）"],
         prompt: idxPrompt(s0),
         steps: [
           {
@@ -950,6 +961,7 @@
       return {
         type: "分式積的方（含負）", level: 1, errTag: "積的方／指數合併",
         fingerprint: `d5|${m}|${n}|${a}|${b}|${p}|${c}|${d}`,
+        refs: ["參考自 練習卷 卷一 Q1（題型）", "參考自 2017 卷一 Q2（題型）"],
         prompt: idxPrompt(s0),
         steps: [
           {
@@ -990,50 +1002,52 @@
 
     // D6: simple with zero exponent appearing: a^m / a^m * b^n
     () => {
-      const [a, b] = distinct(2);
-      const m = randInt(2, 6), n = randInt(2, 5), k = randInt(1, 4);
-      const s0 = `\\frac{${a}^{${m}}${b}^{${n}}}{${a}^{${m}}${b}^{-${k}}}`;
-      const s1 = `${a}^{${m} - ${m}}${b}^{${n} - (-${k})}`;
-      const s2 = `${a}^{0}${b}^{${n + k}}`;
-      const s3 = `${b}^{${n + k}}`;
+      const [x] = distinct(1);
+      const a = randInt(10, 20), b = randInt(3, 8), c = randInt(2, 6);
+      const s0 = `\\frac{${x}^{${a}}}{${x}^{${b}}} \\div ${x}^{${c}}`;
+      const s1 = `\\frac{${x}^{${a}}}{${x}^{${b}}} \\times \\frac{1}{${x}^{${c}}}`;
+      const s2 = `${x}^{${a} - ${b} - ${c}}`;
+      const ex = a - b - c;
+      const s3 = ex >= 0 ? `${x}^{${ex}}` : `\\frac{1}{${x}^{${-ex}}}`;
       return {
-        type: "零指數出現", level: 1, errTag: "零指數／指數合併",
-        fingerprint: `d6|${a}|${b}|${m}|${n}|${k}`,
+        type: "同底連除", level: 1, errTag: "同底相除指數相減",
+        fingerprint: `d6|${x}|${a}|${b}|${c}`,
+        refs: ["參考自 2012 卷一 Q1（題型）", "參考自 2013 卷一 Q1（題型）"],
         prompt: idxPrompt(s0),
         steps: [
           {
             current: s0, correct: s1,
             distractors: [
-              `${a}^{${m} + ${m}}${b}^{${n} + ${k}}`,
-              `${a}^{${m} - ${m}}${b}^{${n} - ${k}}`,
-              `${a}^{0}${b}^{${n}\\times${k}}`,
-              `${b}^{${n + k}}`
+              `\\frac{${x}^{${a}}}{${x}^{${b}}} \\times ${x}^{${c}}`,
+              `\\frac{${x}^{${a}}}{${x}^{${b} + ${c}}}`,
+              `${x}^{${a}} \\div ${x}^{${b}} \\times ${x}^{${c}}`,
+              `\\frac{${x}^{${a}}}{${x}^{${b}}} \\div \\frac{1}{${x}^{${c}}}`
             ],
-            tip: `同底指數相減；分母 $${b}^{-${k}}$ 即減 $(- ${k})$。`
+            tip: `除以 $${x}^{${c}}$ 等於乘其倒數 $\\dfrac{1}{${x}^{${c}}}$。`
           },
           {
             current: s1, correct: s2,
             distractors: [
-              `${a}^{0}${b}^{${n - k}}`,
-              `${a}^{1}${b}^{${n + k}}`,
-              `${a}^{${2 * m}}${b}^{${n + k}}`,
-              `${b}^{${n + k}}`
+              `${x}^{${a} - ${b} + ${c}}`,
+              `${x}^{${a} + ${b} - ${c}}`,
+              `${x}^{${a} - ${b} \\times ${c}}`,
+              `${x}^{\\frac{${a}}{${b}}}`
             ],
-            tip: `$${m}-${m}=0$；$${n}-(-${k})=${n + k}$。`
+            tip: `同底：指數相減 $${a}-${b}-${c}$。`
           },
           {
             current: s2, correct: s3,
             distractors: [
-              `0\\cdot ${b}^{${n + k}}`,
-              `${a}${b}^{${n + k}}`,
-              `\\frac{1}{${b}^{${n + k}}}`,
-              `${a}^{0} + ${b}^{${n + k}}`
+              ex >= 0 ? `\\frac{1}{${x}^{${ex}}}` : `${x}^{${-ex}}`,
+              `${x}^{${a - b + c}}`,
+              `${x}^{-${Math.abs(ex)}}`,
+              `\\frac{${x}^{${Math.abs(ex)}}}{1}`
             ],
-            tip: `$a^{0}=1$（$a\\neq 0$），故只剩 $${b}^{${n + k}}$。`
+            tip: `化成正指數形式。`
           }
         ],
         finalAnswer: s3,
-        accepted: [s3, `${b}^{${n + k}}`, `1${b}^{${n + k}}`]
+        accepted: [s3, `${x}^{${ex}}`].concat(ex < 0 ? [`\\frac{1}{${x}^{${-ex}}}`] : [`${x}^{${ex}}`])
       };
     },
 
@@ -1761,6 +1775,23 @@
 
     el("chipType").textContent = current.type;
     el("chipLevel").textContent = LEVELS[current.level];
+    (function () {
+      const chip = el("chipRef");
+      if (!chip) return;
+      let ref = current.ref || "";
+      if (!ref && current.refs && current.refs.length) {
+        ref = current.refs[Math.floor(Math.random() * current.refs.length)];
+      }
+      if (ref && current.level === 1) {
+        chip.textContent = ref;
+        chip.style.display = "";
+        chip.classList.add("ref");
+      } else {
+        chip.textContent = "";
+        chip.style.display = "none";
+        chip.classList.remove("ref");
+      }
+    })();
     el("chipNo").textContent = "第 " + qIndex + " 題";
     el("questionBox").innerHTML = renderPrompt(current.prompt);
     el("stepHistory").innerHTML = "";
